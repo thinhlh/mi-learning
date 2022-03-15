@@ -8,19 +8,19 @@ class AppStyles {
   /// TODO define all widgets style of the application here
 
   static final TextStyle titleLarge = TextStyle(
-    fontSize: Dimens.largeText,
+    fontSize: AppDimens.largeText,
     color: AppColors.neutral_900,
     fontWeight: FontWeight.w500,
   );
 
   static final TextStyle titleMedium = TextStyle(
-    fontSize: Dimens.mediumText,
+    fontSize: AppDimens.mediumText,
     color: AppColors.neutral_900,
     fontWeight: FontWeight.w500,
   );
 
   static final TextStyle titleSmall = TextStyle(
-    fontSize: Dimens.mediumText,
+    fontSize: AppDimens.mediumText,
     color: AppColors.neutral_900,
     fontWeight: FontWeight.w500,
   );

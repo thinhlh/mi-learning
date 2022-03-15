@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class Dimens {
-  Dimens._internal();
+class AppDimens {
+  AppDimens._internal();
 
   // Iphone 12 Pro Max
   static const Size designSize = Size(428, 926);
@@ -38,8 +38,11 @@ class Dimens {
   /// 8.r
   static final double mediumRadius = 8.r;
 
-  /// 16.r
+  /// 12.r
   static final double largeRadius = 12.r;
+
+  /// 16.r
+  static final double extraLargeRadius = 16.r;
 
   /// 22.sp
   static final double largeText = 22.sp;
@@ -52,4 +55,16 @@ class Dimens {
 
   /// 12.sp
   static final double extraSmallText = 12.sp;
+
+  /// 4
+  static const double smallElevation = 4;
+
+  /// 8
+  static const double mediumElevation = 8;
+
+  /// 12
+  static const double largeElevation = 12;
+
+  /// Button border radius
+  static final double buttonBorderRadius = 20.r;
 }

@@ -1,0 +1,80 @@
+import 'package:flutter/material.dart';
+import 'package:mi_learning/config/colors.dart';
+import 'package:mi_learning/config/dimens.dart';
+import 'package:mi_learning/utils/extensions/context_extension.dart';
+
+class WidgetTextField extends StatelessWidget {
+  final String label;
+  final TextEditingController controller;
+  final TextInputType? inputType;
+  final bool? obsercureText;
+
+  const WidgetTextField({
+    Key? key,
+    required this.label,
+    required this.controller,
+    this.inputType,
+    this.obsercureText,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppDimens.extraLargeRadius),
+        color: AppColors.neutral_100,
+      ),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppDimens.largeWidthDimens,
+        vertical: AppDimens.largeWidthDimens,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.mail_outline_rounded,
+            color: AppColors.textSecondary,
+          ),
+          SizedBox(width: AppDimens.largeWidthDimens),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label.toUpperCase(),
+                  style: context.textTheme.labelMedium?.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                SizedBox(height: AppDimens.mediumHeightDimens),
+                TextFormField(
+                  controller: controller,
+                  keyboardType: inputType,
+                  obscureText: obsercureText ?? false,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 0),
+                    border: InputBorder.none,
+                    isDense: true,
+                  ),
+                  cursorColor: AppColors.neutral_800,
+                  style: context.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(width: AppDimens.largeWidthDimens),
+          obsercureText != null
+              ? Icon(
+                  obsercureText!
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility_outlined,
+                  color: AppColors.textSecondary,
+                )
+              : const SizedBox.shrink(),
+        ],
+      ),
+    );
+  }
+}

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/styles.dart';
+import 'package:mi_learning/config/themes.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/languages.dart';
@@ -18,7 +19,7 @@ class App extends StatelessWidget {
       path: 'assets/translations',
       fallbackLocale: Languages.fallbackLocale,
       child: ScreenUtilInit(
-        designSize: Dimens.designSize,
+        designSize: AppDimens.designSize,
         builder: () => Builder(
           builder: (context) {
             return MaterialApp(
@@ -29,13 +30,8 @@ class App extends StatelessWidget {
               initialRoute: Routes.initial,
               onGenerateRoute: (settings) => Routes.onGenerateRoute(settings),
               themeMode: ThemeMode.system,
-              theme: ThemeData(
-                textTheme: Typography.blackCupertino,
-                tabBarTheme: const TabBarTheme(
-                  labelColor: AppColors.neutral_900,
-                ),
-              ),
-              darkTheme: ThemeData.dark(),
+              theme: AppTheme.light,
+              darkTheme: AppTheme.dark,
               builder: (ctx, child) => ResponsiveWrapper.builder(
                 child,
                 defaultScale: true,

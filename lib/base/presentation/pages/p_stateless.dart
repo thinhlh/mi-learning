@@ -6,7 +6,6 @@ import 'package:mi_learning/base/presentation/providers/dialog_provider.dart';
 abstract class PageStateless<T extends DialogProvider> extends StatelessWidget
     implements PageActions {
   PageStateless({Key? key}) : super(key: key);
-
   late final T provider;
 
   @override
