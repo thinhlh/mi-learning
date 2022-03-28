@@ -11,6 +11,6 @@ abstract class PageLoadingStateless<T extends LoadingProvider>
   Widget build(BuildContext context) {
     final parent = super.build(context);
 
-    return WidgetLoadingBuilder<T>(buildPage(context), parent);
+    return WidgetLoadingBuilder<T>(parent);
   }
 }

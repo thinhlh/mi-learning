@@ -7,6 +7,13 @@ class AuthProvider extends LoadingProvider {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  bool _success = false;
+  bool get success => _success;
+  set success(bool value) {
+    _success = value;
+    notifyListeners();
+  }
+
   // Public getter & setter
   bool get isLogin => _isLogin;
 
@@ -26,5 +33,9 @@ class AuthProvider extends LoadingProvider {
 
   void signIn() {
     showLoading(true);
+    Future.delayed(Duration(seconds: 3)).then((_) {
+      showLoading(false);
+      success = true;
+    });
   }
 }

@@ -32,7 +32,7 @@ class Routes {
         return MaterialPageRoute(
           builder: (_) => RouteUtil.createPageProvider<AuthProvider>(
             provider: (_) => AuthProvider(),
-            child: AuthPage(),
+            child: const AuthPage(),
           ),
         );
 

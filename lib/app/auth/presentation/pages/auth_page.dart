@@ -9,17 +9,19 @@ import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 
-class AuthPage extends PageLoadingStateful<AuthProvider> {
+class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _AuthPageState();
 }
 
-class _AuthPageState extends PageLoadingState<AuthProvider, AuthPage>
+class _AuthPageState extends PageLoadingStateful<AuthProvider, AuthPage>
     with TickerProviderStateMixin {
   @override
   Widget buildPage(BuildContext context) {
+    print('Built auth');
+
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.symmetric(
