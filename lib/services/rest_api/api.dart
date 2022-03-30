@@ -42,7 +42,7 @@ abstract class Api {
     return dio;
   }
 
-  Future<ResponseModel> get(
+  Future<BaseResponse> get(
     String endpoint, {
     Map<String, dynamic>? query,
     Options? options,
@@ -58,7 +58,7 @@ abstract class Api {
         onReceiveProgress: onReceiveProgres,
       );
 
-      return ResponseModel.fromMap(response.data);
+      return BaseResponse.fromMap(response.data);
     } on Exception {
       rethrow;
     }

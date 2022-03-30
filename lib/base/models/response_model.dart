@@ -2,23 +2,23 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-class ResponseModel extends Equatable {
+class BaseResponse extends Equatable {
   final bool success;
   final String? message;
   final dynamic data;
 
-  const ResponseModel._internal(this.success, this.message, this.data);
+  const BaseResponse._internal(this.success, this.message, this.data);
 
-  factory ResponseModel.fromMap(Map<String, dynamic> map) {
-    return ResponseModel._internal(
+  factory BaseResponse.fromMap(Map<String, dynamic> map) {
+    return BaseResponse._internal(
       map['success'],
       map['message'],
       map['data'],
     );
   }
 
-  factory ResponseModel.fromJson(String source) {
-    return ResponseModel.fromMap(json.decode(source));
+  factory BaseResponse.fromJson(String source) {
+    return BaseResponse.fromMap(json.decode(source));
   }
 
   @override

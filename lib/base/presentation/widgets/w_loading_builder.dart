@@ -14,9 +14,21 @@ class WidgetLoadingBuilder<T extends LoadingProvider> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.select<T, bool>((provider) => provider.isLoading)
-        ? AppLoading.showLoading(context)
-        : AppLoading.dismissLoading(context);
-    return parent;
+    return Stack(
+      children: [
+        parent,
+        Selector<T, bool>(
+          builder: (_, isLoading, child) {
+            SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+              isLoading
+                  ? AppLoading.showLoading(context)
+                  : AppLoading.dismissLoading(context);
+            });
+            return const SizedBox.shrink();
+          },
+          selector: (_, provider) => provider.isLoading,
+        )
+      ],
+    );
   }
 }

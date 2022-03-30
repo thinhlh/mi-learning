@@ -6,6 +6,7 @@ import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
 import 'package:mi_learning/base/presentation/widgets/w_text_field.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
+import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 
@@ -20,8 +21,6 @@ class _AuthPageState extends PageLoadingStateful<AuthProvider, AuthPage>
     with TickerProviderStateMixin {
   @override
   Widget buildPage(BuildContext context) {
-    print('Built auth');
-
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -57,7 +56,7 @@ class _AuthPageState extends PageLoadingStateful<AuthProvider, AuthPage>
         child: Row(
           children: <Widget>[
             Expanded(
-              child: GestureDetector(
+              child: InkWell(
                 onTap: () => provider.goToSignIn(),
                 child: Selector<AuthProvider, bool>(
                   selector: (_, provider) => provider.isLogin,
@@ -85,7 +84,7 @@ class _AuthPageState extends PageLoadingStateful<AuthProvider, AuthPage>
               ),
             ),
             Expanded(
-              child: GestureDetector(
+              child: InkWell(
                 onTap: () => provider.goToSignUp(),
                 child: Selector<AuthProvider, bool>(
                   selector: (_, provider) => provider.isLogin,
@@ -149,13 +148,16 @@ class _AuthPageState extends PageLoadingStateful<AuthProvider, AuthPage>
           obsercureText: true,
         ),
         SizedBox(height: AppDimens.largeHeightDimens),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            'Forgot password',
-            style: context.textTheme.titleMedium?.copyWith(
-              decoration: TextDecoration.underline,
-              color: AppColors.textDisable,
+        GestureDetector(
+          onTap: () => navigator.pushNamed(Routes.forgotPassword),
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              'Forgot password',
+              style: context.textTheme.titleMedium?.copyWith(
+                decoration: TextDecoration.underline,
+                color: AppColors.textDisable,
+              ),
             ),
           ),
         ),

@@ -16,8 +16,10 @@ abstract class PageStateless<T extends DialogProvider> extends StatelessWidget
     navigator = Navigator.of(context);
     initialization(context);
 
-    return Scaffold(
-      body: buildPage(context),
+    return SafeArea(
+      child: Scaffold(
+        body: buildPage(context),
+      ),
     );
   }
 }

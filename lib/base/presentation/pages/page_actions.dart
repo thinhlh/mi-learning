@@ -8,5 +8,6 @@ abstract class PageActions {
   /// In Stateless pages, it will be executed before build function
   ///
   /// In Stateful pages, it will be executed after initState.
+  @mustCallSuper
   void initialization(BuildContext context);
 }

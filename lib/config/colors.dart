@@ -14,11 +14,15 @@ class AppColors {
 
   static const Color tetiary = Color(0xFFB8E3DA);
 
+  static final Color error = Colors.red.shade300;
+  static final Color errorText = Colors.red.shade400;
+
   /// Background colors
   /// Neutral_50
   static const Color backgroundLight = neutral_50;
   static const Color backgroundNeutral = neutral_200;
   static const Color backgroundDark = neutral_800;
+  static const Color scaffoldBackground = neutral_200;
 
   /// Follow design
 
@@ -36,6 +40,7 @@ class AppColors {
   /// Text colors
   static const Color textPrimary = neutral_900;
   static const Color textSecondary = neutral_400;
+  static const Color textSubtitle = neutral_600;
   static const Color textDisable = neutral_600;
   static const Color textPrimaryLight = neutral_50;
 }

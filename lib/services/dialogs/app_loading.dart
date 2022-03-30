@@ -10,9 +10,9 @@ class AppLoading {
 
   /// Show the dialog and store it's context for further dismiss
   static Future showLoading(BuildContext context) {
-    _context = context;
-    if (_isShowing) return Future.value();
+    if (_isShowing) dismissLoading(context);
     _isShowing = true;
+    _context = context;
     return showDialog(
       barrierDismissible: false,
       context: context,
