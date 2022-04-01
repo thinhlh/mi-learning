@@ -55,9 +55,9 @@ abstract class BaseApi extends Api {
     String? message;
     if (exception.response?.statusCode == 401) {
       message = 'Auth error';
-    } else {
-      //
-    }
+    } else if (exception.response?.statusCode == 404) {
+      message = 'Không tìm thấy nội dung';
+    } else {}
 
     return message;
   }

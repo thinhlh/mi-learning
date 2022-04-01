@@ -16,6 +16,10 @@ class AppColors {
 
   static final Color error = Colors.red.shade300;
   static final Color errorText = Colors.red.shade400;
+  static final Color success = Colors.green.shade300;
+  static final Color successText = Colors.green.shade400;
+  static final Color info = Colors.yellow.shade300;
+  static final Color infoText = AppColors.neutral_800;
 
   /// Background colors
   /// Neutral_50
@@ -43,4 +47,7 @@ class AppColors {
   static const Color textSubtitle = neutral_600;
   static const Color textDisable = neutral_600;
   static const Color textPrimaryLight = neutral_50;
+
+  /// Popup
+  static const Color popUpPrimary = Color(0xFF25555f);
 }

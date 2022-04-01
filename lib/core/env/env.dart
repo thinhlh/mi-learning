@@ -18,14 +18,14 @@ class Env {
   factory Env.dev() {
     return Env._internal(
       envType: EnvType.dev,
-      baseUrl: 'https://housing-movie.herokuapp.com',
+      baseUrl: 'http://mi-learning-api.hoangthinh.me',
     );
   }
 
   factory Env.prod() {
     return Env._internal(
       envType: EnvType.dev,
-      baseUrl: 'https://housing-movie.herokuapp.com',
+      baseUrl: 'http://mi-learning-api.hoangthinh.me',
     );
   }
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:mi_learning/app/home/presentation/provider/home_provider.dart';
+import 'package:mi_learning/app/home/presentation/provider/test_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 
-class HomePage extends PageLoadingStateless<HomeProvider> {
-  HomePage({Key? key}) : super(key: key);
+class TestPage extends PageLoadingStateless<TestProvider> {
+  TestPage({Key? key}) : super(key: key);
 
   @override
   Widget buildPage(BuildContext context) {
@@ -15,7 +15,7 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
         provider.showLoading(false);
       },
       child: Center(
-        child: Selector<HomeProvider, String>(
+        child: Selector<TestProvider, String>(
           selector: (_, provider) => provider.title,
           builder: (_, value, child) => Text(
             value,

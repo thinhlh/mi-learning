@@ -7,8 +7,8 @@ import 'package:mi_learning/app/forgot_password/presentation/pages/code_confirma
 import 'package:mi_learning/app/forgot_password/presentation/pages/forgot_password_page.dart';
 import 'package:mi_learning/app/forgot_password/presentation/providers/code_confirmation_provider.dart';
 import 'package:mi_learning/app/forgot_password/presentation/providers/forgot_password_provider.dart';
-import 'package:mi_learning/app/home/presentation/pages/home_page.dart';
-import 'package:mi_learning/app/home/presentation/provider/home_provider.dart';
+import 'package:mi_learning/app/home/presentation/pages/test_page.dart';
+import 'package:mi_learning/app/home/presentation/provider/test_provider.dart';
 import 'package:mi_learning/utils/route_util.dart';
 
 class Routes {
@@ -16,7 +16,7 @@ class Routes {
 
   static String get initial => auth;
 
-  static const String home = '/home';
+  static const String test = '/test';
   static const String about = '/about';
   static const String auth = '/auth';
   static const String forgotPassword = '/forgot_password';
@@ -25,13 +25,13 @@ class Routes {
   /// This is where you handle routing by name and arguments
   static Route<dynamic>? onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
-      case Routes.home:
+      case Routes.test:
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) => RouteUtil.createPageProvider<HomeProvider>(
-            provider: (_) => HomeProvider(GetIt.I()),
-            child: HomePage(),
+          builder: (_) => RouteUtil.createPageProvider<TestProvider>(
+            provider: (_) => TestProvider(GetIt.I()),
+            child: TestPage(),
           ),
         );
       case Routes.about:

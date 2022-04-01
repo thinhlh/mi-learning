@@ -1,19 +1,29 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mi_learning/app/common/presentation/widgets/error_dialog.dart';
+import 'package:mi_learning/app/common/presentation/widgets/dialog/w_error_dialog.dart';
 
 class AppDialog {
   static BuildContext? _context;
   AppDialog._internal();
 
   /// Show the dialog and store it's context for further dismiss
-  static Future<T?> showAppDialog<T>(BuildContext context, ErrorDialog dialog) {
+  static Future<T?> showAppDialog<T>(
+    BuildContext context,
+    WErrorDialog dialog,
+  ) {
     _context = context;
-    return showDialog<T>(context: context, builder: (_) => dialog);
+    return showDialog<T>(
+      context: context,
+      builder: (_) => dialog,
+      barrierDismissible: false,
+    );
   }
 
-  static void dismissAppDialog<T>(BuildContext context, {T? result}) async {
+  static void dismissAppDialog<T>(
+    BuildContext context, {
+    T? result,
+  }) async {
     if (_context == null) {
       // Do nothing
     } else {

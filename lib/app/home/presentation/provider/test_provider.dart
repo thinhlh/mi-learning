@@ -4,10 +4,10 @@ import 'package:mi_learning/base/domain/usecase/params.dart';
 import 'package:mi_learning/base/presentation/providers/loading_provider.dart';
 import 'package:mi_learning/generated/locale_keys.g.dart';
 
-class HomeProvider extends LoadingProvider {
+class TestProvider extends LoadingProvider {
   final CheckConnectionUseCase _checkConnectionUseCase;
 
-  HomeProvider(this._checkConnectionUseCase);
+  TestProvider(this._checkConnectionUseCase);
 
   String title = tr(LocaleKeys.general);
 
