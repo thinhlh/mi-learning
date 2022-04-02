@@ -67,4 +67,7 @@ class AppDimens {
 
   /// Button border radius
   static final double buttonBorderRadius = 20.r;
+
+  /// Avatar
+  static final double avatar = 56.r;
 }

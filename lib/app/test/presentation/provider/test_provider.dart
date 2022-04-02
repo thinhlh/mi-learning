@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:mi_learning/app/home/domain/usecases/check_connection_usecase.dart';
+import 'package:mi_learning/app/test/domain/usecases/check_connection_usecase.dart';
 import 'package:mi_learning/base/domain/usecase/params.dart';
 import 'package:mi_learning/base/presentation/providers/loading_provider.dart';
 import 'package:mi_learning/generated/locale_keys.g.dart';

@@ -66,11 +66,11 @@ extension DialogDetail on DialogType {
   Color get iconColor {
     switch (this) {
       case DialogType.success:
-        return AppColors.neutral_50;
+        return AppColors.neutral.shade50;
       case DialogType.error:
-        return AppColors.neutral_50;
+        return AppColors.neutral.shade50;
       case DialogType.info:
-        return AppColors.neutral_800;
+        return AppColors.neutral.shade800;
     }
   }
 }

@@ -5,8 +5,21 @@ class AppColors {
 
   /// App Colors
   static const Color primary = Color(0xFF7552A0);
-  static const Color primaryLight = Color(0xFF82b2bc);
-  static const Color primaryDark = Color(0xFF25555f);
+  static const Color primaryLight = Color(0xFF9175b3);
+  static const Color primaryDark = Color(0xFF5e4280);
+
+  static const MaterialColor primarySwatch = MaterialColor(0xFF7552A0, {
+    50: Color(0xFFbaa9d0),
+    100: Color(0xFFac97c6),
+    200: Color(0xFF9e86bd),
+    300: Color(0xFF9175b3),
+    400: Color(0xFF8363aa),
+    500: Color(0xFF7552a0),
+    600: Color(0xFF694a90),
+    700: Color(0xFF5e4280),
+    800: Color(0xFF523970),
+    900: Color(0xFF463160),
+  });
 
   static const Color secondary = Color(0xFFff9800);
   static const Color secondaryLight = Color(0xFFc66900);
@@ -19,34 +32,53 @@ class AppColors {
   static final Color success = Colors.green.shade300;
   static final Color successText = Colors.green.shade400;
   static final Color info = Colors.yellow.shade300;
-  static final Color infoText = AppColors.neutral_800;
+  static final Color infoText = AppColors.neutral.shade800;
 
   /// Background colors
-  /// Neutral_50
-  static const Color backgroundLight = neutral_50;
-  static const Color backgroundNeutral = neutral_200;
-  static const Color backgroundDark = neutral_800;
-  static const Color scaffoldBackground = neutral_200;
+  /// neutral.shade50
+  static final Color backgroundLight = neutral.shade50;
+
+  /// neutral.shade200
+  static final Color backgroundNeutral = neutral.shade200;
+
+  /// neutral.shade800
+  static final Color backgroundDark = neutral.shade800;
+
+  /// neutral.shade100
+  static final Color scaffoldBackground = neutral.shade100;
 
   /// Follow design
 
-  static const Color neutral_50 = Color(0xFFFAFAFA);
-  static const Color neutral_100 = Color(0xFFF5F5F5);
-  static const Color neutral_200 = Color(0xFFEEEEEE);
-  static const Color neutral_300 = Color(0xFFE0E0E0);
-  static const Color neutral_400 = Color(0xFF9E9E9E);
-  static const Color neutral_500 = Color(0xFF9E9E9E);
-  static const Color neutral_600 = Color(0xFF757575);
-  static const Color neutral_700 = Color(0xFF616161);
-  static const Color neutral_800 = Color(0xFF424242);
-  static const Color neutral_900 = Color(0xFF212121);
+  static const MaterialColor neutral = MaterialColor(0xFF9E9E9E, {
+    50: Color(0xFFFAFAFA),
+    100: Color(0xFFF5F5F5),
+    200: Color(0xFFEEEEEE),
+    300: Color(0xFFE0E0E0),
+    400: Color(0xFF9E9E9E),
+    500: Color(0xFF9E9E9E),
+    600: Color(0xFF757575),
+    700: Color(0xFF616161),
+    800: Color(0xFF424242),
+    900: Color(0xFF212121),
+  });
+
+  // static const Color neutral.shade50 = Color(0xFFFAFAFA);
+  // static const Color neutral.shade100 = Color(0xFFF5F5F5);
+  // static const Color neutral.shade200 = Color(0xFFEEEEEE);
+  // static const Color neutral.shade300 = Color(0xFFE0E0E0);
+  // static const Color neutral.shade400 = Color(0xFF9E9E9E);
+  // static const Color neutral.shade500 = Color(0xFF9E9E9E);
+  // static const Color neutral.shade600 = Color(0xFF757575);
+  // static const Color neutral.shade700 = Color(0xFF616161);
+  // static const Color neutral.shade800 = Color(0xFF424242);
+  // static const Color neutral.shade900 = Color(0xFF212121);
 
   /// Text colors
-  static const Color textPrimary = neutral_900;
-  static const Color textSecondary = neutral_400;
-  static const Color textSubtitle = neutral_600;
-  static const Color textDisable = neutral_600;
-  static const Color textPrimaryLight = neutral_50;
+  static final Color textPrimary = neutral.shade900;
+  static final Color textSecondary = neutral.shade400;
+  static final Color textSubtitle = neutral.shade600;
+  static final Color textDisable = neutral.shade600;
+  static final Color textPrimaryLight = neutral.shade50;
 
   /// Popup
   static const Color popUpPrimary = Color(0xFF25555f);

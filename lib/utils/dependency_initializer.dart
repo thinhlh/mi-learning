@@ -1,4 +1,4 @@
-import 'package:mi_learning/app/home/test_injection_container.dart';
+import 'package:mi_learning/app/test/test_injection_container.dart';
 
 class DependencyInitializer {
   DependencyInitializer._internal();

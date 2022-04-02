@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
+import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class WErrorDialog extends Dialog {
@@ -72,7 +73,7 @@ class WErrorDialog extends Dialog {
                           title ?? dialogType.title,
                           textAlign: TextAlign.center,
                           style: context.textTheme.headlineMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
+                            fontWeight: AppStyles.bold,
                             color: AppColors.primaryDark,
                           ),
                         ),
@@ -94,7 +95,7 @@ class WErrorDialog extends Dialog {
                                 .toUpperCase(),
                             textAlign: TextAlign.center,
                             style: context.textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
+                              fontWeight: AppStyles.bold,
                               color: dialogType.primaryColorText,
                               letterSpacing: 4,
                             ),
@@ -133,10 +134,10 @@ class QuaterCirclePainter extends CustomPainter {
 }
 
 class IconPainter extends CustomPainter {
-  final Color iconColor;
+  final Color? iconColor;
   final IconData icon;
 
-  IconPainter({required this.icon, this.iconColor = AppColors.neutral_50});
+  IconPainter({required this.icon, this.iconColor});
   @override
   void paint(Canvas canvas, Size size) {
     TextPainter textPainter = TextPainter(textDirection: TextDirection.rtl);
@@ -145,7 +146,7 @@ class IconPainter extends CustomPainter {
       style: TextStyle(
         fontSize: 40.r,
         fontFamily: icon.fontFamily,
-        color: iconColor,
+        color: iconColor ?? AppColors.neutral.shade50,
       ),
     );
     textPainter.layout();

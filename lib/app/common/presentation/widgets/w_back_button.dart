@@ -15,11 +15,11 @@ class WBackButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(AppDimens.largeRadius),
-          border: Border.all(color: AppColors.neutral_400),
+          border: Border.all(color: AppColors.neutral.shade400),
         ),
-        child: const Icon(
+        child: Icon(
           Icons.arrow_back_ios_new_rounded,
-          color: AppColors.neutral_800,
+          color: AppColors.neutral.shade800,
         ),
       ),
     );

@@ -1,4 +1,4 @@
-import 'package:mi_learning/app/home/domain/entities/home_entity.dart';
+import 'package:mi_learning/app/test/domain/entities/home_entity.dart';
 
 class TestConnectionModel extends TestEntity {
   TestConnectionModel._internal(String message) : super(message);

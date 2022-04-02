@@ -6,6 +6,7 @@ import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
+import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -29,7 +30,7 @@ class _ForgotPasswordPage
           Text(
             'Forgot password?',
             style: context.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
+              fontWeight: AppStyles.bold,
             ),
           ),
           SizedBox(height: AppDimens.largeHeightDimens),
@@ -53,8 +54,8 @@ class _ForgotPasswordPage
               child: Text(
                 'Send me code',
                 style: context.textTheme.titleMedium?.copyWith(
-                  color: AppColors.neutral_50,
-                  fontWeight: FontWeight.bold,
+                  color: AppColors.neutral.shade50,
+                  fontWeight: AppStyles.bold,
                 ),
               ),
             ),

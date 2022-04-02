@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
+import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class WCodeInput extends StatelessWidget {
@@ -21,7 +22,7 @@ class WCodeInput extends StatelessWidget {
         horizontal: AppDimens.mediumWidthDimens,
       ),
       decoration: BoxDecoration(
-        color: AppColors.neutral_50,
+        color: AppColors.neutral.shade50,
         borderRadius: BorderRadius.circular(
           AppDimens.largeRadius,
         ),
@@ -30,7 +31,7 @@ class WCodeInput extends StatelessWidget {
         autofocus: autofocus,
         textInputAction: TextInputAction.next,
         style: context.textTheme.headlineMedium?.copyWith(
-          fontWeight: FontWeight.bold,
+          fontWeight: AppStyles.bold,
         ),
         onChanged: (value) {
           if (value.isNotEmpty) FocusScope.of(context).nextFocus();

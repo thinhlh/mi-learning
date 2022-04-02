@@ -9,20 +9,20 @@ class AppStyles {
 
   static final TextStyle titleLarge = TextStyle(
     fontSize: AppDimens.largeText,
-    color: AppColors.neutral_900,
-    fontWeight: FontWeight.w500,
+    color: AppColors.neutral.shade900,
+    fontWeight: AppStyles.bold,
   );
 
   static final TextStyle titleMedium = TextStyle(
     fontSize: AppDimens.mediumText,
-    color: AppColors.neutral_900,
-    fontWeight: FontWeight.w500,
+    color: AppColors.neutral.shade900,
+    fontWeight: AppStyles.bold,
   );
 
   static final TextStyle titleSmall = TextStyle(
     fontSize: AppDimens.mediumText,
-    color: AppColors.neutral_900,
-    fontWeight: FontWeight.w500,
+    color: AppColors.neutral.shade900,
+    fontWeight: AppStyles.bold,
   );
 
   static final ButtonStyle buttonStyle = ButtonStyle(
@@ -41,8 +41,11 @@ class AppStyles {
       TextStyle(
         fontSize: ThemeData.light().textTheme.titleLarge?.fontSize,
         color: Colors.red,
-        fontWeight: FontWeight.bold,
+        fontWeight: AppStyles.bold,
       ),
     ),
   );
+
+  static const FontWeight bold = FontWeight.bold;
+  static const FontWeight extraBold = FontWeight.w900;
 }

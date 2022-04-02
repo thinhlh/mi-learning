@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:mi_learning/app/home/data/models/test_connection_model.dart';
+import 'package:mi_learning/app/test/data/models/test_connection_model.dart';
 import 'package:mi_learning/base/failure.dart';
 import 'package:mi_learning/services/rest_api/models/base_api.dart';
 

@@ -8,6 +8,7 @@ import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
+import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class CodeConfirmationPage
@@ -25,7 +26,7 @@ class CodeConfirmationPage
           Text(
             'Verification',
             style: context.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
+              fontWeight: AppStyles.bold,
             ),
           ),
           SizedBox(height: AppDimens.largeHeightDimens),
@@ -67,7 +68,9 @@ class CodeConfirmationPage
                       dialogType: DialogType.error,
                       content:
                           'Your transaction was declined by the bank due to the insufficient funds. Please try again.',
-                      onActionProceed: () {},
+                      onActionProceed: () {
+                        navigator.pushNamed(Routes.auth);
+                      },
                     ),
                   );
                 } else {
@@ -85,8 +88,8 @@ class CodeConfirmationPage
               child: Text(
                 'Veify',
                 style: context.textTheme.titleMedium?.copyWith(
-                  color: AppColors.neutral_50,
-                  fontWeight: FontWeight.bold,
+                  color: AppColors.neutral.shade50,
+                  fontWeight: AppStyles.bold,
                 ),
               ),
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
+import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class WidgetTextField extends StatelessWidget {
@@ -22,7 +23,7 @@ class WidgetTextField extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppDimens.extraLargeRadius),
-        color: AppColors.neutral_100,
+        color: AppColors.neutral.shade50,
       ),
       padding: EdgeInsets.symmetric(
         horizontal: AppDimens.largeWidthDimens,
@@ -31,7 +32,7 @@ class WidgetTextField extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Icon(
+          Icon(
             Icons.mail_outline_rounded,
             color: AppColors.textSecondary,
           ),
@@ -56,9 +57,9 @@ class WidgetTextField extends StatelessWidget {
                     border: InputBorder.none,
                     isDense: true,
                   ),
-                  cursorColor: AppColors.neutral_800,
+                  cursorColor: AppColors.neutral.shade800,
                   style: context.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w500,
+                    fontWeight: AppStyles.bold,
                   ),
                 ),
               ],

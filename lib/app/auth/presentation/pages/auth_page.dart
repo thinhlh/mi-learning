@@ -7,6 +7,7 @@ import 'package:mi_learning/base/presentation/widgets/w_text_field.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
+import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 
@@ -42,7 +43,7 @@ class _AuthPageState extends PageLoadingStateful<AuthProvider, AuthPage>
   Widget _buildHeader(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.neutral_300,
+        color: AppColors.neutral.shade200,
         borderRadius: BorderRadius.circular(AppDimens.largeRadius),
       ),
       margin: EdgeInsets.symmetric(
@@ -76,7 +77,7 @@ class _AuthPageState extends PageLoadingStateful<AuthProvider, AuthPage>
                       'Sign In',
                       style: context.textTheme.titleMedium?.copyWith(
                         color: isLogin ? null : AppColors.textSecondary,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: AppStyles.bold,
                       ),
                     ),
                   ),
@@ -104,7 +105,7 @@ class _AuthPageState extends PageLoadingStateful<AuthProvider, AuthPage>
                       'Sign Up',
                       style: context.textTheme.titleMedium?.copyWith(
                         color: isLogin ? AppColors.textSecondary : null,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: AppStyles.bold,
                       ),
                     ),
                   ),
@@ -124,7 +125,7 @@ class _AuthPageState extends PageLoadingStateful<AuthProvider, AuthPage>
         Text(
           'Welcome Back,',
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.w600,
+                fontWeight: AppStyles.bold,
               ),
         ),
         SizedBox(height: AppDimens.mediumHeightDimens),
@@ -174,8 +175,8 @@ class _AuthPageState extends PageLoadingStateful<AuthProvider, AuthPage>
             child: Text(
               'Sign In',
               style: context.textTheme.titleMedium?.copyWith(
-                color: AppColors.neutral_50,
-                fontWeight: FontWeight.bold,
+                color: AppColors.neutral.shade50,
+                fontWeight: AppStyles.bold,
               ),
             ),
           ),
@@ -193,9 +194,9 @@ class _AuthPageState extends PageLoadingStateful<AuthProvider, AuthPage>
           ),
           child: Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Divider(
-                  color: AppColors.neutral_900,
+                  color: AppColors.neutral.shade900,
                 ),
               ),
               Padding(
@@ -205,13 +206,13 @@ class _AuthPageState extends PageLoadingStateful<AuthProvider, AuthPage>
                 child: Text(
                   'Or continue with',
                   style: context.textTheme.titleMedium?.copyWith(
-                    color: AppColors.neutral_600,
+                    color: AppColors.neutral.shade600,
                   ),
                 ),
               ),
-              const Expanded(
+              Expanded(
                   child: Divider(
-                color: AppColors.neutral_900,
+                color: AppColors.neutral.shade900,
               )),
             ],
           ),
@@ -244,6 +245,7 @@ class _AuthPageState extends PageLoadingStateful<AuthProvider, AuthPage>
                   Icon(
                     Icons.facebook,
                     size: 30.r,
+                    color: Colors.blue,
                   ),
                   SizedBox(width: AppDimens.largeWidthDimens),
                   Text(
