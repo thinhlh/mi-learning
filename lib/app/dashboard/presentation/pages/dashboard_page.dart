@@ -2,8 +2,9 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/dashboard/presentation/providers/dashboard_provider.dart';
-import 'package:mi_learning/app/dashboard/presentation/widgets/course_item.dart';
+import 'package:mi_learning/app/dashboard/presentation/widgets/course_widget.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/live_event_card.dart';
+import 'package:mi_learning/app/dashboard/presentation/widgets/my_course_widget.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
@@ -16,7 +17,6 @@ class DashboardPage extends PageLoadingStateless<DashboardProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.neutral.shade200,
       appBar: _buildAppBar(context),
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -115,6 +115,16 @@ class DashboardPage extends PageLoadingStateless<DashboardProvider> {
             fontWeight: AppStyles.bold,
           ),
         ),
+        // Container(
+        //   height: 0.3.sh,
+        //   margin: EdgeInsets.only(top: AppDimens.mediumHeightDimens),
+        //   child: ListView.builder(
+        //     itemBuilder: (_, index) => const MyCourseWidget(),
+        //     scrollDirection: Axis.horizontal,
+        //     itemCount: 30,
+        //     shrinkWrap: true,
+        //   ),
+        // )
       ],
     );
   }
@@ -133,7 +143,7 @@ class DashboardPage extends PageLoadingStateless<DashboardProvider> {
           height: 0.42.sh,
           margin: EdgeInsets.only(top: AppDimens.mediumHeightDimens),
           child: ListView.builder(
-            itemBuilder: (_, index) => const CourseItem(),
+            itemBuilder: (_, index) => const CourseWidget(),
             scrollDirection: Axis.horizontal,
             itemCount: 30,
             shrinkWrap: true,

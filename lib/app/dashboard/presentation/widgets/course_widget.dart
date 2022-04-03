@@ -6,8 +6,8 @@ import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
-class CourseItem extends StatelessWidget {
-  const CourseItem({Key? key}) : super(key: key);
+class CourseWidget extends StatelessWidget {
+  const CourseWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

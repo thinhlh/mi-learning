@@ -43,7 +43,7 @@ class _AuthPageState extends PageLoadingStateful<AuthProvider, AuthPage>
   Widget _buildHeader(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.neutral.shade200,
+        color: AppColors.neutral.shade300,
         borderRadius: BorderRadius.circular(AppDimens.largeRadius),
       ),
       margin: EdgeInsets.symmetric(

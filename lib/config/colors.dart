@@ -45,7 +45,8 @@ class AppColors {
   static final Color backgroundDark = neutral.shade800;
 
   /// neutral.shade100
-  static final Color scaffoldBackground = neutral.shade100;
+  static final Color scaffoldBackground = neutral.shade200;
+  static final Color scaffoldBackgroundDark = neutral.shade800;
 
   /// Follow design
 

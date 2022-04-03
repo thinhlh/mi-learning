@@ -45,7 +45,9 @@ class LiveEventCard extends StatelessWidget {
             SizedBox(height: AppDimens.mediumHeightDimens),
             Text(
               'English Class',
-              style: context.textTheme.titleLarge,
+              style: context.textTheme.headlineSmall,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
             SizedBox(height: AppDimens.mediumHeightDimens),
             Text(
@@ -56,8 +58,12 @@ class LiveEventCard extends StatelessWidget {
             ),
             const Spacer(),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                Text(
+                  'Dr Angela Yu',
+                  style: context.textTheme.titleSmall?.copyWith(),
+                ),
+                const Spacer(),
                 Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: AppDimens.mediumWidthDimens,

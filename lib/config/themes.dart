@@ -30,6 +30,10 @@ class AppTheme {
   );
 
   static final ThemeData dark = ThemeData.dark().copyWith(
+    colorScheme: const ColorScheme.dark(),
+    scaffoldBackgroundColor: AppColors.scaffoldBackgroundDark,
+    splashColor: Colors.transparent,
+    highlightColor: Colors.transparent,
     brightness: Brightness.dark,
     textTheme: Typography.whiteCupertino,
   );

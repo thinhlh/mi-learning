@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:mi_learning/app/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:mi_learning/app/home/presentation/providers/home_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
+import 'package:mi_learning/config/routes.dart';
+import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class HomePage extends PageLoadingStateless<HomeProvider> {
   HomePage({Key? key}) : super(key: key);
@@ -20,7 +22,15 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
           case 2:
             return DashboardPage();
           case 3:
-            return DashboardPage();
+            return GestureDetector(
+              onTap: () => navigator.pushNamed(Routes.auth),
+              child: Center(
+                child: Text(
+                  'Logout',
+                  style: context.textTheme.headlineLarge,
+                ),
+              ),
+            );
           default:
             return DashboardPage();
         }

@@ -57,7 +57,7 @@ class CodeConfirmationPage
                       content:
                           'You have changed your password. Please proceed your experience.',
                       onActionProceed: () {
-                        navigator.pushNamed(Routes.test);
+                        navigator.pushNamed(Routes.home);
                       },
                     ),
                   );
@@ -69,7 +69,7 @@ class CodeConfirmationPage
                       content:
                           'Your transaction was declined by the bank due to the insufficient funds. Please try again.',
                       onActionProceed: () {
-                        navigator.pushNamed(Routes.auth);
+                        navigator.pushNamed(Routes.home);
                       },
                     ),
                   );
