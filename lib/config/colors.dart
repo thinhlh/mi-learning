@@ -22,8 +22,8 @@ class AppColors {
   });
 
   static const Color secondary = Color(0xFFff9800);
-  static const Color secondaryLight = Color(0xFFc66900);
-  static const Color secondaryDark = Color(0xFFffc947);
+  static const Color secondaryDark = Color(0xFFc66900);
+  static const Color secondaryLight = Color(0xFFffc947);
 
   static const Color tetiary = Color(0xFFB8E3DA);
 

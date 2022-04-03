@@ -80,7 +80,9 @@ class CodeConfirmationPage
                       dialogType: DialogType.info,
                       content:
                           'You have to fill in your verification code. After that click verify to proceed changing the password.',
-                      onActionProceed: () {},
+                      onActionProceed: () {
+                        navigator.pushNamed(Routes.home);
+                      },
                     ),
                   );
                 }

@@ -28,7 +28,9 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
       tabBar: CupertinoTabBar(
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home)),
-          BottomNavigationBarItem(icon: Icon(Icons.dashboard)),
+          BottomNavigationBarItem(icon: Icon(Icons.explore)),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_month)),
+          BottomNavigationBarItem(icon: Icon(Icons.reorder)),
         ],
       ),
     );

@@ -8,8 +8,14 @@ class AppTheme {
   static final ThemeData light = ThemeData(
     primaryColor: AppColors.primary,
     primarySwatch: AppColors.primarySwatch,
+    splashColor: Colors.transparent,
+    highlightColor: Colors.transparent,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: AppStyles.buttonStyle,
+    ),
+    buttonTheme: const ButtonThemeData(
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
     ),
     textTheme: Typography.blackCupertino,
     tabBarTheme: TabBarTheme(

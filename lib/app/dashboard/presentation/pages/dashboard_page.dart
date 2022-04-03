@@ -2,6 +2,8 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/dashboard/presentation/providers/dashboard_provider.dart';
+import 'package:mi_learning/app/dashboard/presentation/widgets/course_item.dart';
+import 'package:mi_learning/app/dashboard/presentation/widgets/live_event_card.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
@@ -14,13 +16,37 @@ class DashboardPage extends PageLoadingStateless<DashboardProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.neutral.shade200,
       appBar: _buildAppBar(context),
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: AppDimens.largeWidthDimens,
+          vertical: AppDimens.largeHeightDimens,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: AppDimens.largeHeightDimens),
+              const LiveEventCard(),
+              SizedBox(height: AppDimens.largeHeightDimens),
+              _buildMyLearning(context),
+              SizedBox(height: AppDimens.largeHeightDimens),
+              _buildRecommendation(context),
+              SizedBox(height: AppDimens.largeHeightDimens),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
+      toolbarHeight: 70,
       centerTitle: false,
+      elevation: 2,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -75,6 +101,44 @@ class DashboardPage extends PageLoadingStateless<DashboardProvider> {
             ),
           ),
         ),
+      ],
+    );
+  }
+
+  Widget _buildMyLearning(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'My Learning',
+          style: context.textTheme.headlineSmall?.copyWith(
+            fontWeight: AppStyles.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRecommendation(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Recommendation',
+          style: context.textTheme.headlineSmall?.copyWith(
+            fontWeight: AppStyles.bold,
+          ),
+        ),
+        Container(
+          height: 0.42.sh,
+          margin: EdgeInsets.only(top: AppDimens.mediumHeightDimens),
+          child: ListView.builder(
+            itemBuilder: (_, index) => const CourseItem(),
+            scrollDirection: Axis.horizontal,
+            itemCount: 30,
+            shrinkWrap: true,
+          ),
+        )
       ],
     );
   }
