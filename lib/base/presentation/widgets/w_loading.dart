@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class LoadingWidget extends StatefulWidget {
   const LoadingWidget({
@@ -10,9 +9,10 @@ class LoadingWidget extends StatefulWidget {
     this.duration = const Duration(seconds: 1),
     this.controller,
   })  : assert(
-            !(itemBuilder is IndexedWidgetBuilder && color is Color) &&
-                !(itemBuilder == null && color == null),
-            'You should specify either a itemBuilder or a color'),
+          !(itemBuilder is IndexedWidgetBuilder && color is Color) &&
+              !(itemBuilder == null && color == null),
+          'You should specify either a itemBuilder or a color',
+        ),
         super(key: key);
 
   final Color? color;

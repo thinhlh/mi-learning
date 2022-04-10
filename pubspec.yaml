@@ -56,6 +56,10 @@ dependencies:
   intl: ^0.17.0
   logger: ^1.1.0
 
+  # Firebase services
+  firebase_core: ^1.14.0
+  firebase_crashlytics: ^2.6.1
+
 dev_dependencies:
   flutter_lints: ^1.0.0
   flutter_test:

@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mi_learning/app/dashboard/presentation/pages/dashboard_page.dart';
@@ -20,7 +21,15 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
           case 1:
             return DashboardPage();
           case 2:
-            return DashboardPage();
+            return GestureDetector(
+              onTap: () => FirebaseCrashlytics.instance.crash(),
+              child: Center(
+                child: Text(
+                  'Crash',
+                  style: context.textTheme.headlineLarge,
+                ),
+              ),
+            );
           case 3:
             return GestureDetector(
               onTap: () => navigator.pushNamed(Routes.auth),

@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mi_learning/app/app.dart';
 import 'package:mi_learning/config/languages.dart';
@@ -33,6 +34,7 @@ class AppRunner {
 
   Future<void> _initServices() async {
     // TODO error handler or logging
+    await Firebase.initializeApp();
     await LocalStore.instance.init();
   }
 
