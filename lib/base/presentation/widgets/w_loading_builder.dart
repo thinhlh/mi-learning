@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:mi_learning/base/presentation/providers/loading_provider.dart';
-import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/services/dialogs/app_loading.dart';
 import 'package:provider/provider.dart';
 

@@ -44,6 +44,7 @@ class DashboardPage extends PageLoadingStateless<DashboardProvider> {
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       toolbarHeight: 70,
       centerTitle: false,
       elevation: 2,
@@ -115,16 +116,16 @@ class DashboardPage extends PageLoadingStateless<DashboardProvider> {
             fontWeight: AppStyles.bold,
           ),
         ),
-        // Container(
-        //   height: 0.3.sh,
-        //   margin: EdgeInsets.only(top: AppDimens.mediumHeightDimens),
-        //   child: ListView.builder(
-        //     itemBuilder: (_, index) => const MyCourseWidget(),
-        //     scrollDirection: Axis.horizontal,
-        //     itemCount: 30,
-        //     shrinkWrap: true,
-        //   ),
-        // )
+        Container(
+          height: 0.16.sh,
+          margin: EdgeInsets.only(top: AppDimens.mediumHeightDimens),
+          child: ListView.builder(
+            itemBuilder: (_, index) => const MyCourseWidget(),
+            scrollDirection: Axis.horizontal,
+            itemCount: 30,
+            shrinkWrap: true,
+          ),
+        )
       ],
     );
   }

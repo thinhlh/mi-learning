@@ -33,7 +33,7 @@ class AuthProvider extends LoadingProvider {
 
   void signIn() {
     showLoading(true);
-    Future.delayed(Duration(seconds: 3)).then((_) {
+    Future.delayed(const Duration(seconds: 3)).then((_) {
       showLoading(false);
       success = true;
     });
