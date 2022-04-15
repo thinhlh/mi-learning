@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mi_learning/base/presentation/pages/page_actions.dart';
 import 'package:mi_learning/base/presentation/providers/dialog_provider.dart';
+import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 
 abstract class PageStateful<T extends DialogProvider, P extends StatefulWidget>
@@ -12,7 +13,7 @@ abstract class PageStateful<T extends DialogProvider, P extends StatefulWidget>
   void initState() {
     super.initState();
     provider = Provider.of<T>(context, listen: false);
-    navigator = Navigator.of(context);
+    navigator = context.navigator;
   }
 
   @override

@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:async';
 
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
+import 'package:mi_learning/utils/date_time_helper.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class LiveEventCard extends StatefulWidget {
@@ -18,6 +19,7 @@ class LiveEventCard extends StatefulWidget {
 
 class _LiveEventCardState extends State<LiveEventCard>
     with SingleTickerProviderStateMixin {
+  Duration _duration = const Duration(hours: 12, minutes: 55, seconds: 44);
   final flipController = FlipCardController();
 
   bool isFront = true;
@@ -25,6 +27,11 @@ class _LiveEventCardState extends State<LiveEventCard>
   @override
   void initState() {
     super.initState();
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _duration = Duration(seconds: _duration.inSeconds - 1);
+      });
+    });
   }
 
   @override
@@ -87,7 +94,7 @@ class _LiveEventCardState extends State<LiveEventCard>
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              '12:55:29',
+              DateTimeHelper.formatDuration(_duration),
               style: context.textTheme.titleLarge,
             ),
           ],
@@ -125,7 +132,7 @@ class _LiveEventCardState extends State<LiveEventCard>
                   borderRadius: BorderRadius.circular(
                     AppDimens.extraLargeRadius,
                   ),
-                  color: Colors.amber,
+                  color: AppColors.secondaryLight,
                 ),
                 child: Text(
                   'Join Class',
@@ -150,7 +157,7 @@ class _LiveEventCardState extends State<LiveEventCard>
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              '12:55:40',
+              DateTimeHelper.formatDuration(_duration),
               style: context.textTheme.titleLarge,
             ),
           ],
@@ -161,21 +168,56 @@ class _LiveEventCardState extends State<LiveEventCard>
           style: context.textTheme.caption?.copyWith(
             fontWeight: AppStyles.bold,
           ),
-          maxLines: 5,
+          maxLines: 3,
           overflow: TextOverflow.ellipsis,
         ),
         const Spacer(),
         Row(
           children: [
             Expanded(
-              child: Container(
-                height: 20,
+              child: SizedBox(
+                height: 40.h,
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemBuilder: (_, index) => CircleAvatar(
-                    backgroundColor: Colors.red,
+                  itemBuilder: (_, index) => Container(
+                    clipBehavior: Clip.hardEdge,
+                    width: 40.w,
+                    child: Center(
+                      child: index != 4
+                          ? Image.asset(
+                              'assets/images/user-avatar-${index + 1}.jpg',
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                            )
+                          : Padding(
+                              padding: EdgeInsets.all(4.r),
+                              child: CircleAvatar(
+                                backgroundColor: AppColors.tetiary,
+                                child: FittedBox(
+                                  child: Text(
+                                    '12+',
+                                    style:
+                                        context.textTheme.titleSmall?.copyWith(
+                                      fontWeight: AppStyles.bold,
+                                      color: AppColors.neutral.shade50,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                    ),
+                    transform: Matrix4.translationValues(
+                      index == 0 ? 0 : -20.w * index,
+                      0,
+                      0,
+                    ),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.neutral.shade50,
+                    ),
                   ),
-                  itemCount: 4,
+                  itemCount: 5,
                   scrollDirection: Axis.horizontal,
                 ),
               ),

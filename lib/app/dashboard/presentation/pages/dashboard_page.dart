@@ -110,11 +110,22 @@ class DashboardPage extends PageLoadingStateless<DashboardProvider> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'My Learning',
-          style: context.textTheme.headlineSmall?.copyWith(
-            fontWeight: AppStyles.bold,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'My Learning',
+              style: context.textTheme.headlineSmall?.copyWith(
+                fontWeight: AppStyles.bold,
+              ),
+            ),
+            Text(
+              'Show all',
+              style: context.textTheme.subtitle2?.copyWith(
+                color: AppColors.tetiary,
+              ),
+            ),
+          ],
         ),
         Container(
           height: 0.16.sh,
@@ -144,7 +155,7 @@ class DashboardPage extends PageLoadingStateless<DashboardProvider> {
           height: 0.42.sh,
           margin: EdgeInsets.only(top: AppDimens.mediumHeightDimens),
           child: ListView.builder(
-            itemBuilder: (_, index) => const CourseWidget(),
+            itemBuilder: (_, index) => CourseWidget(id: index),
             scrollDirection: Axis.horizontal,
             itemCount: 30,
             shrinkWrap: true,

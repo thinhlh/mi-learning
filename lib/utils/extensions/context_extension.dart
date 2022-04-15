@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 extension ContextExtension on BuildContext {
   TextTheme get textTheme => Theme.of(this).textTheme;
@@ -8,4 +7,8 @@ extension ContextExtension on BuildContext {
 
   bool get isDarkMode =>
       MediaQuery.of(this).platformBrightness == Brightness.dark;
+
+  NavigatorState get navigator => Navigator.of(this);
+
+  T? getArgument<T>() => ModalRoute.of(this)?.settings.arguments as T?;
 }

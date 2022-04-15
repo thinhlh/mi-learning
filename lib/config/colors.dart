@@ -25,7 +25,9 @@ class AppColors {
   static const Color secondaryDark = Color(0xFFc66900);
   static const Color secondaryLight = Color(0xFFffc947);
 
-  static const Color tetiary = Color(0xFFB8E3DA);
+  // static const Color tetiary = Color(0xFFB8E3DA);
+
+  static final Color tetiary = Colors.redAccent.shade100;
 
   static final Color error = Colors.red.shade300;
   static final Color errorText = Colors.red.shade400;
@@ -62,17 +64,6 @@ class AppColors {
     800: Color(0xFF424242),
     900: Color(0xFF212121),
   });
-
-  // static const Color neutral.shade50 = Color(0xFFFAFAFA);
-  // static const Color neutral.shade100 = Color(0xFFF5F5F5);
-  // static const Color neutral.shade200 = Color(0xFFEEEEEE);
-  // static const Color neutral.shade300 = Color(0xFFE0E0E0);
-  // static const Color neutral.shade400 = Color(0xFF9E9E9E);
-  // static const Color neutral.shade500 = Color(0xFF9E9E9E);
-  // static const Color neutral.shade600 = Color(0xFF757575);
-  // static const Color neutral.shade700 = Color(0xFF616161);
-  // static const Color neutral.shade800 = Color(0xFF424242);
-  // static const Color neutral.shade900 = Color(0xFF212121);
 
   /// Text colors
   static final Color textPrimary = neutral.shade900;

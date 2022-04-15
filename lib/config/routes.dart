@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mi_learning/app/auth/presentation/pages/auth_page.dart';
 import 'package:mi_learning/app/auth/presentation/provider/auth_provider.dart';
+import 'package:mi_learning/app/course_detail/presentation/pages/course_detail_page.dart';
+import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
 import 'package:mi_learning/app/forgot_password/presentation/pages/code_confirmation_page.dart';
 import 'package:mi_learning/app/forgot_password/presentation/pages/forgot_password_page.dart';
 import 'package:mi_learning/app/forgot_password/presentation/providers/code_confirmation_provider.dart';
@@ -23,6 +25,7 @@ class Routes {
   static const String forgotPassword = '/forgot_password';
   static const String codeConfirmation = '/code_confirmation';
   static const String home = '/home';
+  static const String courseDetail = '/course_detail';
 
   /// This is where you handle routing by name and arguments
   static Route<dynamic>? onGenerateRoute(RouteSettings routeSettings) {
@@ -41,6 +44,7 @@ class Routes {
       case Routes.auth:
         return CupertinoPageRoute(
           fullscreenDialog: true,
+          settings: routeSettings,
           builder: (_) => RouteUtil.createPageProvider<AuthProvider>(
             provider: (_) => AuthProvider(),
             child: const AuthPage(),
@@ -50,6 +54,7 @@ class Routes {
       case Routes.forgotPassword:
         return CupertinoPageRoute(
           fullscreenDialog: true,
+          settings: routeSettings,
           builder: (_) => RouteUtil.createPageProvider<ForgotPasswordProvider>(
             provider: (_) => ForgotPasswordProvider(),
             child: const ForgotPasswordPage(),
@@ -59,6 +64,7 @@ class Routes {
       case Routes.codeConfirmation:
         return CupertinoPageRoute(
           fullscreenDialog: true,
+          settings: routeSettings,
           builder: (_) =>
               RouteUtil.createPageProvider<CodeConfirmationProvider>(
             provider: (_) => CodeConfirmationProvider(),
@@ -69,9 +75,20 @@ class Routes {
       case Routes.home:
         return CupertinoPageRoute(
           fullscreenDialog: true,
+          settings: routeSettings,
           builder: (_) => RouteUtil.createPageProvider<HomeProvider>(
             provider: (_) => HomeProvider(),
             child: HomePage(),
+          ),
+        );
+
+      case Routes.courseDetail:
+        return CupertinoPageRoute(
+          fullscreenDialog: true,
+          settings: routeSettings,
+          builder: (_) => RouteUtil.createPageProvider<CourseDetailProvider>(
+            provider: (_) => CourseDetailProvider(),
+            child: CourseDetailPage(),
           ),
         );
 
