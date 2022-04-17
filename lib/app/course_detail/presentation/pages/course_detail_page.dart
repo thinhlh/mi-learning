@@ -17,58 +17,43 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
-      body: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                SliverAppBar(
-                  centerTitle: true,
-                  floating: true,
-                  pinned: true,
-                  snap: true,
-                  expandedHeight: 200.h,
-                  elevation: AppDimens.mediumElevation,
-                  leading: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: AppColors.neutral.shade900,
-                    ),
-                  ),
-                  backgroundColor: AppColors.neutral.shade900,
-                  title: Text(
-                    'Flutter course',
-                    style: context.textTheme.titleLarge?.copyWith(
-                      color: AppColors.neutral.shade50,
-                    ),
-                  ),
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: Image.asset(
-                      'assets/images/flutter-course.jpeg',
-                      width: double.infinity,
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                  actions: [
-                    StatefulBuilder(
-                      builder: (_, setState) => IconButton(
-                        onPressed: () {
-                          setState(() {});
-                        },
-                        icon: Icon(
-                          Random().nextBool()
-                              ? Icons.bookmark_rounded
-                              : Icons.bookmark_border_rounded,
-                          color: AppColors.neutral.shade900,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ],
-          body: ListView.builder(
-            itemBuilder: (_, index) => Text('123'),
-            shrinkWrap: true,
-            itemCount: 2000,
-          )),
+      appBar: AppBar(
+        centerTitle: true,
+        elevation: AppDimens.mediumElevation,
+        leading: IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: AppColors.neutral.shade900,
+          ),
+        ),
+        title: Text(
+          'Flutter course',
+          style: context.textTheme.titleLarge?.copyWith(
+            color: AppColors.neutral.shade50,
+          ),
+        ),
+        actions: [
+          StatefulBuilder(
+            builder: (_, setState) => IconButton(
+              onPressed: () {
+                setState(() {});
+              },
+              icon: Icon(
+                Random().nextBool()
+                    ? Icons.bookmark_rounded
+                    : Icons.bookmark_border_rounded,
+                color: AppColors.neutral.shade900,
+              ),
+            ),
+          )
+        ],
+      ),
+      body: Image.asset(
+        'assets/images/flutter-course.jpeg',
+        width: double.infinity,
+        fit: BoxFit.fitWidth,
+      ),
     );
   }
 
