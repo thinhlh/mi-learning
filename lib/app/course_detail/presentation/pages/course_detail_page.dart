@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -8,168 +9,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mi_learning/app/common/presentation/widgets/w_back_button.dart';
 import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
 import 'package:mi_learning/app/course_detail/presentation/widgets/expandable_text.dart';
-import 'package:mi_learning/app/dashboard/presentation/widgets/course_widget.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
-import 'package:mi_learning/config/values.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
-
-// class CourseDetailPage extends PageLoadingStateless<CourseDetailProvider> {
-//   late final int id;
-//   CourseDetailPage({Key? key}) : super(key: key);
-
-//   @override
-//   Widget buildPage(BuildContext context) {
-//     return Scaffold(
-//       appBar: _buildAppBar(context),
-//       body: Stack(
-//         children: [
-//           Padding(
-//             padding: EdgeInsets.only(
-//               top: AppDimens.largeHeightDimens,
-//             ),
-//             child: Row(
-//               children: [
-//                 Align(
-//                   alignment: Alignment.topCenter,
-//                   child: Container(
-//                     padding: EdgeInsets.symmetric(
-//                       horizontal: AppDimens.largeWidthDimens,
-//                     ),
-//                     width: (1 / 2).sw,
-//                     height: (1 / 3).sh,
-//                     color: Colors.blue,
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       mainAxisAlignment: MainAxisAlignment.start,
-//                       children: [
-//                         Text(
-//                           'Flutter course for beginner',
-//                           style: context.textTheme.titleLarge,
-//                         ),
-//                         SizedBox(height: AppDimens.mediumHeightDimens),
-//                         Row(
-//                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                           children: [
-//                             Row(
-//                               children: [
-//                                 Icon(Icons.people),
-//                                 Text('1823'),
-//                               ],
-//                             ),
-//                             Row(
-//                               children: [
-//                                 Icon(Icons.star),
-//                                 Text('4.5'),
-//                               ],
-//                             ),
-//                           ],
-//                         ),
-//                         SizedBox(height: AppDimens.mediumHeightDimens),
-//                         Text(
-//                           '50 \$',
-//                           style: context.textTheme.headline4?.copyWith(
-//                             fontWeight: AppStyles.extraBold,
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//                 Align(
-//                   alignment: Alignment.topRight,
-//                   child: Container(
-//                     color: Colors.red,
-//                     padding: EdgeInsets.symmetric(
-//                       horizontal: AppDimens.mediumWidthDimens,
-//                     ),
-//                     width: (1 / 2).sw,
-//                     height: (1 / 3).sh,
-//                     // transform: Matrix4.translationValues(0, 30.h, 0),
-//                     child: SvgPicture.asset(
-//                       'assets/images/education.svg',
-//                       alignment: Alignment.topCenter,
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//           DraggableScrollableSheet(
-//             controller: DraggableScrollableController(),
-//             initialChildSize: 0.6,
-//             maxChildSize: 0.9,
-//             minChildSize: 0.6,
-//             builder: (context, scrollController) => Container(
-//               padding: EdgeInsets.symmetric(
-//                 horizontal: AppDimens.largeWidthDimens,
-//                 vertical: AppDimens.largeHeightDimens,
-//               ),
-//               decoration: BoxDecoration(
-//                 color: context.isDarkMode
-//                     ? AppColors.neutral.shade800
-//                     : AppColors.neutral.shade50,
-//                 borderRadius: BorderRadius.only(
-//                   topLeft: Radius.circular(50.r),
-//                   topRight: Radius.circular(50.r),
-//                 ),
-//               ),
-//               child: ListView.builder(
-//                 physics: const BouncingScrollPhysics(),
-//                 controller: scrollController,
-//                 shrinkWrap: true,
-//                 itemBuilder: (_, index) => Text('Hello world $index'),
-//                 itemCount: 100,
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   AppBar _buildAppBar(BuildContext context) {
-//     return AppBar(
-//       centerTitle: true,
-//       elevation: AppDimens.smallElevation,
-//       leading: IconButton(
-//         icon: Icon(
-//           Icons.arrow_back_ios_rounded,
-//           color: context.isDarkMode
-//               ? AppColors.neutral.shade50
-//               : AppColors.neutral.shade900,
-//         ),
-//         onPressed: () {},
-//       ),
-//       title: Text(
-//         'Flutter course',
-//         style: context.textTheme.titleLarge?.copyWith(),
-//       ),
-//       actions: [
-//         StatefulBuilder(
-//           builder: (_, setState) => IconButton(
-//             onPressed: () {
-//               setState(() {});
-//             },
-//             icon: Icon(
-//               Random().nextBool()
-//                   ? Icons.bookmark_rounded
-//                   : Icons.bookmark_border_rounded,
-//               color: AppColors.neutral.shade900,
-//             ),
-//           ),
-//         )
-//       ],
-//     );
-//   }
-
-//   @override
-//   void initialization(BuildContext context) {
-//     id = context.getArgument<int>() ?? 0;
-//   }
-// }
 
 class CourseDetailPage extends PageLoadingStateless<CourseDetailProvider> {
   late final int id;
@@ -177,116 +21,90 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.primarySwatch.shade100,
       appBar: _buildAppBar(context),
-      body: SingleChildScrollView(
+      body: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(50.r),
+          ),
+          color: AppColors.neutral.shade50,
+        ),
+        margin: EdgeInsets.symmetric(horizontal: AppDimens.mediumWidthDimens),
         padding: EdgeInsets.all(AppDimens.largeWidthDimens),
-        child: Column(children: [
-          Hero(
-            tag: id,
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppDimens.largeRadius),
+        child: Column(
+          children: [
+            SizedBox(height: AppDimens.largeHeightDimens),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Flutter TDD Clean Architecture Course',
+                style: context.textTheme.titleLarge?.copyWith(
+                  fontWeight: AppStyles.extraBold,
+                ),
               ),
-              child: Image.asset('assets/images/flutter-course.jpeg'),
-              elevation: AppDimens.largeElevation,
-              clipBehavior: Clip.hardEdge,
             ),
-          ),
-          SizedBox(height: AppDimens.largeHeightDimens),
-          Text(
-            'Flutter TDD Clean Architecture Course - Reso coder',
-            style: context.textTheme.titleLarge,
-          ),
-          SizedBox(height: AppDimens.largeHeightDimens),
-          Row(
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.play_circle_outline_outlined),
-                  SizedBox(width: AppDimens.smallWidthDimens),
-                  Text(
-                    '12 Lessions',
-                    style: context.textTheme.subtitle2,
+            SizedBox(height: AppDimens.largeHeightDimens),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'by Reso coder',
+                style: context.textTheme.caption?.copyWith(
+                  fontSize: context.textTheme.subtitle2?.fontSize,
+                ),
+              ),
+            ),
+            SizedBox(height: AppDimens.largeHeightDimens),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.access_time_rounded,
+                  color: AppColors.secondary,
+                ),
+                SizedBox(width: AppDimens.smallWidthDimens),
+                Text(
+                  '2hr 38m',
+                  style: context.textTheme.titleMedium?.copyWith(
+                    color: AppColors.secondary,
+                    fontWeight: AppStyles.bold,
                   ),
-                ],
-              ),
-              SizedBox(width: AppDimens.largeWidthDimens),
-              Row(
-                children: [
-                  const Icon(Icons.watch_later_outlined),
-                  SizedBox(width: AppDimens.smallWidthDimens),
-                  Text(
-                    '23 hours',
-                    style: context.textTheme.subtitle2,
+                ),
+              ],
+            ),
+            Hero(
+              tag: id,
+              child: Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.identity()
+                  ..scale(
+                    0.9,
+                    0.85,
                   ),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(height: AppDimens.smallHeightDimens),
-          ExpandableText(
-            text:
-                "Keeping your code clean and tested are the two most important development practices. In Flutter, this is even more true than with other frameworks. On one hand, it's nice to hack a quick app together, on the other hand, larger projects start falling apart when you mix the business logic everywhere. Even state management patterns like BLoC are not sufficient in themselves to allow for easily extendable codebase.",
-            maxLines: 3,
-            textStyle: context.textTheme.subtitle1,
-            showTextStyle: context.textTheme.caption?.copyWith(
-              fontWeight: AppStyles.extraBold,
-              color: AppColors.primarySwatch.shade500,
-            ),
-          ),
-          SizedBox(height: AppDimens.largeHeightDimens),
-          ListTile(
-            leading: const CircleAvatar(
-              foregroundImage: AssetImage(
-                'assets/images/avatar.jpg',
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppDimens.largeRadius),
+                  ),
+                  child: Image.asset(
+                    'assets/images/flutter-course.jpeg',
+                  ),
+                  elevation: AppDimens.largeElevation,
+                  clipBehavior: Clip.hardEdge,
+                ),
               ),
             ),
-            tileColor: AppColors.neutral.shade50,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(
-                AppDimens.mediumRadius,
-              ),
-            ),
-            title: const Text('Reso coder'),
-            subtitle: const Text('Senior Flutter Developer'),
-            trailing: IconButton(
-              icon: const Icon(Icons.arrow_forward_ios_rounded),
-              onPressed: () {},
-            ),
-          ),
-          //   Container(
-          //     padding: EdgeInsets.symmetric(
-          //       horizontal: AppDimens.largeWidthDimens,
-          //       vertical: AppDimens.mediumHeightDimens,
-          //     ),
-          //     child: Row(
-          //       mainAxisSize: MainAxisSize.min,
-          //       mainAxisAlignment: MainAxisAlignment.center,
-          //       children: [
-          //         Text('Detail'),
-          //         VerticalDivider(
-          //           color: AppColors.neutral.shade900,
-          //           width: 20.0,
-          //         ),
-          //         Text('Detail'),
-          //         VerticalDivider(
-          //           color: AppColors.neutral.shade900,
-          //           width: 20.0,
-          //         ),
-          //         Text('Detail'),
-          //       ],
-          //     ),
-          //   ),
-          // ],
-        ]),
+            const Expanded(child: _CouseDetailAppBar())
+          ],
+        ),
       ),
     );
   }
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
+      backgroundColor: AppColors.primarySwatch.shade100,
       centerTitle: true,
-      elevation: AppDimens.smallElevation,
+      // elevation: AppDimens.smallElevation,
       leading: IconButton(
         icon: Icon(
           Icons.arrow_back_ios_rounded,
@@ -297,7 +115,7 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailProvider> {
         onPressed: () => navigator.pop(),
       ),
       title: Text(
-        'Flutter course',
+        'Course Detail',
         style: context.textTheme.titleLarge?.copyWith(),
       ),
       actions: [
@@ -321,5 +139,232 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailProvider> {
   @override
   void initialization(BuildContext context) {
     id = context.getArgument<int>() ?? 0;
+  }
+}
+
+class _CouseDetailAppBar extends StatefulWidget {
+  const _CouseDetailAppBar({Key? key}) : super(key: key);
+
+  @override
+  State<_CouseDetailAppBar> createState() => __CouseDetailAppBarState();
+}
+
+class __CouseDetailAppBarState extends State<_CouseDetailAppBar>
+    with TickerProviderStateMixin {
+  late final TabController tabController;
+  late final AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 3, vsync: this);
+    controller = AnimationController(vsync: this, value: 0);
+    Tween<double>(begin: 0, end: 0.8).animate(controller);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 3,
+      initialIndex: 0,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          toolbarHeight: 0,
+          bottom: TabBar(
+            labelStyle: context.textTheme.titleMedium?.copyWith(
+              fontWeight: AppStyles.bold,
+            ),
+            isScrollable: false,
+            unselectedLabelStyle: context.textTheme.titleMedium,
+            indicatorColor: AppColors.secondary,
+            indicatorSize: TabBarIndicatorSize.label,
+            tabs: const [
+              Tab(text: 'About'),
+              Tab(text: 'Lession'),
+              Tab(text: 'Discuss'),
+            ],
+            controller: tabController,
+          ),
+        ),
+        body: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: tabController,
+          children: [
+            _buildAbout(context),
+            _buildLession(context),
+            _buildDiscuss(context),
+          ].map((e) => SingleChildScrollView(child: e)).toList(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAbout(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: AppDimens.largeHeightDimens),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Column(
+              children: [
+                Text(
+                  '12',
+                  style: context.textTheme.headlineSmall?.copyWith(
+                    fontWeight: AppStyles.bold,
+                  ),
+                ),
+                SizedBox(height: AppDimens.smallHeightDimens),
+                Text(
+                  'Lessions',
+                  style: context.textTheme.bodyMedium,
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                Text(
+                  '38,729',
+                  style: context.textTheme.headlineSmall?.copyWith(
+                    fontWeight: AppStyles.bold,
+                  ),
+                ),
+                SizedBox(height: AppDimens.smallHeightDimens),
+                Text(
+                  'Students',
+                  style: context.textTheme.bodyMedium,
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                Text(
+                  '23',
+                  style: context.textTheme.headlineSmall?.copyWith(
+                    fontWeight: AppStyles.bold,
+                  ),
+                ),
+                SizedBox(height: AppDimens.smallHeightDimens),
+                Text(
+                  'Hours',
+                  style: context.textTheme.bodyMedium,
+                ),
+              ],
+            ),
+          ],
+        ),
+        Divider(
+          height: AppDimens.extraLargeHeightDimens,
+          color: AppColors.neutral.shade500,
+        ),
+        ExpandableText(
+          text:
+              "Keeping your code clean and tested are the two most important development practices. In Flutter, this is even more true than with other frameworks. On one hand, it's nice to hack a quick app together, on the other hand, larger projects start falling apart when you mix the business logic everywhere. Even state management patterns like BLoC are not sufficient in themselves to allow for easily extendable codebase.",
+          maxLines: 3,
+          textStyle: context.textTheme.caption?.copyWith(
+            fontSize: AppDimens.mediumText,
+          ),
+          showTextStyle: context.textTheme.caption?.copyWith(
+            fontWeight: AppStyles.extraBold,
+            color: AppColors.primarySwatch.shade500,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLession(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: AppDimens.largeHeightDimens),
+        AnimatedContainer(
+          duration: Duration.zero,
+          child: CircularProgressIndicator.adaptive(
+            value: controller.value,
+            strokeWidth: 6,
+            backgroundColor: AppColors.neutral.shade400,
+            valueColor: AlwaysStoppedAnimation<Color>(
+              AppColors.primarySwatch.shade300,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDiscuss(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: AppDimens.largeHeightDimens),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Column(
+              children: [
+                Text(
+                  '12',
+                  style: context.textTheme.headlineSmall?.copyWith(
+                    fontWeight: AppStyles.bold,
+                  ),
+                ),
+                SizedBox(height: AppDimens.smallHeightDimens),
+                Text(
+                  'Lessions',
+                  style: context.textTheme.bodyMedium,
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                Text(
+                  '38,729',
+                  style: context.textTheme.headlineSmall?.copyWith(
+                    fontWeight: AppStyles.bold,
+                  ),
+                ),
+                SizedBox(height: AppDimens.smallHeightDimens),
+                Text(
+                  'Students',
+                  style: context.textTheme.bodyMedium,
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                Text(
+                  '23',
+                  style: context.textTheme.headlineSmall?.copyWith(
+                    fontWeight: AppStyles.bold,
+                  ),
+                ),
+                SizedBox(height: AppDimens.smallHeightDimens),
+                Text(
+                  'Hours',
+                  style: context.textTheme.bodyMedium,
+                ),
+              ],
+            ),
+          ],
+        ),
+        Divider(
+          height: AppDimens.extraLargeHeightDimens,
+          color: AppColors.neutral.shade500,
+        ),
+        ExpandableText(
+          text:
+              "Keeping your code clean and tested are the two most important development practices. In Flutter, this is even more true than with other frameworks. On one hand, it's nice to hack a quick app together, on the other hand, larger projects start falling apart when you mix the business logic everywhere. Even state management patterns like BLoC are not sufficient in themselves to allow for easily extendable codebase.",
+          maxLines: 3,
+          textStyle: context.textTheme.caption?.copyWith(
+            fontSize: AppDimens.mediumText,
+          ),
+          showTextStyle: context.textTheme.caption?.copyWith(
+            fontWeight: AppStyles.extraBold,
+            color: AppColors.primarySwatch.shade500,
+          ),
+        ),
+      ],
+    );
   }
 }
