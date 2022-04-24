@@ -1,12 +1,8 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:mi_learning/app/common/presentation/widgets/w_back_button.dart';
+import 'package:mi_learning/app/common/presentation/widgets/w_blur.dart';
 import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
 import 'package:mi_learning/app/course_detail/presentation/widgets/expandable_text.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
@@ -152,14 +148,31 @@ class _CouseDetailAppBar extends StatefulWidget {
 class __CouseDetailAppBarState extends State<_CouseDetailAppBar>
     with TickerProviderStateMixin {
   late final TabController tabController;
-  late final AnimationController controller;
+  late final AnimationController lessionAnimationController;
+  late final Animation<double> lessionAnimation;
 
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 3, vsync: this);
-    controller = AnimationController(vsync: this, value: 0);
-    Tween<double>(begin: 0, end: 0.8).animate(controller);
+    tabController = TabController(length: 3, vsync: this)
+      ..addListener(() {
+        if (!tabController.indexIsChanging) {
+          if (tabController.index == 1) {
+            lessionAnimationController.forward();
+          } else {
+            lessionAnimationController.reset();
+          }
+        }
+      });
+
+    lessionAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    );
+
+    lessionAnimation = Tween<double>(begin: 0.0, end: 0.8)
+        .animate(lessionAnimationController)
+      ..addListener(() => setState(() {}));
   }
 
   @override
@@ -195,7 +208,7 @@ class __CouseDetailAppBarState extends State<_CouseDetailAppBar>
             _buildAbout(context),
             _buildLession(context),
             _buildDiscuss(context),
-          ].map((e) => SingleChildScrollView(child: e)).toList(),
+          ],
         ),
       ),
     );
@@ -276,21 +289,70 @@ class __CouseDetailAppBarState extends State<_CouseDetailAppBar>
   }
 
   Widget _buildLession(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: AppDimens.largeHeightDimens),
-        AnimatedContainer(
-          duration: Duration.zero,
-          child: CircularProgressIndicator.adaptive(
-            value: controller.value,
-            strokeWidth: 6,
-            backgroundColor: AppColors.neutral.shade400,
-            valueColor: AlwaysStoppedAnimation<Color>(
-              AppColors.primarySwatch.shade300,
+    return WBlur(
+      blur: true,
+      overlayChild: Icon(Icons.lock),
+      child: SingleChildScrollView(
+        padding: EdgeInsets.only(top: AppDimens.largeHeightDimens),
+        child: Column(
+          children: [
+            AnimatedContainer(
+              duration: Duration.zero,
+              child: CircularProgressIndicator(
+                value: lessionAnimation.value,
+                strokeWidth: 6,
+                backgroundColor: AppColors.neutral.shade400,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  AppColors.primarySwatch.shade300,
+                ),
+              ),
             ),
-          ),
+            SizedBox(height: AppDimens.mediumHeightDimens),
+            Text(
+              '80/100 lessions',
+              style: context.textTheme.titleLarge,
+            ),
+            ListView.builder(
+              padding: EdgeInsets.only(top: AppDimens.largeHeightDimens),
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (_, index) => ListTile(
+                leading: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "00${index}".toString(),
+                      style: context.textTheme.titleLarge?.copyWith(
+                        color: AppColors.neutral.shade400,
+                      ),
+                    ),
+                  ],
+                ),
+                title: Text(
+                  'Lession Title',
+                  style: context.textTheme.titleMedium?.copyWith(
+                    fontWeight: AppStyles.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  'Lession Subtitle',
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    fontWeight: AppStyles.light,
+                  ),
+                ),
+                trailing: CircleAvatar(
+                  backgroundColor: AppColors.success,
+                  child: Icon(
+                    Icons.play_arrow,
+                    color: AppColors.neutral.shade50,
+                  ),
+                ),
+              ),
+              itemCount: 5,
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 

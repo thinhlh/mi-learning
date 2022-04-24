@@ -46,6 +46,7 @@ class AppStyles {
     ),
   );
 
+  static const FontWeight light = FontWeight.w300;
   static const FontWeight bold = FontWeight.bold;
   static const FontWeight extraBold = FontWeight.w900;
 }
