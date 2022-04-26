@@ -51,24 +51,6 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailProvider> {
                 ),
               ),
             ),
-            SizedBox(height: AppDimens.largeHeightDimens),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.access_time_rounded,
-                  color: AppColors.secondary,
-                ),
-                SizedBox(width: AppDimens.smallWidthDimens),
-                Text(
-                  '2hr 38m',
-                  style: context.textTheme.titleMedium?.copyWith(
-                    color: AppColors.secondary,
-                    fontWeight: AppStyles.bold,
-                  ),
-                ),
-              ],
-            ),
             Hero(
               tag: id,
               child: Transform(
@@ -155,7 +137,7 @@ class __CouseDetailAppBarState extends State<_CouseDetailAppBar>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 3, vsync: this)
+    tabController = TabController(length: 4, vsync: this)
       ..addListener(() {
         if (!tabController.indexIsChanging) {
           if (tabController.index == 1) {
@@ -200,6 +182,7 @@ class __CouseDetailAppBarState extends State<_CouseDetailAppBar>
               Tab(text: 'About'),
               Tab(text: 'Lession'),
               Tab(text: 'Discuss'),
+              Tab(text: 'Ratings'),
             ],
             controller: tabController,
           ),
@@ -209,6 +192,7 @@ class __CouseDetailAppBarState extends State<_CouseDetailAppBar>
           children: [
             _buildAbout(context),
             _buildLession(context),
+            _buildRatings(context),
             _buildDiscuss(context),
           ],
         ),
@@ -442,52 +426,22 @@ class __CouseDetailAppBarState extends State<_CouseDetailAppBar>
     );
   }
 
+  Widget _buildRatings(BuildContext context) {
+    return Container();
+  }
+
   Widget _buildDiscuss(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: DropdownButton(
-                items: const <DropdownMenuItem<String>>[
-                  DropdownMenuItem(
-                    child: Text('Hello'),
-                    value: 'Hello',
-                  ),
-                ],
-                onChanged: (choice) {},
-                hint: const Text('Choice'),
-              ),
-            ),
-            Expanded(
-              child: DropdownButton(
-                items: const <DropdownMenuItem<String>>[
-                  DropdownMenuItem(
-                    child: Text('Hello'),
-                    value: 'Hello',
-                  ),
-                ],
-                onChanged: (choice) {},
-                hint: Text('Choice'),
-              ),
-            ),
-            Expanded(
-              child: DropdownButton(
-                items: const <DropdownMenuItem<String>>[
-                  DropdownMenuItem(
-                    child: Text('Hello'),
-                    value: 'Hello',
-                  ),
-                ],
-                onChanged: (choice) {},
-                hint: Text('Choice'),
-              ),
-            ),
-          ],
-        ),
         Expanded(
           child: ListView.separated(
+            padding: EdgeInsets.only(
+              top: AppDimens.largeHeightDimens,
+              left: AppDimens.largeWidthDimens,
+              right: AppDimens.largeWidthDimens,
+            ),
             separatorBuilder: (_, index) => Divider(
+              height: 0,
               color: AppColors.neutral.shade500,
             ),
             physics: const BouncingScrollPhysics(),
