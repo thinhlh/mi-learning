@@ -55,7 +55,6 @@ class CourseWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: AppDimens.mediumHeightDimens),
                   Expanded(
                     flex: 3,
                     child: Column(
@@ -77,22 +76,20 @@ class CourseWidget extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Text(
-                                '\$' + 12.77.toStringAsFixed(2),
-                                style: context.textTheme.titleLarge?.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                ),
+                        Row(
+                          children: [
+                            Text(
+                              '\$' + 12.77.toStringAsFixed(2),
+                              style: context.textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.w500,
                               ),
-                              const Spacer(),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: RatingWidget(rating: 4.7),
-                              ),
-                            ],
-                          ),
+                            ),
+                            const Spacer(),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: RatingWidget(rating: 4.7),
+                            ),
+                          ],
                         ),
                         SizedBox(height: AppDimens.smallHeightDimens),
                         FittedBox(

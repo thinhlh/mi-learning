@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/common/presentation/widgets/w_blur.dart';
 import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
 import 'package:mi_learning/app/course_detail/presentation/widgets/expandable_text.dart';
+import 'package:mi_learning/app/dashboard/presentation/widgets/rating_widget.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
@@ -167,12 +168,15 @@ class __CouseDetailAppBarState extends State<_CouseDetailAppBar>
 
     lessionAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 2000),
     );
 
-    lessionAnimation = Tween<double>(begin: 0.0, end: 0.8)
-        .animate(lessionAnimationController)
-      ..addListener(() => setState(() {}));
+    lessionAnimation = CurveTween(curve: Curves.easeInOutQuad).animate(
+      Tween<double>(begin: 0, end: 0.8).animate(lessionAnimationController)
+        ..addListener(() {
+          setState(() {});
+        }),
+    );
   }
 
   @override
@@ -189,7 +193,6 @@ class __CouseDetailAppBarState extends State<_CouseDetailAppBar>
             labelStyle: context.textTheme.titleMedium?.copyWith(
               fontWeight: AppStyles.bold,
             ),
-            isScrollable: false,
             unselectedLabelStyle: context.textTheme.titleMedium,
             indicatorColor: AppColors.secondary,
             indicatorSize: TabBarIndicatorSize.label,
@@ -202,7 +205,6 @@ class __CouseDetailAppBarState extends State<_CouseDetailAppBar>
           ),
         ),
         body: TabBarView(
-          physics: const NeverScrollableScrollPhysics(),
           controller: tabController,
           children: [
             _buildAbout(context),
@@ -215,217 +217,314 @@ class __CouseDetailAppBarState extends State<_CouseDetailAppBar>
   }
 
   Widget _buildAbout(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: AppDimens.largeHeightDimens),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              children: [
-                Text(
-                  '12',
-                  style: context.textTheme.headlineSmall?.copyWith(
-                    fontWeight: AppStyles.bold,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(height: AppDimens.largeHeightDimens),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    '12',
+                    style: context.textTheme.headlineSmall?.copyWith(
+                      fontWeight: AppStyles.bold,
+                    ),
                   ),
-                ),
-                SizedBox(height: AppDimens.smallHeightDimens),
-                Text(
-                  'Lessions',
-                  style: context.textTheme.bodyMedium,
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Text(
-                  '38,729',
-                  style: context.textTheme.headlineSmall?.copyWith(
-                    fontWeight: AppStyles.bold,
+                  SizedBox(height: AppDimens.smallHeightDimens),
+                  Text(
+                    'Lessions',
+                    style: context.textTheme.bodyMedium,
                   ),
-                ),
-                SizedBox(height: AppDimens.smallHeightDimens),
-                Text(
-                  'Students',
-                  style: context.textTheme.bodyMedium,
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Text(
-                  '23',
-                  style: context.textTheme.headlineSmall?.copyWith(
-                    fontWeight: AppStyles.bold,
+                ],
+              ),
+              Column(
+                children: [
+                  Text(
+                    '38,729',
+                    style: context.textTheme.headlineSmall?.copyWith(
+                      fontWeight: AppStyles.bold,
+                    ),
                   ),
-                ),
-                SizedBox(height: AppDimens.smallHeightDimens),
-                Text(
-                  'Hours',
-                  style: context.textTheme.bodyMedium,
-                ),
-              ],
-            ),
-          ],
-        ),
-        Divider(
-          height: AppDimens.extraLargeHeightDimens,
-          color: AppColors.neutral.shade500,
-        ),
-        ExpandableText(
-          text:
-              "Keeping your code clean and tested are the two most important development practices. In Flutter, this is even more true than with other frameworks. On one hand, it's nice to hack a quick app together, on the other hand, larger projects start falling apart when you mix the business logic everywhere. Even state management patterns like BLoC are not sufficient in themselves to allow for easily extendable codebase.",
-          maxLines: 3,
-          textStyle: context.textTheme.caption?.copyWith(
-            fontSize: AppDimens.mediumText,
+                  SizedBox(height: AppDimens.smallHeightDimens),
+                  Text(
+                    'Students',
+                    style: context.textTheme.bodyMedium,
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Text(
+                    '23',
+                    style: context.textTheme.headlineSmall?.copyWith(
+                      fontWeight: AppStyles.bold,
+                    ),
+                  ),
+                  SizedBox(height: AppDimens.smallHeightDimens),
+                  Text(
+                    'Hours',
+                    style: context.textTheme.bodyMedium,
+                  ),
+                ],
+              ),
+            ],
           ),
-          showTextStyle: context.textTheme.caption?.copyWith(
-            fontWeight: AppStyles.extraBold,
-            color: AppColors.primarySwatch.shade500,
+          Divider(
+            height: AppDimens.extraLargeHeightDimens,
+            color: AppColors.neutral.shade500,
           ),
-        ),
-      ],
+          Row(
+            children: [
+              CircleAvatar(
+                backgroundImage: AssetImage(
+                  'assets/images/user-avatar-1.jpg',
+                ),
+              ),
+              SizedBox(width: AppDimens.mediumWidthDimens),
+              Text(
+                'Reso Coder',
+                style: context.textTheme.titleMedium?.copyWith(
+                  fontWeight: AppStyles.bold,
+                ),
+              ),
+              Spacer(),
+              StatefulBuilder(builder: (context, setState) {
+                return TextButton(
+                  onPressed: () {
+                    setState(() {});
+                  },
+                  style: ButtonStyle(
+                    overlayColor: MaterialStateProperty.all(Colors.transparent),
+                  ),
+                  child: Text(
+                    'Follow',
+                    style: context.textTheme.titleMedium?.copyWith(
+                      fontWeight: AppStyles.bold,
+                      color: Random().nextBool()
+                          ? Colors.red
+                          : AppColors.neutral.shade500,
+                    ),
+                  ),
+                );
+              }),
+            ],
+          ),
+          SizedBox(height: AppDimens.mediumHeightDimens),
+          ExpandableText(
+            text:
+                "Keeping your code clean and tested are the two most important development practices. In Flutter, this is even more true than with other frameworks. On one hand, it's nice to hack a quick app together, on the other hand, larger projects start falling apart when you mix the business logic everywhere. Even state management patterns like BLoC are not sufficient in themselves to allow for easily extendable codebase.",
+            maxLines: 3,
+            textStyle: context.textTheme.bodyMedium?.copyWith(
+                // fontSize: AppDimens.mediumText,
+                ),
+            showTextStyle: context.textTheme.caption?.copyWith(
+              fontWeight: AppStyles.extraBold,
+              color: AppColors.primarySwatch.shade500,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildLession(BuildContext context) {
-    return WBlur(
-      blur: true,
-      overlayChild: Icon(Icons.lock),
-      child: SingleChildScrollView(
-        padding: EdgeInsets.only(top: AppDimens.largeHeightDimens),
-        child: Column(
-          children: [
-            AnimatedContainer(
-              duration: Duration.zero,
-              child: CircularProgressIndicator(
-                value: lessionAnimation.value,
-                strokeWidth: 6,
-                backgroundColor: AppColors.neutral.shade400,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  AppColors.primarySwatch.shade300,
+    final Widget lessons = SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      padding: EdgeInsets.only(top: AppDimens.largeHeightDimens),
+      child: Column(
+        children: [
+          AnimatedContainer(
+            duration: Duration.zero,
+            child: CircularProgressIndicator(
+              value: lessionAnimation.value,
+              strokeWidth: 6,
+              backgroundColor: AppColors.neutral.shade400,
+              valueColor: AlwaysStoppedAnimation<Color>(
+                AppColors.primarySwatch.shade300,
+              ),
+            ),
+          ),
+          SizedBox(height: AppDimens.mediumHeightDimens),
+          Text(
+            '80/100 lessions',
+            style: context.textTheme.titleLarge,
+          ),
+          ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.only(top: AppDimens.largeHeightDimens),
+            shrinkWrap: true,
+            itemBuilder: (_, index) => ListTile(
+              leading: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "00${index}".toString(),
+                    style: context.textTheme.titleLarge?.copyWith(
+                      color: AppColors.neutral.shade400,
+                    ),
+                  ),
+                ],
+              ),
+              title: Text(
+                'Lession Title',
+                style: context.textTheme.titleMedium?.copyWith(
+                  fontWeight: AppStyles.bold,
+                ),
+              ),
+              subtitle: Text(
+                'Lession Subtitle',
+                style: context.textTheme.bodyMedium?.copyWith(
+                  fontWeight: AppStyles.light,
+                ),
+              ),
+              trailing: CircleAvatar(
+                backgroundColor: AppColors.success,
+                child: Icon(
+                  Icons.play_arrow,
+                  color: AppColors.neutral.shade50,
                 ),
               ),
             ),
-            SizedBox(height: AppDimens.mediumHeightDimens),
-            Text(
-              '80/100 lessions',
-              style: context.textTheme.titleLarge,
-            ),
-            ListView.builder(
-              padding: EdgeInsets.only(top: AppDimens.largeHeightDimens),
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (_, index) => ListTile(
-                leading: Column(
+            itemCount: 5,
+          ),
+        ],
+      ),
+    );
+    bool isBlur = true;
+    return StatefulBuilder(
+      builder: (_, setState) {
+        return isBlur
+            ? WBlur(
+                blur: isBlur,
+                overlayChild: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "00${index}".toString(),
-                      style: context.textTheme.titleLarge?.copyWith(
-                        color: AppColors.neutral.shade400,
+                    Icon(
+                      Icons.lock,
+                      size: AppDimens.largeIcon,
+                    ),
+                    SizedBox(height: AppDimens.mediumHeightDimens),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          isBlur = !isBlur;
+                        });
+                      },
+                      child: Text(
+                        'Enroll in this course',
+                        style: context.textTheme.titleSmall?.copyWith(
+                          color: AppColors.neutral.shade50,
+                          fontWeight: AppStyles.bold,
+                        ),
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                          AppColors.tetiary,
+                        ),
+                        elevation: MaterialStateProperty.all(
+                            AppDimens.mediumElevation),
+                        padding: MaterialStateProperty.all(
+                          EdgeInsets.symmetric(
+                            horizontal: AppDimens.largeWidthDimens,
+                            vertical: AppDimens.largeHeightDimens,
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
-                title: Text(
-                  'Lession Title',
-                  style: context.textTheme.titleMedium?.copyWith(
-                    fontWeight: AppStyles.bold,
-                  ),
-                ),
-                subtitle: Text(
-                  'Lession Subtitle',
-                  style: context.textTheme.bodyMedium?.copyWith(
-                    fontWeight: AppStyles.light,
-                  ),
-                ),
-                trailing: CircleAvatar(
-                  backgroundColor: AppColors.success,
-                  child: Icon(
-                    Icons.play_arrow,
-                    color: AppColors.neutral.shade50,
-                  ),
-                ),
-              ),
-              itemCount: 5,
-            ),
-          ],
-        ),
-      ),
+                child: lessons,
+              )
+            : lessons;
+      },
     );
   }
 
   Widget _buildDiscuss(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: AppDimens.largeHeightDimens),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Column(
-              children: [
-                Text(
-                  '12',
-                  style: context.textTheme.headlineSmall?.copyWith(
-                    fontWeight: AppStyles.bold,
+            Expanded(
+              child: DropdownButton(
+                items: const <DropdownMenuItem<String>>[
+                  DropdownMenuItem(
+                    child: Text('Hello'),
+                    value: 'Hello',
                   ),
-                ),
-                SizedBox(height: AppDimens.smallHeightDimens),
-                Text(
-                  'Lessions',
-                  style: context.textTheme.bodyMedium,
-                ),
-              ],
+                ],
+                onChanged: (choice) {},
+                hint: const Text('Choice'),
+              ),
             ),
-            Column(
-              children: [
-                Text(
-                  '38,729',
-                  style: context.textTheme.headlineSmall?.copyWith(
-                    fontWeight: AppStyles.bold,
+            Expanded(
+              child: DropdownButton(
+                items: const <DropdownMenuItem<String>>[
+                  DropdownMenuItem(
+                    child: Text('Hello'),
+                    value: 'Hello',
                   ),
-                ),
-                SizedBox(height: AppDimens.smallHeightDimens),
-                Text(
-                  'Students',
-                  style: context.textTheme.bodyMedium,
-                ),
-              ],
+                ],
+                onChanged: (choice) {},
+                hint: Text('Choice'),
+              ),
             ),
-            Column(
-              children: [
-                Text(
-                  '23',
-                  style: context.textTheme.headlineSmall?.copyWith(
-                    fontWeight: AppStyles.bold,
+            Expanded(
+              child: DropdownButton(
+                items: const <DropdownMenuItem<String>>[
+                  DropdownMenuItem(
+                    child: Text('Hello'),
+                    value: 'Hello',
                   ),
-                ),
-                SizedBox(height: AppDimens.smallHeightDimens),
-                Text(
-                  'Hours',
-                  style: context.textTheme.bodyMedium,
-                ),
-              ],
+                ],
+                onChanged: (choice) {},
+                hint: Text('Choice'),
+              ),
             ),
           ],
         ),
-        Divider(
-          height: AppDimens.extraLargeHeightDimens,
-          color: AppColors.neutral.shade500,
-        ),
-        ExpandableText(
-          text:
-              "Keeping your code clean and tested are the two most important development practices. In Flutter, this is even more true than with other frameworks. On one hand, it's nice to hack a quick app together, on the other hand, larger projects start falling apart when you mix the business logic everywhere. Even state management patterns like BLoC are not sufficient in themselves to allow for easily extendable codebase.",
-          maxLines: 3,
-          textStyle: context.textTheme.caption?.copyWith(
-            fontSize: AppDimens.mediumText,
+        Expanded(
+          child: ListView.separated(
+            separatorBuilder: (_, index) => Divider(
+              color: AppColors.neutral.shade500,
+            ),
+            physics: const BouncingScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (_, index) => Container(
+              margin: EdgeInsets.symmetric(
+                vertical: AppDimens.smallHeightDimens,
+              ),
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                horizontalTitleGap: 0,
+                leading: Container(
+                  padding: EdgeInsets.all(AppDimens.smallWidthDimens),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: AppColors.primary,
+                      width: 1.5,
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.check,
+                    color: AppColors.primary,
+                    size: 20.r,
+                  ),
+                ),
+                title: Text('Discussion No.${index}'),
+                subtitle: Text(
+                  '${index} openned 11 days ago by venetus',
+                  maxLines: 1,
+                ),
+                trailing: Icon(Icons.arrow_forward_ios_rounded),
+              ),
+            ),
+            itemCount: 10,
           ),
-          showTextStyle: context.textTheme.caption?.copyWith(
-            fontWeight: AppStyles.extraBold,
-            color: AppColors.primarySwatch.shade500,
-          ),
-        ),
+        )
       ],
     );
   }

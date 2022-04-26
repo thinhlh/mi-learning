@@ -10,6 +10,18 @@ class RatingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> stars = List.generate(
+      5,
+      (index) => Icon(
+        (rating - index >= 1)
+            ? Icons.star
+            : (rating - index >= 0.5)
+                ? Icons.star_half
+                : Icons.star_outline,
+        color: Colors.yellow.shade800,
+      ),
+    );
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -20,18 +32,10 @@ class RatingWidget extends StatelessWidget {
             fontWeight: AppStyles.bold,
           ),
         ),
-        ListView.builder(
+        Padding(
           padding: EdgeInsets.only(left: AppDimens.mediumWidthDimens),
-          scrollDirection: Axis.horizontal,
-          itemCount: 5,
-          shrinkWrap: true,
-          itemBuilder: (_, index) => Icon(
-            (rating - index >= 1)
-                ? Icons.star
-                : (rating - index >= 0.5)
-                    ? Icons.star_half
-                    : Icons.star_outline,
-            color: Colors.yellow.shade800,
+          child: Row(
+            children: stars,
           ),
         )
       ],

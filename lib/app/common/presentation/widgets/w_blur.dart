@@ -23,15 +23,18 @@ class WBlur extends StatelessWidget {
         Positioned.fill(
           child: BackdropFilter(
             filter: ImageFilter.blur(
-              sigmaX: 1,
-              sigmaY: 1,
+              sigmaX: blur ? 1.5 : 0,
+              sigmaY: blur ? 1.5 : 0,
             ),
             child: Container(
               color: Colors.white.withOpacity(0),
             ),
           ),
         ),
-        Positioned.fill(child: overlayChild ?? const SizedBox())
+        Positioned.fill(
+          child:
+              (blur && overlayChild != null) ? overlayChild! : const SizedBox(),
+        )
       ],
     );
   }
