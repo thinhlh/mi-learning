@@ -6,7 +6,14 @@ import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class RatingWidget extends StatelessWidget {
   final double rating;
-  RatingWidget({Key? key, required this.rating}) : super(key: key);
+  final Axis direction;
+  final bool showValue;
+  RatingWidget({
+    Key? key,
+    required this.rating,
+    this.direction = Axis.horizontal,
+    this.showValue = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,19 +29,24 @@ class RatingWidget extends StatelessWidget {
       ),
     );
 
-    return Row(
+    return Flex(
+      direction: direction,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          rating.toStringAsFixed(1),
-          style: context.textTheme.titleLarge?.copyWith(
-            color: Colors.yellow.shade900,
-            fontWeight: AppStyles.bold,
+        Visibility(
+          visible: showValue,
+          child: Text(
+            rating.toStringAsFixed(1),
+            style: context.textTheme.titleLarge?.copyWith(
+              color: Colors.yellow.shade900,
+              fontWeight: AppStyles.bold,
+            ),
           ),
         ),
         Padding(
           padding: EdgeInsets.only(left: AppDimens.mediumWidthDimens),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: stars,
           ),
         )

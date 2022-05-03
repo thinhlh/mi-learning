@@ -51,25 +51,22 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailProvider> {
                 ),
               ),
             ),
-            Hero(
-              tag: id,
-              child: Transform(
-                alignment: Alignment.center,
-                transform: Matrix4.identity()
-                  ..scale(
-                    0.9,
-                    0.85,
-                  ),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppDimens.largeRadius),
-                  ),
-                  child: Image.asset(
-                    'assets/images/flutter-course.jpeg',
-                  ),
-                  elevation: AppDimens.largeElevation,
-                  clipBehavior: Clip.hardEdge,
+            Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.identity()
+                ..scale(
+                  0.9,
+                  0.85,
                 ),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppDimens.largeRadius),
+                ),
+                child: Image.asset(
+                  'assets/images/flutter-course.jpeg',
+                ),
+                elevation: AppDimens.largeElevation,
+                clipBehavior: Clip.hardEdge,
               ),
             ),
             const Expanded(child: _CouseDetailAppBar())
@@ -192,8 +189,8 @@ class __CouseDetailAppBarState extends State<_CouseDetailAppBar>
           children: [
             _buildAbout(context),
             _buildLession(context),
-            _buildRatings(context),
             _buildDiscuss(context),
+            _buildRatings(context),
           ],
         ),
       ),
@@ -427,7 +424,159 @@ class __CouseDetailAppBarState extends State<_CouseDetailAppBar>
   }
 
   Widget _buildRatings(BuildContext context) {
-    return Container();
+    return Column(
+      children: [
+        SizedBox(height: AppDimens.largeHeightDimens),
+        Card(
+          color: AppColors.neutral.shade200,
+          elevation: 0,
+          child: Padding(
+            padding: EdgeInsets.all(AppDimens.largeWidthDimens),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: RatingWidget(
+                    showValue: false,
+                    rating: 4.0,
+                    direction: Axis.horizontal,
+                  ),
+                ),
+                SizedBox(width: AppDimens.extraLargeWidthDimens),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text('5 star'),
+                          SizedBox(width: AppDimens.largeWidthDimens),
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                              AppDimens.mediumRadius,
+                            )),
+                            child: Expanded(
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    color: AppColors.neutral.shade100,
+                                    height: 10.w,
+                                  ),
+                                  FractionallySizedBox(
+                                    widthFactor: 1,
+                                    child: Container(
+                                      color: AppColors.secondary,
+                                      height: 10.w,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text('4 star'),
+                          SizedBox(width: AppDimens.largeWidthDimens),
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                Container(
+                                  color: AppColors.neutral.shade100,
+                                  height: 10.w,
+                                ),
+                                FractionallySizedBox(
+                                  widthFactor: 0.8,
+                                  child: Container(
+                                    color: AppColors.secondary,
+                                    height: 10.w,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text('3 star'),
+                          SizedBox(width: AppDimens.largeWidthDimens),
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                Container(
+                                  color: AppColors.neutral.shade100,
+                                  height: 10.w,
+                                ),
+                                FractionallySizedBox(
+                                  widthFactor: 0.6,
+                                  child: Container(
+                                    color: AppColors.secondary,
+                                    height: 10.w,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text('2 star'),
+                          SizedBox(width: AppDimens.largeWidthDimens),
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                Container(
+                                  color: AppColors.neutral.shade100,
+                                  height: 10.w,
+                                ),
+                                FractionallySizedBox(
+                                  widthFactor: 0.4,
+                                  child: Container(
+                                    color: AppColors.secondary,
+                                    height: 10.w,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text('1 star'),
+                          SizedBox(width: AppDimens.largeWidthDimens),
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                Container(
+                                  color: AppColors.neutral.shade100,
+                                  height: 10.w,
+                                ),
+                                FractionallySizedBox(
+                                  widthFactor: 0.2,
+                                  child: Container(
+                                    color: AppColors.secondary,
+                                    height: 10.w,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildDiscuss(BuildContext context) {
@@ -468,9 +617,9 @@ class __CouseDetailAppBarState extends State<_CouseDetailAppBar>
                     size: 20.r,
                   ),
                 ),
-                title: Text('Discussion No.${index}'),
+                title: Text('Discussion No.$index'),
                 subtitle: Text(
-                  '${index} openned 11 days ago by venetus',
+                  '$index openned 11 days ago by venetus',
                   maxLines: 1,
                 ),
                 trailing: Icon(Icons.arrow_forward_ios_rounded),
