@@ -33,6 +33,7 @@ dependencies:
   flutter_svg: ^1.0.3
   badges: ^2.0.2
   flip_card: ^0.6.0
+  animated_flip_counter: ^0.2.4
 
   # Localization
   easy_localization: ^3.0.0
