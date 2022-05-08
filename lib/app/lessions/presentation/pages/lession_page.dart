@@ -33,10 +33,13 @@ class LessionPage extends PageLoadingStateless<LessionProvider> {
                 ? AppColors.neutral.shade300
                 : AppColors.neutral.shade900,
           ),
-          title: Text('Lession',
-              style: context.textTheme.titleMedium?.copyWith(
-                fontWeight: AppStyles.bold,
-              )),
+          title: Text(
+            'Lession',
+            style: context.textTheme.titleMedium?.copyWith(
+              fontWeight: AppStyles.bold,
+            ),
+          ),
+          centerTitle: true,
         ),
         const WVideoPlayer(),
         SizedBox(height: AppDimens.largeHeightDimens),

@@ -11,11 +11,14 @@ import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class NoteEditorPage extends PageLoadingStateless<NoteEditorProvider> {
-  late final editor.QuillController _controller;
+  final editor.QuillController _controller;
+
+  NoteEditorPage(this._controller, {Key? key}) : super(key: key);
 
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: BackButton(
           color: context.isDarkMode
@@ -52,6 +55,7 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorProvider> {
             ),
           )
         ],
+        centerTitle: true,
         title: Text(
           'Create Note',
           style: context.textTheme.titleMedium?.copyWith(
@@ -86,6 +90,8 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorProvider> {
                   ),
                   borderRadius: BorderRadius.circular(AppDimens.largeRadius),
                 ),
+                // TODO checkout this Editor because it does not allow user type from keyboard
+                // TODO enable swipe up to preview typing content
                 child: editor.QuillEditor(
                   scrollController: ScrollController(),
                   scrollable: true,
@@ -102,7 +108,7 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorProvider> {
               ),
             ),
             SizedBox(height: AppDimens.largeHeightDimens),
-            Container(
+            SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {},
@@ -116,8 +122,5 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {
-    _controller = context.getArgument<editor.QuillController>() ??
-        editor.QuillController.basic();
-  }
+  void initialization(BuildContext context) {}
 }

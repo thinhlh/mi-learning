@@ -22,7 +22,7 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
           barrierColor: Colors.transparent,
           builder: (_) => RouteUtil.createPageProvider(
             provider: (_) => NoteEditorProvider(),
-            child: NoteEditorPage(),
+            child: NoteEditorPage(editor.QuillController.basic()),
           ),
         ),
         child: const Icon(Icons.add),
@@ -97,7 +97,9 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
                           barrierColor: Colors.transparent,
                           builder: (_) => RouteUtil.createPageProvider(
                             provider: (_) => NoteEditorProvider(),
-                            child: NoteEditorPage(),
+                            child: NoteEditorPage(
+                              editor.QuillController.basic(),
+                            ),
                           ),
                         );
                         return true;
