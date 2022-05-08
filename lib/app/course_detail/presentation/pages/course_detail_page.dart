@@ -3,15 +3,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/common/presentation/widgets/w_blur.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_about_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_discuss_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_lessions_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_ratings_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
-import 'package:mi_learning/app/course_detail/presentation/widgets/expandable_text.dart';
-import 'package:mi_learning/app/course_detail/presentation/widgets/rating_bar.dart';
-import 'package:mi_learning/app/dashboard/presentation/widgets/rating_widget.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
@@ -58,29 +54,22 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailProvider> {
               ),
             ),
             SizedBox(height: AppDimens.largeHeightDimens),
-            Container(
-              height: 0.3.sh,
-              child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: 3,
-                itemBuilder: (_, index) => Card(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: AppDimens.smallWidthDimens,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppDimens.largeRadius),
-                  ),
-                  child: Image.asset(
-                    'assets/images/flutter-course.jpeg',
-                    scale: 0.8,
-                    fit: BoxFit.cover,
-                  ),
-                  elevation: AppDimens.largeElevation,
-                  clipBehavior: Clip.hardEdge,
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppDimens.largeRadius),
                 ),
+                child: Image.asset(
+                  'assets/images/hoang_thinh.png',
+                  fit: BoxFit.cover,
+                  alignment: Alignment.center,
+                ),
+                elevation: AppDimens.largeElevation,
+                clipBehavior: Clip.hardEdge,
               ),
             ),
+            SizedBox(height: AppDimens.largeHeightDimens),
             const Expanded(child: _CouseDetailAppBar())
           ],
         ),
@@ -186,6 +175,7 @@ class __CouseDetailAppBarState extends State<_CouseDetailAppBar>
             unselectedLabelStyle: context.textTheme.titleMedium,
             indicatorColor: AppColors.secondary,
             indicatorSize: TabBarIndicatorSize.label,
+            labelPadding: EdgeInsets.zero,
             tabs: const [
               Tab(text: 'About'),
               Tab(text: 'Lession'),

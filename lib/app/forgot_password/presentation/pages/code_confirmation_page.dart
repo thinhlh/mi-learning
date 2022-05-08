@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
-import 'package:mi_learning/app/common/presentation/widgets/dialog/w_error_dialog.dart';
+import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
 import 'package:mi_learning/app/common/presentation/widgets/w_back_button.dart';
 import 'package:mi_learning/app/forgot_password/presentation/providers/code_confirmation_provider.dart';
 import 'package:mi_learning/app/forgot_password/presentation/widgets/w_code_field.dart';
@@ -52,37 +52,43 @@ class CodeConfirmationPage
                 if (result == 2) {
                   provider.showDialog(
                     context,
-                    WErrorDialog(
+                    WDialog(
                       dialogType: DialogType.success,
                       content:
                           'You have changed your password. Please proceed your experience.',
-                      onActionProceed: () {
-                        navigator.pushNamed(Routes.home);
-                      },
+                      onActions: [
+                        () {
+                          navigator.pushNamed(Routes.home);
+                        }
+                      ],
                     ),
                   );
                 } else if (result == 1) {
                   provider.showDialog(
                     context,
-                    WErrorDialog(
+                    WDialog(
                       dialogType: DialogType.error,
                       content:
                           'Your transaction was declined by the bank due to the insufficient funds. Please try again.',
-                      onActionProceed: () {
-                        navigator.pushNamed(Routes.home);
-                      },
+                      onActions: [
+                        () {
+                          navigator.pushNamed(Routes.home);
+                        }
+                      ],
                     ),
                   );
                 } else {
                   provider.showDialog(
                     context,
-                    WErrorDialog(
+                    WDialog(
                       dialogType: DialogType.info,
                       content:
                           'You have to fill in your verification code. After that click verify to proceed changing the password.',
-                      onActionProceed: () {
-                        navigator.pushNamed(Routes.home);
-                      },
+                      onActions: [
+                        () {
+                          navigator.pushNamed(Routes.home);
+                        }
+                      ],
                     ),
                   );
                 }

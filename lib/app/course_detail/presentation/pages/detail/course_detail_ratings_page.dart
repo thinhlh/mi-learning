@@ -30,6 +30,7 @@ class CourseDetailRatingsPage extends StatelessWidget {
                     flex: 2,
                     child: RatingWidget(
                       showValue: true,
+                      showRatingAnimation: true,
                       rating: 4.0,
                       direction: Axis.vertical,
                       showSubTitle: true,
@@ -74,8 +75,8 @@ class CourseDetailRatingsPage extends StatelessWidget {
           ),
           SizedBox(height: AppDimens.largeHeightDimens),
           Container(
-            padding: EdgeInsets.only(left: AppDimens.smallWidthDimens),
             alignment: Alignment.centerLeft,
+            padding: EdgeInsets.only(left: AppDimens.smallWidthDimens),
             child: Text(
               'Reviews',
               style: context.textTheme.titleLarge?.copyWith(
@@ -88,6 +89,7 @@ class CourseDetailRatingsPage extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (_, index) => ListTile(
+              minVerticalPadding: AppDimens.mediumHeightDimens,
               // contentPadding: EdgeInsets.all(0),
               isThreeLine: true,
               leading: const CircleAvatar(
@@ -95,11 +97,21 @@ class CourseDetailRatingsPage extends StatelessWidget {
                   'assets/images/user-avatar-3.jpg',
                 ),
               ),
-              title: Text(
-                'Leo Parker',
-                style: context.textTheme.titleMedium?.copyWith(
-                  fontWeight: AppStyles.bold,
-                ),
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Leo Parker',
+                    style: context.textTheme.titleMedium?.copyWith(
+                      fontWeight: AppStyles.bold,
+                    ),
+                  ),
+                  RatingWidget(
+                    rating: 4.5,
+                    showValue: false,
+                    starSize: AppDimens.smallIcon,
+                  )
+                ],
               ),
               subtitle: ExpandableText(
                 text:

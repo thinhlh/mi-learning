@@ -71,6 +71,12 @@ class AppDimens {
   /// Avatar
   static final double avatar = 56.r;
 
+  /// Small Icon
+  static final double smallIcon = 16.r;
+
+  /// Medium Icon
+  static final double mediumIcon = 24.r;
+
   /// Large Icon
   static final double largeIcon = 48.r;
 }

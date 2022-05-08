@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:mi_learning/app/app.dart';
 import 'package:mi_learning/config/languages.dart';
 import 'package:mi_learning/core/env/app_config.dart';
@@ -40,5 +41,8 @@ class AppRunner {
 
   Future<void> _appConfigurations() async {
     Intl.defaultLocale = Languages.defaultLocaleString;
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
   }
 }

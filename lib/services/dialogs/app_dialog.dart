@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mi_learning/app/common/presentation/widgets/dialog/w_error_dialog.dart';
+import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
 
 class AppDialog {
   static BuildContext? _context;
@@ -10,7 +10,7 @@ class AppDialog {
   /// Show the dialog and store it's context for further dismiss
   static Future<T?> showAppDialog<T>(
     BuildContext context,
-    WErrorDialog dialog,
+    WDialog dialog,
   ) {
     _context = context;
     return showDialog<T>(

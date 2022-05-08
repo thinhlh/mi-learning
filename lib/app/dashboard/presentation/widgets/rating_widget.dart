@@ -1,7 +1,6 @@
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
@@ -10,12 +9,16 @@ class RatingWidget extends StatefulWidget {
   final Axis direction;
   final bool showValue;
   final bool showSubTitle;
+  final bool showRatingAnimation;
+  final double? starSize;
   RatingWidget({
     Key? key,
     required this.rating,
     this.direction = Axis.horizontal,
     this.showValue = true,
     this.showSubTitle = false,
+    this.showRatingAnimation = false,
+    this.starSize,
   }) : super(key: key);
 
   @override
@@ -23,11 +26,14 @@ class RatingWidget extends StatefulWidget {
 }
 
 class _RatingWidgetState extends State<RatingWidget> {
-  double currentRatingValue = 0.0;
+  late double currentRatingValue;
+  late final List<Widget> stars;
 
   @override
-  Widget build(BuildContext context) {
-    final List<Widget> stars = List.generate(
+  void initState() {
+    currentRatingValue = widget.showRatingAnimation ? 0.0 : widget.rating;
+
+    stars = List.generate(
       5,
       (index) => AnimatedContainer(
         duration: const Duration(milliseconds: 500),
@@ -38,17 +44,24 @@ class _RatingWidgetState extends State<RatingWidget> {
                   ? Icons.star_half
                   : Icons.star_outline,
           color: Colors.yellow.shade800,
+          size: widget.starSize,
         ),
       ),
     );
+    super.initState();
+  }
 
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
-      if (mounted) {
-        setState(() {
-          currentRatingValue = widget.rating;
-        });
-      }
-    });
+  @override
+  Widget build(BuildContext context) {
+    if (widget.showRatingAnimation) {
+      SchedulerBinding.instance?.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() {
+            currentRatingValue = widget.rating;
+          });
+        }
+      });
+    }
 
     return Flex(
       direction: widget.direction,
@@ -67,23 +80,20 @@ class _RatingWidgetState extends State<RatingWidget> {
             ),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: AppDimens.mediumWidthDimens),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: stars,
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: stars,
+            ),
+            Visibility(
+              visible: widget.showSubTitle,
+              child: Text(
+                'Based on 252 reviews',
+                style: context.textTheme.caption,
               ),
-              Visibility(
-                visible: widget.showSubTitle,
-                child: Text(
-                  'Based on 252 reviews',
-                  style: context.textTheme.caption,
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         )
       ],
     );

@@ -8,14 +8,18 @@ abstract class PageStateless<T extends DialogProvider> extends StatelessWidget
     implements PageActions {
   PageStateless({Key? key}) : super(key: key);
 
+  bool _initialized = false;
   late final NavigatorState navigator;
   late final T provider;
 
   @override
   Widget build(BuildContext context) {
-    provider = Provider.of<T>(context, listen: false);
-    navigator = context.navigator;
-    initialization(context);
+    if (!_initialized) {
+      provider = Provider.of<T>(context, listen: false);
+      navigator = context.navigator;
+      initialization(context);
+      _initialized = true;
+    }
 
     return Scaffold(
       body: SafeArea(

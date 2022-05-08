@@ -26,6 +26,7 @@ class App extends StatelessWidget {
           builder: () => Builder(
             builder: (context) {
               return MaterialApp(
+                navigatorObservers: [Routes.routeObserver],
                 debugShowCheckedModeBanner: false,
                 localizationsDelegates: context.localizationDelegates,
                 locale: context.locale,

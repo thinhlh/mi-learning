@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mi_learning/app/common/presentation/widgets/dialog/w_error_dialog.dart';
+import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
 import 'package:mi_learning/base/presentation/providers/app_provider.dart';
 import 'package:mi_learning/services/dialogs/app_dialog.dart';
 
 abstract class DialogProvider extends AppProvider {
-  Future<T?> showDialog<T>(BuildContext context, WErrorDialog dialog) {
+  Future<T?> showDialog<T>(BuildContext context, WDialog dialog) {
     return AppDialog.showAppDialog<T>(context, dialog);
   }
 
