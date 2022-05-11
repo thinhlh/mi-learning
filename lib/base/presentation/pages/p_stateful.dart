@@ -6,25 +6,20 @@ import 'package:provider/provider.dart';
 
 abstract class PageStateful<T extends DialogProvider, P extends StatefulWidget>
     extends State<P> implements PageActions {
-  bool initialized = false;
   late final NavigatorState navigator;
   late final T provider;
 
   @override
-  void initState() {
-    super.initState();
-    if (!initialized) {
-      provider = Provider.of<T>(context, listen: false);
-      navigator = context.navigator;
-      initialization(context);
-      initialized = true;
-    }
+  void didChangeDependencies() {
+    provider = Provider.of<T>(context, listen: false);
+    navigator = context.navigator;
+    initialization(context);
+
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    initialization(context);
-
     return Scaffold(
       body: SafeArea(
         child: buildPage(context),

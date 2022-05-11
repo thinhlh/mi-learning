@@ -131,6 +131,7 @@ class DashboardPage extends PageLoadingStateless<DashboardProvider> {
           height: 0.16.sh,
           margin: EdgeInsets.only(top: AppDimens.mediumHeightDimens),
           child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
             itemBuilder: (_, index) => const MyCourseWidget(),
             scrollDirection: Axis.horizontal,
             itemCount: 30,

@@ -22,6 +22,7 @@ abstract class PageStateless<T extends DialogProvider> extends StatelessWidget
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: buildPage(context),
       ),

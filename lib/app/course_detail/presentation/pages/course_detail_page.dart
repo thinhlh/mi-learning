@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_about_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_discuss_page.dart';

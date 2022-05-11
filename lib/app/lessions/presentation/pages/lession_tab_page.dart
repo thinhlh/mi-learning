@@ -28,6 +28,7 @@ class __LessionTabPageState extends State<_LessionTabPage>
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           toolbarHeight: 0,

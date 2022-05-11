@@ -89,38 +89,12 @@ class CourseWidget extends StatelessWidget {
                         ],
                       ),
                       SizedBox(height: AppDimens.smallHeightDimens),
-                      FittedBox(
-                        child: Wrap(
-                          spacing: AppDimens.mediumWidthDimens,
-                          children: [
-                            Container(
-                              padding:
-                                  EdgeInsets.all(AppDimens.smallWidthDimens),
-                              color: Colors.amber.shade200,
-                              child: Text(
-                                'Bestseller',
-                                style: context.textTheme.labelLarge,
-                              ),
-                            ),
-                            Container(
-                              padding:
-                                  EdgeInsets.all(AppDimens.smallWidthDimens),
-                              color: Colors.blue.shade200,
-                              child: Text(
-                                'Software',
-                                style: context.textTheme.labelLarge,
-                              ),
-                            ),
-                            Container(
-                              padding:
-                                  EdgeInsets.all(AppDimens.smallWidthDimens),
-                              color: Colors.green.shade200,
-                              child: Text(
-                                'Flutter',
-                                style: context.textTheme.labelLarge,
-                              ),
-                            ),
-                          ],
+                      Container(
+                        padding: EdgeInsets.all(AppDimens.smallWidthDimens),
+                        color: Colors.amber.shade200,
+                        child: Text(
+                          'Bestseller',
+                          style: context.textTheme.labelLarge,
                         ),
                       ),
                     ],

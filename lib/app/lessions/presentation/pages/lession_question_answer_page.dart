@@ -10,16 +10,24 @@ import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class LessionQuestionAnswerPage
     extends PageLoadingStateless<LessionQuestionAnswerProvider> {
+  final editor.QuillController controller = editor.QuillController.basic();
+
   @override
   Widget buildPage(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: AppDimens.largeHeightDimens),
       child: ListView.builder(
+        addAutomaticKeepAlives: true,
         shrinkWrap: true,
         itemBuilder: (_, index) => Comment(
           subComments: index == 0
               ? []
-              : const [Comment(subComments: [], readOnly: true)],
+              : [
+                  Comment(
+                    subComments: const <Comment>[],
+                    readOnly: true,
+                  ),
+                ],
           readOnly: index != 0,
         ),
         itemCount: 20 + 1,
@@ -35,7 +43,7 @@ class Comment extends StatelessWidget {
   final List<Comment> subComments;
   final bool readOnly;
 
-  const Comment({
+  Comment({
     Key? key,
     required this.subComments,
     required this.readOnly,
@@ -70,12 +78,7 @@ class Comment extends StatelessWidget {
                     : Row(
                         children: [
                           Expanded(
-                            child: editor.QuillToolbar.basic(
-                              showDirection: false,
-                              multiRowsDisplay: false,
-                              controller: editor.QuillController.basic(),
-                              showCameraButton: true,
-                            ),
+                            child: TextField(),
                           ),
                           SizedBox(width: AppDimens.largeWidthDimens),
                           GestureDetector(
@@ -92,22 +95,13 @@ class Comment extends StatelessWidget {
                   elevation: 1,
                   borderRadius: BorderRadius.circular(AppDimens.smallRadius),
                   color: Colors.white,
-                  child: editor.QuillEditor(
-                    autoFocus: false,
-                    expands: false,
-                    focusNode: FocusNode(canRequestFocus: true),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: AppDimens.largeWidthDimens,
-                      vertical: AppDimens.largeHeightDimens,
-                    ),
-                    scrollController: ScrollController(),
-                    scrollable: false,
-                    controller: editor.QuillController.basic(),
-                    readOnly: false,
-                  ),
+                  child: Text('This is a comment'),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(
+                    vertical: AppDimens.mediumHeightDimens,
+                    horizontal: AppDimens.mediumWidthDimens,
+                  ),
                   child: Visibility(
                     visible: readOnly,
                     child: Row(

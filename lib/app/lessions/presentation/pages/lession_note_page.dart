@@ -9,6 +9,7 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
         onPressed: () => showModalBottomSheet(
           isScrollControlled: true,
@@ -85,23 +86,47 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
                       focusNode: FocusNode(canRequestFocus: false),
                       // onTapUp: null,
                       onTapDown: (detail, position) {
-                        showModalBottomSheet(
-                          isScrollControlled: true,
+                        showBarModalBottomSheet(
+                          // isScrollControlled: true,
+                          closeProgressThreshold: 0.5,
+                          expand: false,
+                          enableDrag: true,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
                               AppDimens.mediumRadius,
                             ),
                           ),
-                          constraints: _noteEditorConstraint,
                           context: context,
                           barrierColor: Colors.transparent,
                           builder: (_) => RouteUtil.createPageProvider(
                             provider: (_) => NoteEditorProvider(),
-                            child: NoteEditorPage(
-                              editor.QuillController.basic(),
+                            child: SizedBox(
+                              height: 0.9.sh,
+                              child: NoteEditorPage(
+                                editor.QuillController.basic(),
+                              ),
                             ),
                           ),
                         );
+                        // showModalBottomSheet(
+                        //   isScrollControlled: true,
+                        //   shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(
+                        //       AppDimens.mediumRadius,
+                        //     ),
+                        //   ),
+                        //   context: context,
+                        //   barrierColor: Colors.transparent,
+                        //   builder: (_) => RouteUtil.createPageProvider(
+                        //     provider: (_) => NoteEditorProvider(),
+                        //     child: SizedBox(
+                        //       height: 0.9.sh,
+                        //       child: NoteEditorPage(
+                        //         editor.QuillController.basic(),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // );
                         return true;
                       },
                       scrollController: ScrollController(),

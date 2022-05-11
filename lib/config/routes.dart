@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mi_learning/app/auth/presentation/pages/auth_page.dart';
 import 'package:mi_learning/app/auth/presentation/provider/auth_provider.dart';
@@ -16,7 +17,6 @@ import 'package:mi_learning/app/lessions/presentation/providers/note_editor_prov
 import 'package:mi_learning/app/lessions/presentation/providers/lession_provider.dart';
 import 'package:mi_learning/app/test/presentation/pages/test_page.dart';
 import 'package:mi_learning/app/test/presentation/provider/test_provider.dart';
-import 'package:mi_learning/config/route_arguments.dart';
 import 'package:mi_learning/utils/route_util.dart';
 
 class Routes {
@@ -35,6 +35,8 @@ class Routes {
   static const String home = '/home';
   static const String courseDetail = '/course_detail';
   static const String lession = '/lession';
+  static const String explorer = '/explorer';
+  static const String noteEditor = '/note_editor';
 
   /// This is where you handle routing by name and arguments
   static Route<dynamic>? onGenerateRoute(RouteSettings routeSettings) {
@@ -111,22 +113,17 @@ class Routes {
           ),
         );
 
+      case Routes.noteEditor:
+        return CupertinoPageRoute(
+          fullscreenDialog: true,
+          settings: routeSettings,
+          builder: (_) => RouteUtil.createPageProvider<NoteEditorProvider>(
+            provider: (_) => NoteEditorProvider(),
+            child: NoteEditorPage(QuillController.basic()),
+          ),
+        );
       default:
         return null;
     }
-  }
-
-  PageRoute _createRoute(
-    RouteSettings routeSettings,
-    RouteArguments routeDetail,
-  ) {
-    return CupertinoPageRoute(
-      fullscreenDialog: true,
-      settings: routeSettings,
-      builder: (_) => RouteUtil.createPageProvider(
-        provider: (_) => routeDetail.provider,
-        child: routeDetail.page,
-      ),
-    );
   }
 }

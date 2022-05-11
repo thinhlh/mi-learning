@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/lession_question_answer_page.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/note_editor_page.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/lession_course_content_provider.dart';
@@ -16,6 +17,7 @@ import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:mi_learning/utils/route_util.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 part 'lession_tab_page.dart';
 part 'lession_note_page.dart';
