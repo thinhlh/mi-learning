@@ -15,6 +15,7 @@ class _LessionTabPage extends StatefulWidget {
 class __LessionTabPageState extends State<_LessionTabPage>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
+  int currentTabIndex = 0;
 
   @override
   void initState() {
@@ -26,6 +27,7 @@ class __LessionTabPageState extends State<_LessionTabPage>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      initialIndex: currentTabIndex,
       length: 3,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -36,6 +38,26 @@ class __LessionTabPageState extends State<_LessionTabPage>
             labelStyle: context.textTheme.titleMedium?.copyWith(
               fontWeight: AppStyles.bold,
             ),
+            onTap: (index) {
+              if (index == 2) {
+                showBarModalBottomSheet(
+                  context: context,
+                  builder: (_) => RouteUtil.createPageProvider(
+                    provider: (_) => LessionQuestionAnswerProvider(),
+                    child: WillPopScope(
+                      onWillPop: () async {
+                        _tabController.animateTo(currentTabIndex);
+
+                        return true;
+                      },
+                      child: LessionQuestionAnswerPage(),
+                    ),
+                  ),
+                );
+              } else {
+                currentTabIndex = index;
+              }
+            },
             unselectedLabelStyle: context.textTheme.titleMedium,
             indicatorColor: AppColors.secondary,
             indicatorSize: TabBarIndicatorSize.label,

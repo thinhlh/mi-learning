@@ -1,9 +1,11 @@
+import 'dart:collection';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:mi_learning/app/lessions/presentation/providers/lession_question_answer_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
+import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
@@ -14,23 +16,32 @@ class LessionQuestionAnswerPage
 
   @override
   Widget buildPage(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: AppDimens.largeHeightDimens),
-      child: ListView.builder(
-        addAutomaticKeepAlives: true,
-        shrinkWrap: true,
-        itemBuilder: (_, index) => Comment(
-          subComments: index == 0
-              ? []
-              : [
-                  Comment(
-                    subComments: const <Comment>[],
-                    readOnly: true,
-                  ),
-                ],
-          readOnly: index != 0,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Questions & Answers',
+          style: context.textTheme.titleLarge,
         ),
-        itemCount: 20 + 1,
+        automaticallyImplyLeading: false,
+      ),
+      body: Container(
+        margin: EdgeInsets.only(top: AppDimens.largeHeightDimens),
+        child: ListView.builder(
+          addAutomaticKeepAlives: true,
+          shrinkWrap: true,
+          itemBuilder: (_, index) => Comment(
+            subComments: index == 0
+                ? []
+                : [
+                    Comment(
+                      subComments: const <Comment>[],
+                      readOnly: true,
+                    ),
+                  ],
+            readOnly: index != 0,
+          ),
+          itemCount: 20 + 1,
+        ),
       ),
     );
   }
@@ -78,7 +89,20 @@ class Comment extends StatelessWidget {
                     : Row(
                         children: [
                           Expanded(
-                            child: TextField(),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.circular(
+                                    AppDimens.mediumRadius,
+                                  ),
+                                ),
+                                hintText: 'Enter your question...',
+                                fillColor: AppColors.neutral.shade50,
+                                filled: true,
+                              ),
+                              style: context.textTheme.bodyLarge,
+                            ),
                           ),
                           SizedBox(width: AppDimens.largeWidthDimens),
                           GestureDetector(
@@ -90,13 +114,26 @@ class Comment extends StatelessWidget {
                           ),
                         ],
                       ),
-                SizedBox(height: AppDimens.smallHeightDimens),
-                Material(
-                  elevation: 1,
-                  borderRadius: BorderRadius.circular(AppDimens.smallRadius),
-                  color: Colors.white,
-                  child: Text('This is a comment'),
-                ),
+                !readOnly
+                    ? const SizedBox.shrink()
+                    : Material(
+                        elevation: 1,
+                        borderRadius: BorderRadius.circular(
+                          AppDimens.mediumRadius,
+                        ),
+                        color: Colors.white,
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: AppDimens.mediumWidthDimens,
+                            vertical: AppDimens.largeHeightDimens,
+                          ),
+                          child: Text(
+                            'This is a comment',
+                            style: context.textTheme.bodyLarge,
+                          ),
+                        ),
+                      ),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     vertical: AppDimens.mediumHeightDimens,

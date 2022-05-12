@@ -1,15 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/explorer/presentation/providers/explorer_free_provider.dart';
-import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
-import 'package:mi_learning/config/colors.dart';
-import 'package:mi_learning/config/dimens.dart';
-import 'package:mi_learning/config/styles.dart';
-import 'package:mi_learning/utils/extensions/context_extension.dart';
+part of 'explorer_page.dart';
 
-class ExplorerFreePage extends PageLoadingStateless<ExplorerFreeProvider> {
+class _ExplorerFreePage extends PageLoadingStateless<ExplorerFreeProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return SingleChildScrollView(

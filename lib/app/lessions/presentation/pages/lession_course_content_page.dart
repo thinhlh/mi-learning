@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/lession_course_content_provider.dart';
+import 'package:mi_learning/app/lessions/presentation/widgets/custom_expansion_tile.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
@@ -27,20 +29,18 @@ class LessionCourseContentPage
             ),
           ),
           children: [
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (_, index) => ListTile(
+            for (int i = 0; i < 100; i++)
+              ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: Checkbox(
                   value: Random().nextBool(),
                   onChanged: (value) {},
                 ),
                 title: Text(
-                  '${index + 1}. Intro to the course. What\'s coming up?',
+                  '${i + 1}. Intro to the course. What\'s coming up?',
                   style: context.textTheme.bodyMedium,
                 ),
-                selected: index == 0,
+                selected: i == 0,
                 selectedTileColor: AppColors.neutral.shade400,
                 subtitle: Padding(
                   padding: EdgeInsets.only(top: AppDimens.mediumHeightDimens),
@@ -56,8 +56,6 @@ class LessionCourseContentPage
                   ),
                 ),
               ),
-              itemCount: 20,
-            )
           ],
         ),
         itemCount: 100,

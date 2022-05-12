@@ -53,6 +53,36 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailProvider> {
               ),
             ),
             SizedBox(height: AppDimens.largeHeightDimens),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {},
+                child: const Text(
+                  'ENROLL',
+                  style: TextStyle(
+                    letterSpacing: 1,
+                  ),
+                ),
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        AppDimens.mediumRadius,
+                      ),
+                    ),
+                  ),
+                  elevation: MaterialStateProperty.all(
+                    AppDimens.mediumElevation,
+                  ),
+                  padding: MaterialStateProperty.all(
+                    EdgeInsets.symmetric(
+                      vertical: 12.h,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: AppDimens.largeHeightDimens),
             AspectRatio(
               aspectRatio: 16 / 9,
               child: Card(
@@ -69,7 +99,7 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailProvider> {
               ),
             ),
             SizedBox(height: AppDimens.largeHeightDimens),
-            const Expanded(child: _CouseDetailAppBar())
+            const Expanded(child: _CouseDetailTab())
           ],
         ),
       ),
@@ -118,14 +148,14 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailProvider> {
   }
 }
 
-class _CouseDetailAppBar extends StatefulWidget {
-  const _CouseDetailAppBar({Key? key}) : super(key: key);
+class _CouseDetailTab extends StatefulWidget {
+  const _CouseDetailTab({Key? key}) : super(key: key);
 
   @override
-  State<_CouseDetailAppBar> createState() => __CouseDetailAppBarState();
+  State<_CouseDetailTab> createState() => _CouseDetailTabState();
 }
 
-class __CouseDetailAppBarState extends State<_CouseDetailAppBar>
+class _CouseDetailTabState extends State<_CouseDetailTab>
     with TickerProviderStateMixin {
   late final TabController tabController;
   late final AnimationController lessionAnimationController;

@@ -103,6 +103,7 @@ class CourseWidget extends StatelessWidget {
               ],
             ),
           ),
+          elevation: 0,
           color: AppColors.neutral.shade50,
         ),
       ),

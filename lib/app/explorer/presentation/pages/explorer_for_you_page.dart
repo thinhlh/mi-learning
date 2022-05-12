@@ -1,13 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/explorer/presentation/providers/explorer_for_you_provider.dart';
-import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
-import 'package:mi_learning/config/colors.dart';
-import 'package:mi_learning/config/dimens.dart';
-import 'package:mi_learning/config/styles.dart';
-import 'package:mi_learning/utils/extensions/context_extension.dart';
+part of 'explorer_page.dart';
 
-class ExplorerForYouPage extends PageLoadingStateless<ExplorerForYouProvider> {
+class _ExplorerForYouPage extends PageLoadingStateless<ExplorerForYouProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return SingleChildScrollView(

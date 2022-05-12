@@ -20,10 +20,14 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorProvider> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        leading: BackButton(
-          color: context.isDarkMode
-              ? AppColors.neutral.shade200
-              : AppColors.neutral.shade900,
+        leading: IconButton(
+          icon: Icon(
+            Icons.close,
+            color: context.isDarkMode
+                ? AppColors.neutral.shade500
+                : AppColors.neutral.shade900,
+          ),
+          onPressed: () => navigator.pop(),
         ),
         actions: [
           IconButton(

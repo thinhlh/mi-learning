@@ -86,47 +86,8 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
                       focusNode: FocusNode(canRequestFocus: false),
                       // onTapUp: null,
                       onTapDown: (detail, position) {
-                        showBarModalBottomSheet(
-                          // isScrollControlled: true,
-                          closeProgressThreshold: 0.5,
-                          expand: false,
-                          enableDrag: true,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                              AppDimens.mediumRadius,
-                            ),
-                          ),
-                          context: context,
-                          barrierColor: Colors.transparent,
-                          builder: (_) => RouteUtil.createPageProvider(
-                            provider: (_) => NoteEditorProvider(),
-                            child: SizedBox(
-                              height: 0.9.sh,
-                              child: NoteEditorPage(
-                                editor.QuillController.basic(),
-                              ),
-                            ),
-                          ),
-                        );
-                        // showModalBottomSheet(
-                        //   isScrollControlled: true,
-                        //   shape: RoundedRectangleBorder(
-                        //     borderRadius: BorderRadius.circular(
-                        //       AppDimens.mediumRadius,
-                        //     ),
-                        //   ),
-                        //   context: context,
-                        //   barrierColor: Colors.transparent,
-                        //   builder: (_) => RouteUtil.createPageProvider(
-                        //     provider: (_) => NoteEditorProvider(),
-                        //     child: SizedBox(
-                        //       height: 0.9.sh,
-                        //       child: NoteEditorPage(
-                        //         editor.QuillController.basic(),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // );
+                        navigator.pushNamed(Routes.noteEditor);
+
                         return true;
                       },
                       scrollController: ScrollController(),

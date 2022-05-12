@@ -1,6 +1,8 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mi_learning/app/calendar/presentation/pages/calendar_page.dart';
+import 'package:mi_learning/app/calendar/presentation/providers/calendar_provider.dart';
 import 'package:mi_learning/app/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:mi_learning/app/dashboard/presentation/providers/dashboard_provider.dart';
 import 'package:mi_learning/app/explorer/presentation/pages/explorer_page.dart';
@@ -31,14 +33,9 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
               child: ExplorerPage(),
             );
           case 2:
-            return GestureDetector(
-              onTap: () => FirebaseCrashlytics.instance.crash(),
-              child: Center(
-                child: Text(
-                  'Crash',
-                  style: context.textTheme.headlineLarge,
-                ),
-              ),
+            return RouteUtil.createPageProvider(
+              child: CalendarPage(),
+              provider: (_) => CalendarProvider(),
             );
           case 3:
             return GestureDetector(
@@ -55,6 +52,8 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
         }
       }),
       tabBar: CupertinoTabBar(
+        backgroundColor: Colors.transparent,
+        border: Border.all(style: BorderStyle.none),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home)),
           BottomNavigationBarItem(icon: Icon(Icons.explore)),

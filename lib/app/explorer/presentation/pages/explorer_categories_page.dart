@@ -1,12 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:mi_learning/app/explorer/presentation/providers/explorer_categories_provider.dart';
-import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
-import 'package:mi_learning/config/dimens.dart';
-import 'package:mi_learning/utils/extensions/context_extension.dart';
+part of 'explorer_page.dart';
 
-class ExplorerCategoriesPage
+class _ExplorerCategoriesPage
     extends PageLoadingStateless<ExplorerCategoriesProvider> {
   @override
   Widget buildPage(BuildContext context) {
