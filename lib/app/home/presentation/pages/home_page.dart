@@ -54,6 +54,8 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
       tabBar: CupertinoTabBar(
         backgroundColor: Colors.transparent,
         border: Border.all(style: BorderStyle.none),
+        // currentIndex: 3,
+        // height: 0,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home)),
           BottomNavigationBarItem(icon: Icon(Icons.explore)),

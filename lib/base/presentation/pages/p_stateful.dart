@@ -19,6 +19,11 @@ abstract class PageStateful<T extends DialogProvider, P extends StatefulWidget>
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(

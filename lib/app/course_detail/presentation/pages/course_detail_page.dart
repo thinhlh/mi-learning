@@ -188,6 +188,13 @@ class _CouseDetailTabState extends State<_CouseDetailTab>
   }
 
   @override
+  void dispose() {
+    tabController.dispose();
+    lessionAnimationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
@@ -198,6 +205,7 @@ class _CouseDetailTabState extends State<_CouseDetailTab>
           backgroundColor: Colors.transparent,
           toolbarHeight: 0,
           bottom: TabBar(
+            physics: const BouncingScrollPhysics(),
             labelStyle: context.textTheme.titleMedium?.copyWith(
               fontWeight: AppStyles.bold,
             ),
@@ -215,6 +223,7 @@ class _CouseDetailTabState extends State<_CouseDetailTab>
           ),
         ),
         body: TabBarView(
+          physics: const BouncingScrollPhysics(),
           controller: tabController,
           children: [
             const CourseDetailAboutPage(),

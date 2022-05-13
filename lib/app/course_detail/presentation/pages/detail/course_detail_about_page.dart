@@ -13,6 +13,7 @@ class CourseDetailAboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
           SizedBox(height: AppDimens.largeHeightDimens),

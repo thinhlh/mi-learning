@@ -24,10 +24,12 @@ class _LiveEventCardState extends State<LiveEventCard>
 
   bool isFront = true;
 
+  late final Timer timer;
+
   @override
   void initState() {
     super.initState();
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         _duration = Duration(seconds: _duration.inSeconds - 1);
       });
@@ -36,6 +38,7 @@ class _LiveEventCardState extends State<LiveEventCard>
 
   @override
   void dispose() {
+    timer.cancel();
     super.dispose();
     flipController.controller?.dispose();
   }
@@ -71,7 +74,7 @@ class _LiveEventCardState extends State<LiveEventCard>
           vertical: AppDimens.largeHeightDimens,
         ),
         width: double.infinity,
-        height: 0.22.sh,
+        // height: 0.22.sh,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppDimens.largeRadius),
           image: const DecorationImage(
@@ -90,14 +93,12 @@ class _LiveEventCardState extends State<LiveEventCard>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              DateTimeHelper.formatDuration(_duration),
-              style: context.textTheme.titleLarge,
-            ),
-          ],
+        Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            DateTimeHelper.formatDuration(_duration),
+            style: context.textTheme.titleLarge,
+          ),
         ),
         SizedBox(height: AppDimens.mediumHeightDimens),
         Text(
@@ -113,7 +114,7 @@ class _LiveEventCardState extends State<LiveEventCard>
             fontWeight: AppStyles.bold,
           ),
         ),
-        const Spacer(),
+        SizedBox(height: AppDimens.largeHeightDimens),
         Row(
           children: [
             Text(

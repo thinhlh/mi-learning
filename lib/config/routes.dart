@@ -15,6 +15,8 @@ import 'package:mi_learning/app/lessions/presentation/pages/note_editor_page.dar
 import 'package:mi_learning/app/lessions/presentation/pages/lession_page.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/note_editor_provider.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/lession_provider.dart';
+import 'package:mi_learning/app/setting/presentation/pages/setting_page.dart';
+import 'package:mi_learning/app/setting/presentation/providers/setting_provider.dart';
 import 'package:mi_learning/app/test/presentation/pages/test_page.dart';
 import 'package:mi_learning/app/test/presentation/provider/test_provider.dart';
 import 'package:mi_learning/utils/route_util.dart';
@@ -37,6 +39,7 @@ class Routes {
   static const String lession = '/lession';
   static const String explorer = '/explorer';
   static const String noteEditor = '/note_editor';
+  static const String setting = '/setting';
 
   /// This is where you handle routing by name and arguments
   static Route<dynamic>? onGenerateRoute(RouteSettings routeSettings) {
@@ -120,6 +123,16 @@ class Routes {
           builder: (_) => RouteUtil.createPageProvider<NoteEditorProvider>(
             provider: (_) => NoteEditorProvider(),
             child: NoteEditorPage(QuillController.basic()),
+          ),
+        );
+
+      case Routes.setting:
+        return CupertinoPageRoute(
+          fullscreenDialog: true,
+          settings: routeSettings,
+          builder: (_) => RouteUtil.createPageProvider<SettingProvider>(
+            provider: (_) => SettingProvider(),
+            child: SettingPage(),
           ),
         );
       default:

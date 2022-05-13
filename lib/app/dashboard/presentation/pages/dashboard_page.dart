@@ -8,6 +8,7 @@ import 'package:mi_learning/app/dashboard/presentation/widgets/my_course_widget.
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
+import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
@@ -24,6 +25,7 @@ class DashboardPage extends PageLoadingStateless<DashboardProvider> {
           vertical: AppDimens.largeHeightDimens,
         ),
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,13 +54,16 @@ class DashboardPage extends PageLoadingStateless<DashboardProvider> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox.square(
-            dimension: AppDimens.avatar,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(50),
-              child: Image.asset(
-                'assets/images/avatar.jpg',
-                fit: BoxFit.cover,
+          GestureDetector(
+            onTap: () => navigator.pushNamed(Routes.setting),
+            child: SizedBox.square(
+              dimension: AppDimens.avatar,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: Image.asset(
+                  'assets/images/avatar.jpg',
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
@@ -70,7 +75,7 @@ class DashboardPage extends PageLoadingStateless<DashboardProvider> {
               Text(
                 'Hoang Thinh',
                 style: context.textTheme.titleLarge?.copyWith(
-                  fontSize: 24.sp,
+                  fontSize: 20.sp,
                   fontWeight: AppStyles.extraBold,
                 ),
               ),
@@ -78,7 +83,7 @@ class DashboardPage extends PageLoadingStateless<DashboardProvider> {
               Text(
                 'Developer',
                 style: context.textTheme.bodySmall?.copyWith(
-                  fontSize: 18.sp,
+                  fontSize: 16.sp,
                 ),
               ),
             ],
@@ -156,6 +161,7 @@ class DashboardPage extends PageLoadingStateless<DashboardProvider> {
           height: 0.42.sh,
           margin: EdgeInsets.only(top: AppDimens.mediumHeightDimens),
           child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
             itemBuilder: (_, index) => CourseWidget(id: index),
             scrollDirection: Axis.horizontal,
             itemCount: 30,

@@ -94,7 +94,7 @@ class CourseWidget extends StatelessWidget {
                         color: Colors.amber.shade200,
                         child: Text(
                           'Bestseller',
-                          style: context.textTheme.labelLarge,
+                          style: context.textTheme.labelMedium,
                         ),
                       ),
                     ],
