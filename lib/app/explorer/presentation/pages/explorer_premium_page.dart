@@ -24,7 +24,7 @@ class _ExplorerPremiumPage
                     ),
                     IconButton(
                       onPressed: () {},
-                      icon: Icon(Icons.arrow_forward_ios_rounded),
+                      icon: const Icon(Icons.arrow_forward_ios_rounded),
                     )
                   ],
                 ),
@@ -104,7 +104,7 @@ class _ExplorerPremiumPage
                     ),
                     IconButton(
                       onPressed: () {},
-                      icon: Icon(Icons.arrow_forward_ios_rounded),
+                      icon: const Icon(Icons.arrow_forward_ios_rounded),
                     )
                   ],
                 ),
@@ -184,7 +184,7 @@ class _ExplorerPremiumPage
                     ),
                     IconButton(
                       onPressed: () {},
-                      icon: Icon(Icons.arrow_forward_ios_rounded),
+                      icon: const Icon(Icons.arrow_forward_ios_rounded),
                     )
                   ],
                 ),

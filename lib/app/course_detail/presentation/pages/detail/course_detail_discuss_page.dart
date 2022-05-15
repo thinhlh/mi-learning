@@ -12,7 +12,7 @@ class CourseDetailDiscussPage extends StatelessWidget {
       backgroundColor: Colors.transparent,
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: Icon(Icons.create),
+        child: const Icon(Icons.create),
       ),
       body: ListView.separated(
         padding: EdgeInsets.only(
@@ -53,7 +53,7 @@ class CourseDetailDiscussPage extends StatelessWidget {
               '$index openned 11 days ago by venetus',
               maxLines: 1,
             ),
-            trailing: Icon(Icons.arrow_forward_ios_rounded),
+            trailing: const Icon(Icons.arrow_forward_ios_rounded),
           ),
         ),
         itemCount: 10,

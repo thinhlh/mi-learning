@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/setting/presentation/providers/setting_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
@@ -9,18 +7,60 @@ import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
+class Setting {
+  final String title;
+  final String? subtitle;
+  final void Function() onPressed;
+  final bool isSwitch;
+
+  Setting({
+    required this.title,
+    this.subtitle,
+    required this.onPressed,
+    required this.isSwitch,
+  });
+}
+
 class SettingPage extends PageLoadingStateless<SettingProvider> {
+  final Map<String, List<Setting>> settings = {
+    "Account": [
+      Setting(
+        title: 'Edit profile',
+        onPressed: () {},
+        isSwitch: false,
+      ),
+      Setting(
+        title: 'Change password',
+        onPressed: () {},
+        isSwitch: true,
+      ),
+    ],
+    "Preferences": [
+      Setting(
+        title: 'Language',
+        subtitle: 'Vietnamese',
+        onPressed: () {},
+        isSwitch: false,
+      ),
+      Setting(
+        title: 'Saved Courses',
+        onPressed: () {},
+        isSwitch: true,
+      ),
+    ],
+  };
+
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () => navigator.pop(),
           color: context.isDarkMode
               ? AppColors.neutral.shade500
               : AppColors.neutral.shade900,
-          icon: Icon(Icons.arrow_back_ios_new_rounded),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded),
         ),
         title: Text(
           'Settings',
@@ -55,89 +95,73 @@ class SettingPage extends PageLoadingStateless<SettingProvider> {
                 style: context.textTheme.titleLarge,
               ),
             ),
-            SizedBox(height: AppDimens.extraLargeHeightDimens),
-            Text(
-              'Account',
-              style: context.textTheme.titleMedium,
-            ),
             SizedBox(height: AppDimens.mediumHeightDimens),
-            Material(
-              elevation: 1,
-              borderRadius: BorderRadius.circular(AppDimens.mediumRadius),
-              child: Column(
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                'Developer',
+                style: context.textTheme.subtitle1,
+              ),
+            ),
+            SizedBox(height: AppDimens.extraLargeHeightDimens),
+            ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              separatorBuilder: (context, index) =>
+                  SizedBox(height: AppDimens.largeHeightDimens),
+              shrinkWrap: true,
+              itemBuilder: (_, parentIndex) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ListTile(
-                    title: Text('Edit profile'),
-                    trailing: Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 16.r,
-                    ),
+                  Text(
+                    settings.keys.toList()[parentIndex],
+                    style: context.textTheme.titleMedium,
                   ),
-                  ListTile(
-                    title: Text('Change password'),
-                    trailing: Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 16.r,
+                  SizedBox(height: AppDimens.mediumHeightDimens),
+                  Material(
+                    elevation: 1,
+                    borderRadius: BorderRadius.circular(AppDimens.mediumRadius),
+                    child: ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      separatorBuilder: (context, index) => Divider(
+                        height: 1.h,
+                      ),
+                      shrinkWrap: true,
+                      itemBuilder: (_, index) {
+                        final setting =
+                            settings.values.toList()[parentIndex][index];
+
+                        return Column(
+                          children: [
+                            ListTile(
+                              title: Text(setting.title),
+                              subtitle: setting.subtitle != null
+                                  ? Text(setting.subtitle ?? "")
+                                  : null,
+                              trailing: setting.isSwitch
+                                  ? Transform.scale(
+                                      alignment: Alignment.centerRight,
+                                      scaleY: 0.8,
+                                      scaleX: 0.8,
+                                      child: Switch.adaptive(
+                                        activeColor: AppColors.tetiary,
+                                        value: true,
+                                        onChanged: (value) {},
+                                      ),
+                                    )
+                                  : Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      size: 16.r,
+                                    ),
+                            ),
+                          ],
+                        );
+                      },
+                      itemCount: 2,
                     ),
                   ),
                 ],
               ),
-            ),
-            SizedBox(height: AppDimens.extraLargeHeightDimens),
-            Text(
-              'Account',
-              style: context.textTheme.titleMedium,
-            ),
-            SizedBox(height: AppDimens.mediumHeightDimens),
-            Material(
-              elevation: 1,
-              borderRadius: BorderRadius.circular(AppDimens.mediumRadius),
-              child: Column(
-                children: [
-                  ListTile(
-                    title: Text('Edit profile'),
-                    trailing: Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 16.r,
-                    ),
-                  ),
-                  ListTile(
-                    title: Text('Change password'),
-                    trailing: Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 16.r,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: AppDimens.extraLargeHeightDimens),
-            Text(
-              'Account',
-              style: context.textTheme.titleMedium,
-            ),
-            SizedBox(height: AppDimens.mediumHeightDimens),
-            Material(
-              elevation: 1,
-              borderRadius: BorderRadius.circular(AppDimens.mediumRadius),
-              child: Column(
-                children: [
-                  ListTile(
-                    title: Text('Edit profile'),
-                    trailing: Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 16.r,
-                    ),
-                  ),
-                  ListTile(
-                    title: Text('Change password'),
-                    trailing: Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 16.r,
-                    ),
-                  ),
-                ],
-              ),
+              itemCount: settings.length,
             ),
             SizedBox(height: AppDimens.extraLargeHeightDimens),
             SizedBox(

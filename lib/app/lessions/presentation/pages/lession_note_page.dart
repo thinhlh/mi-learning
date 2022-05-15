@@ -39,7 +39,7 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
                   borderRadius: BorderRadius.circular(AppDimens.mediumRadius),
                 ),
                 hintText: 'Search notes',
-                suffixIcon: Icon(Icons.search),
+                suffixIcon: const Icon(Icons.search),
               ),
             ),
           ),

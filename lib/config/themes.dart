@@ -63,6 +63,10 @@ class AppTheme {
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
     brightness: Brightness.dark,
+    appBarTheme: AppBarTheme(
+      backgroundColor: AppColors.neutral.shade800,
+      elevation: 0,
+    ),
     textTheme: TextTheme(
       headline1: GoogleFonts.robotoSlab(
           fontSize: 96, fontWeight: FontWeight.w300, letterSpacing: -1.5),

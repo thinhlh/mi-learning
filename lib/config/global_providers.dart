@@ -1,4 +1,3 @@
-import 'package:mi_learning/app/dashboard/presentation/providers/dashboard_provider.dart';
 import 'package:provider/provider.dart';
 
 class GlobalProviders {

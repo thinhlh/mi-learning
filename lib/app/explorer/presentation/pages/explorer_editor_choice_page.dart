@@ -24,7 +24,7 @@ class _ExplorerEditorChoicePage
                       ),
                     ),
                     IconButton(
-                      icon: Icon(Icons.close),
+                      icon: const Icon(Icons.close),
                       onPressed: () {},
                     ),
                   ],
@@ -78,7 +78,7 @@ class _ExplorerEditorChoicePage
                 style: context.textTheme.titleLarge,
               ),
               IconButton(
-                icon: Icon(Icons.arrow_forward_ios_rounded),
+                icon: const Icon(Icons.arrow_forward_ios_rounded),
                 onPressed: () {},
               ),
             ],

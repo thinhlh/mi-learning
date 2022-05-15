@@ -21,7 +21,7 @@ class _ExplorerForYouPage extends PageLoadingStateless<ExplorerForYouProvider> {
                 ),
               ),
               IconButton(
-                  icon: Icon(Icons.arrow_forward_ios_rounded),
+                  icon: const Icon(Icons.arrow_forward_ios_rounded),
                   onPressed: () {}),
             ],
           ),
@@ -168,7 +168,7 @@ class _ExplorerForYouPage extends PageLoadingStateless<ExplorerForYouProvider> {
                 ),
               ),
               IconButton(
-                  icon: Icon(Icons.arrow_forward_ios_rounded),
+                  icon: const Icon(Icons.arrow_forward_ios_rounded),
                   onPressed: () {}),
             ],
           ),

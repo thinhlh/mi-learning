@@ -1,9 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/config/global_providers.dart';
 import 'package:mi_learning/config/themes.dart';
-import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/languages.dart';

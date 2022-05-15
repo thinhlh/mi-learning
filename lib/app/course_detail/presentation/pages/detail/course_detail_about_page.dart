@@ -85,7 +85,7 @@ class CourseDetailAboutPage extends StatelessWidget {
                   fontWeight: AppStyles.bold,
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               StatefulBuilder(builder: (context, setState) {
                 return Row(
                   children: [

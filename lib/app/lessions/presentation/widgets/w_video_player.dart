@@ -49,7 +49,7 @@ class _WVideoPlayerState extends State<WVideoPlayer> {
       subtitle: Subtitles([
         Subtitle(
           index: 0,
-          start: Duration(seconds: 0),
+          start: const Duration(seconds: 0),
           end: _controller.value.duration,
           text: Text(
             'This is the video subtitle.',

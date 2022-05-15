@@ -1,3 +1,3 @@
 import 'package:mi_learning/base/presentation/providers/loading_provider.dart';
 
-class LessionNotePageProvider extends LoadingProvider {}
+class TimerChosenProvider extends LoadingProvider {}

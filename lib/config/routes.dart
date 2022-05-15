@@ -3,6 +3,10 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mi_learning/app/auth/presentation/pages/auth_page.dart';
 import 'package:mi_learning/app/auth/presentation/provider/auth_provider.dart';
+import 'package:mi_learning/app/calendar/presentation/pages/schedule_detail_page.dart';
+import 'package:mi_learning/app/calendar/presentation/pages/timer_chosen_page.dart';
+import 'package:mi_learning/app/calendar/presentation/providers/schedule_detail_provider.dart';
+import 'package:mi_learning/app/calendar/presentation/providers/timer_chosen_provider.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/course_detail_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
 import 'package:mi_learning/app/forgot_password/presentation/pages/code_confirmation_page.dart';
@@ -11,6 +15,8 @@ import 'package:mi_learning/app/forgot_password/presentation/providers/code_conf
 import 'package:mi_learning/app/forgot_password/presentation/providers/forgot_password_provider.dart';
 import 'package:mi_learning/app/home/presentation/pages/home_page.dart';
 import 'package:mi_learning/app/home/presentation/providers/home_provider.dart';
+import 'package:mi_learning/app/landing/presentation/pages/landing_page.dart';
+import 'package:mi_learning/app/landing/presentation/providers/landing_provider.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/note_editor_page.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/lession_page.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/note_editor_provider.dart';
@@ -29,6 +35,7 @@ class Routes {
 
   static String get initial => home;
 
+  static const String landing = '/landing';
   static const String test = '/test';
   static const String about = '/about';
   static const String auth = '/auth';
@@ -40,10 +47,22 @@ class Routes {
   static const String explorer = '/explorer';
   static const String noteEditor = '/note_editor';
   static const String setting = '/setting';
+  static const String scheduleDetail = '/schedule_detail';
+  static const String timerChosen = '/timer_chosen';
 
   /// This is where you handle routing by name and arguments
   static Route<dynamic>? onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
+      case Routes.landing:
+        return CupertinoPageRoute(
+          fullscreenDialog: true,
+          settings: routeSettings,
+          builder: (_) => RouteUtil.createPageProvider<LandingProvider>(
+            provider: (_) => LandingProvider(),
+            child: LandingPage(),
+          ),
+        );
+
       case Routes.test:
         return CupertinoPageRoute(
           fullscreenDialog: true,
@@ -133,6 +152,26 @@ class Routes {
           builder: (_) => RouteUtil.createPageProvider<SettingProvider>(
             provider: (_) => SettingProvider(),
             child: SettingPage(),
+          ),
+        );
+
+      case Routes.scheduleDetail:
+        return CupertinoPageRoute(
+          fullscreenDialog: true,
+          settings: routeSettings,
+          builder: (_) => RouteUtil.createPageProvider<ScheduleDetailProvider>(
+            provider: (_) => ScheduleDetailProvider(),
+            child: ScheduleDetailPage(),
+          ),
+        );
+
+      case Routes.timerChosen:
+        return CupertinoPageRoute(
+          fullscreenDialog: true,
+          settings: routeSettings,
+          builder: (_) => RouteUtil.createPageProvider<TimerChosenProvider>(
+            provider: (_) => TimerChosenProvider(),
+            child: TimerChosenPage(),
           ),
         );
       default:

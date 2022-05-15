@@ -116,7 +116,7 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorProvider> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {},
-                child: Text('Save'),
+                child: const Text('Save'),
               ),
             )
           ],

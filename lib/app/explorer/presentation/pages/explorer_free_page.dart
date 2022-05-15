@@ -83,7 +83,7 @@ class _ExplorerFreePage extends PageLoadingStateless<ExplorerFreeProvider> {
                 ),
               ),
               IconButton(
-                icon: Icon(Icons.arrow_forward_ios_rounded),
+                icon: const Icon(Icons.arrow_forward_ios_rounded),
                 onPressed: () {},
               ),
             ],
