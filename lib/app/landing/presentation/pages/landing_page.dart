@@ -1,34 +1,107 @@
-import 'package:chewie/chewie.dart';
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mi_learning/app/landing/presentation/providers/landing_provider.dart';
-import 'package:mi_learning/app/lessions/presentation/widgets/w_video_player.dart';
+import 'package:mi_learning/app/landing/presentation/widgets/landing_page_position.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
+import 'package:mi_learning/config/routes.dart';
+import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
-import 'package:video_player/video_player.dart';
+import 'package:provider/provider.dart';
 
 class LandingPage extends PageLoadingStateless<LandingProvider> {
-  final VideoPlayerController controller = VideoPlayerController.asset(
-      'assets/videos/course-app.mp4',
-      videoPlayerOptions: VideoPlayerOptions());
+  final PageController _pageController = PageController(keepPage: true);
 
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primarySwatch.shade200,
-      body: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
+      // backgroundColor: AppColors.primarySwatch.shade200,
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          WVideoPlayer(),
-          SizedBox(height: AppDimens.largeHeightDimens),
-          Text(
-            'Become the best in your industry on the learning journey!',
-            textAlign: TextAlign.center,
-            style: context.textTheme.titleLarge?.copyWith(
-              color: AppColors.neutral.shade50,
+          LandingPagePosition(
+            chosenIndex: context.select<LandingProvider, int>(
+              (provider) => provider.currentPage,
             ),
-          )
+            length: provider.landingPages(context).length,
+          ),
+          Container(
+            width: 0.8.sw,
+            margin: EdgeInsets.symmetric(
+              vertical: AppDimens.largeHeightDimens,
+            ),
+            child: ElevatedButton(
+              onPressed: () {
+                if (provider.currentPage ==
+                    provider.landingPages(context).length - 1) {
+                  navigator.pushNamed(Routes.auth);
+                  return;
+                }
+
+                _pageController.nextPage(
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.linear,
+                );
+              },
+              child: Selector<LandingProvider, int>(
+                selector: (_, provider) => provider.currentPage,
+                shouldRebuild: (oldValue, newValue) => oldValue != newValue,
+                builder: (_, currentPage, child) => Text(
+                  currentPage == 0
+                      ? 'Get Started'
+                      : currentPage != provider.landingPages(context).length - 1
+                          ? 'Next'
+                          : 'Sign In',
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            alignment: Alignment.centerRight,
+            padding: EdgeInsets.only(
+              top: AppDimens.largeHeightDimens,
+              right: AppDimens.extraLargeWidthDimens,
+            ),
+            child: Text(
+              'Skip',
+              style: context.textTheme.titleMedium?.copyWith(
+                color: AppColors.tetiary,
+                fontWeight: AppStyles.bold,
+              ),
+            ),
+          ),
+          const Spacer(flex: 1),
+          _LandingImages(
+            pageController: _pageController,
+          ),
+          SizedBox(height: AppDimens.largeHeightDimens),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppDimens.largeWidthDimens,
+            ),
+            child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                style: context.textTheme.titleLarge?.copyWith(),
+                children: <TextSpan>[
+                  for (dartz.Tuple2 value in provider
+                      .landingPages(context)
+                      .keys
+                      .toList()[provider.currentPage])
+                    TextSpan(text: value.value1, style: value.value2),
+                ],
+              ),
+            ),
+          ),
+          const Spacer(flex: 2),
         ],
       ),
     );
@@ -38,59 +111,42 @@ class LandingPage extends PageLoadingStateless<LandingProvider> {
   void initialization(BuildContext context) {}
 }
 
-class SimpleVideoPlayer extends StatefulWidget {
-  const SimpleVideoPlayer({Key? key}) : super(key: key);
+class _LandingImages extends StatefulWidget {
+  final PageController pageController;
+
+  _LandingImages({
+    Key? key,
+    required this.pageController,
+  }) : super(key: key);
 
   @override
-  State<SimpleVideoPlayer> createState() => _SimpleVideoPlayerState();
+  State<_LandingImages> createState() => _LandingImagesState();
 }
 
-class _SimpleVideoPlayerState extends State<SimpleVideoPlayer> {
-  final VideoPlayerController _controller = VideoPlayerController.asset(
-    'assets/videos/course-app.mp4',
-  );
-  late final ChewieController _chewieController;
-
-  late final Future<void> _initializeVideo;
-
+class _LandingImagesState extends State<_LandingImages> {
   @override
-  void initState() {
-    _chewieController = ChewieController(
-      videoPlayerController: _controller,
-      autoPlay: true,
-      autoInitialize: true,
-    );
-
-    _initializeVideo = _controller.initialize();
-    super.initState();
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.read<LandingProvider>();
+
     return SizedBox(
-      width: double.infinity,
-      height: 300,
-      child: FutureBuilder(
-          future: _initializeVideo,
-          builder: (_, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              // If the VideoPlayerController has finished initialization, use
-              // the data it provides to limit the aspect ratio of the video.
-              return AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                // Use the VideoPlayer widget to display the video.
-                child: Chewie(
-                  controller: _chewieController,
-                ),
-              );
-            } else {
-              // If the VideoPlayerController is still initializing, show a
-              // loading spinner.
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          }),
+      height: 0.5.sh,
+      child: PageView.builder(
+        controller: widget.pageController,
+        onPageChanged: (index) {
+          provider.currentPage = index;
+        },
+        padEnds: true,
+        physics: const BouncingScrollPhysics(),
+        itemCount: provider.landingPages(context).length,
+        itemBuilder: (_, index) => SvgPicture.asset(
+          provider.landingPages(context).values.toList()[index],
+        ),
+      ),
     );
   }
 }

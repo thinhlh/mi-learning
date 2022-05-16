@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mi_learning/app/article/presentation/pages/article_page.dart';
+import 'package:mi_learning/app/article/presentation/providers/article_provider.dart';
 import 'package:mi_learning/app/calendar/presentation/pages/calendar_page.dart';
 import 'package:mi_learning/app/calendar/presentation/providers/calendar_provider.dart';
 import 'package:mi_learning/app/dashboard/presentation/pages/dashboard_page.dart';
@@ -37,15 +39,11 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
               provider: (_) => CalendarProvider(),
             );
           case 3:
-            return GestureDetector(
-              onTap: () => navigator.pushNamed(Routes.auth),
-              child: Center(
-                child: Text(
-                  'Logout',
-                  style: context.textTheme.headlineLarge,
-                ),
-              ),
+            return RouteUtil.createPageProvider(
+              child: ArticlePage(),
+              provider: (_) => ArticleProvider(),
             );
+
           default:
             return DashboardPage();
         }
@@ -59,7 +57,7 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
           BottomNavigationBarItem(icon: Icon(Icons.home)),
           BottomNavigationBarItem(icon: Icon(Icons.explore)),
           BottomNavigationBarItem(icon: Icon(Icons.calendar_month)),
-          BottomNavigationBarItem(icon: Icon(Icons.reorder)),
+          BottomNavigationBarItem(icon: Icon(Icons.article_outlined)),
         ],
       ),
     );

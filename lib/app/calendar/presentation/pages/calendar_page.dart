@@ -87,6 +87,7 @@ class CalendarPage extends PageLoadingStateless<CalendarProvider> {
           ),
           Expanded(
             child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
               itemBuilder: (_, index) => GestureDetector(
                 onTap: () => navigator.pushNamed(Routes.scheduleDetail),
                 child: Container(

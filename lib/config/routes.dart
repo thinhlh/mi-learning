@@ -33,7 +33,7 @@ class Routes {
   static final RouteObserver<PageRoute> routeObserver =
       RouteObserver<PageRoute>();
 
-  static String get initial => home;
+  static String get initial => landing;
 
   static const String landing = '/landing';
   static const String test = '/test';

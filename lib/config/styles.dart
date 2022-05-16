@@ -27,7 +27,9 @@ class AppStyles {
 
   static final ButtonStyle buttonStyle = ButtonStyle(
     elevation: MaterialStateProperty.all(0),
-    backgroundColor: MaterialStateProperty.all(AppColors.primary),
+    backgroundColor: MaterialStateProperty.all(
+      AppColors.primarySwatch.shade400,
+    ),
     shape: MaterialStateProperty.all(
       RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(
