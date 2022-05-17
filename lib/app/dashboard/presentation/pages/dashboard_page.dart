@@ -94,8 +94,12 @@ class DashboardPage extends PageLoadingStateless<DashboardProvider> {
         Padding(
           padding: EdgeInsets.only(right: AppDimens.largeWidthDimens),
           child: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              navigator.pushNamed(Routes.notification);
+            },
             icon: Badge(
+              animationType: BadgeAnimationType.slide,
+              toAnimate: true,
               padding: EdgeInsets.all(6.r),
               position: BadgePosition.topEnd(end: -2, top: -2),
               badgeColor: Colors.red,

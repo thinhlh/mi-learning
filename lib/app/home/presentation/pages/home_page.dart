@@ -10,8 +10,6 @@ import 'package:mi_learning/app/explorer/presentation/pages/explorer_page.dart';
 import 'package:mi_learning/app/explorer/presentation/providers/explorer_provider.dart';
 import 'package:mi_learning/app/home/presentation/providers/home_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
-import 'package:mi_learning/config/routes.dart';
-import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:mi_learning/utils/route_util.dart';
 
 class HomePage extends PageLoadingStateless<HomeProvider> {

@@ -89,6 +89,7 @@ class Comment extends StatelessWidget {
                         children: [
                           Expanded(
                             child: TextField(
+                              maxLines: null,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide.none,

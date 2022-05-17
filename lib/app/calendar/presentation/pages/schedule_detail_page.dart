@@ -7,7 +7,6 @@ import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
-import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:provider/provider.dart';
 
 class ScheduleDetailPage extends PageLoadingStateless<ScheduleDetailProvider> {

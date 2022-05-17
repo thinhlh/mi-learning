@@ -21,6 +21,8 @@ import 'package:mi_learning/app/lessions/presentation/pages/note_editor_page.dar
 import 'package:mi_learning/app/lessions/presentation/pages/lession_page.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/note_editor_provider.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/lession_provider.dart';
+import 'package:mi_learning/app/notification/presentation/pages/notification_page.dart';
+import 'package:mi_learning/app/notification/presentation/providers/notification_provider.dart';
 import 'package:mi_learning/app/setting/presentation/pages/setting_page.dart';
 import 'package:mi_learning/app/setting/presentation/providers/setting_provider.dart';
 import 'package:mi_learning/app/test/presentation/pages/test_page.dart';
@@ -33,7 +35,7 @@ class Routes {
   static final RouteObserver<PageRoute> routeObserver =
       RouteObserver<PageRoute>();
 
-  static String get initial => landing;
+  static String get initial => home;
 
   static const String landing = '/landing';
   static const String test = '/test';
@@ -49,6 +51,7 @@ class Routes {
   static const String setting = '/setting';
   static const String scheduleDetail = '/schedule_detail';
   static const String timerChosen = '/timer_chosen';
+  static const String notification = '/notifications';
 
   /// This is where you handle routing by name and arguments
   static Route<dynamic>? onGenerateRoute(RouteSettings routeSettings) {
@@ -172,6 +175,16 @@ class Routes {
           builder: (_) => RouteUtil.createPageProvider<TimerChosenProvider>(
             provider: (_) => TimerChosenProvider(),
             child: TimerChosenPage(),
+          ),
+        );
+
+      case Routes.notification:
+        return CupertinoPageRoute(
+          fullscreenDialog: true,
+          settings: routeSettings,
+          builder: (_) => RouteUtil.createPageProvider<NotificationProvider>(
+            provider: (_) => NotificationProvider(),
+            child: NotificationPage(),
           ),
         );
       default:

@@ -61,7 +61,7 @@ class _ExplorerEditorChoicePage
                     ),
                     Expanded(
                       child: Image.asset(
-                        'assets/images/pngwing.com.png',
+                        'assets/images/medal.png',
                       ),
                     ),
                   ],
