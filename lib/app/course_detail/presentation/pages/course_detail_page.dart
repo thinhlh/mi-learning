@@ -10,6 +10,7 @@ import 'package:mi_learning/app/course_detail/presentation/providers/course_deta
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
+import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
@@ -56,7 +57,7 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailProvider> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () => navigator.pushNamed(Routes.orderDetail),
                 child: const Text(
                   'ENROLL',
                   style: TextStyle(

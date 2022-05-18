@@ -13,7 +13,7 @@ class WBackButton extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(AppDimens.largeHeightDimens),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.neutral.shade200,
           borderRadius: BorderRadius.circular(AppDimens.largeRadius),
           border: Border.all(color: AppColors.neutral.shade400),
         ),

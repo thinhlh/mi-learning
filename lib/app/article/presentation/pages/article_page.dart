@@ -11,24 +11,24 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 class ArticlePage extends PageLoadingStateless<ArticleProvider> {
   @override
   Widget buildPage(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: AppDimens.largeHeightDimens,
-      ),
-      child: Column(
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              'Articles',
-              style: context.textTheme.titleLarge,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Articles',
+          style: context.textTheme.titleLarge,
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.create,
+              color: AppColors.neutral.shade900,
             ),
           ),
-          const Expanded(
-            child: _ArticleTabBar(),
-          )
         ],
       ),
+      body: const _ArticleTabBar(),
     );
   }
 
