@@ -5,6 +5,8 @@ import 'package:mi_learning/app/order_detail/presentation/providers/order_detail
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
+import 'package:mi_learning/config/routes.dart';
+import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class OrderDetailPage extends PageLoadingStateless<OrderDetailProvider> {
@@ -16,6 +18,15 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailProvider> {
           'Order Detail',
           style: context.textTheme.titleLarge,
         ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.close_rounded,
+              color: AppColors.neutral.shade900,
+            ),
+          ),
+        ],
         centerTitle: true,
         leading: IconButton(
           onPressed: () => navigator.pop(),
@@ -50,9 +61,20 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailProvider> {
               style: context.textTheme.bodySmall,
             ),
             SizedBox(height: AppDimens.smallHeightDimens),
-            Text(
-              'Cart',
-              style: context.textTheme.titleLarge,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Cart',
+                  style: context.textTheme.titleLarge,
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Browse more',
+                  ),
+                ),
+              ],
             ),
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
@@ -65,7 +87,7 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailProvider> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Swift UI Senior course',
+                      'Swift UI The completed course',
                       style: context.textTheme.titleSmall,
                     ),
                   ],
@@ -95,8 +117,117 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailProvider> {
                   ),
                 ),
               ),
-              itemCount: 30,
+              itemCount: 3,
             ),
+            SizedBox(height: AppDimens.smallHeightDimens),
+            InkWell(
+              onTap: () => navigator.pushNamed(Routes.payment),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Payment',
+                    style: context.textTheme.titleLarge,
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: AppDimens.smallIcon,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: AppDimens.largeHeightDimens),
+            Text(
+              'Summary',
+              style: context.textTheme.titleLarge,
+            ),
+            SizedBox(height: AppDimens.mediumWidthDimens),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Original price',
+                  style: context.textTheme.titleMedium,
+                ),
+                Text(
+                  '\$77.03',
+                  style: context.textTheme.titleMedium?.copyWith(
+                    fontWeight: AppStyles.bold,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: AppDimens.smallHeightDimens),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Discount',
+                  style: context.textTheme.titleMedium?.copyWith(),
+                ),
+                Text(
+                  '\$48.00',
+                  style: context.textTheme.titleMedium?.copyWith(
+                    fontWeight: AppStyles.bold,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: AppDimens.smallHeightDimens),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'TAX',
+                  style: context.textTheme.titleMedium?.copyWith(),
+                ),
+                Text(
+                  '\$7.70',
+                  style: context.textTheme.titleMedium?.copyWith(
+                    fontWeight: AppStyles.bold,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+              ],
+            ),
+            const Divider(),
+            SizedBox(height: AppDimens.smallHeightDimens),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Total price',
+                  style: context.textTheme.titleMedium?.copyWith(),
+                ),
+                Text(
+                  '\$29.03',
+                  style: context.textTheme.titleLarge?.copyWith(
+                    fontWeight: AppStyles.bold,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: AppDimens.extraLargeHeightDimens),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {},
+                child: const Text(
+                  'CHECKOUT',
+                  style: TextStyle(
+                    fontWeight: AppStyles.bold,
+                    letterSpacing: 2,
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),

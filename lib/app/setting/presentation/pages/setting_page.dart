@@ -4,6 +4,7 @@ import 'package:mi_learning/app/setting/presentation/providers/setting_provider.
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
+import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
@@ -167,7 +168,10 @@ class SettingPage extends PageLoadingStateless<SettingProvider> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () => navigator.pushNamedAndRemoveUntil(
+                  Routes.landing,
+                  (route) => true,
+                ),
                 child: Text(
                   'Sign Out',
                   style: TextStyle(

@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 
 class LandingPage extends PageLoadingStateless<LandingProvider> {
   final PageController _pageController = PageController(keepPage: true);
+  final Curve _paeTransitionCurves = Curves.linear;
 
   @override
   Widget buildPage(BuildContext context) {
@@ -43,7 +44,7 @@ class LandingPage extends PageLoadingStateless<LandingProvider> {
 
                 _pageController.nextPage(
                   duration: const Duration(milliseconds: 200),
-                  curve: Curves.linear,
+                  curve: _paeTransitionCurves,
                 );
               },
               child: Selector<LandingProvider, int>(
@@ -64,17 +65,24 @@ class LandingPage extends PageLoadingStateless<LandingProvider> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            alignment: Alignment.centerRight,
-            padding: EdgeInsets.only(
-              top: AppDimens.largeHeightDimens,
-              right: AppDimens.extraLargeWidthDimens,
+          GestureDetector(
+            onTap: () => _pageController.animateToPage(
+              provider.landingPages(context).length - 1,
+              duration: const Duration(milliseconds: 400),
+              curve: _paeTransitionCurves,
             ),
-            child: Text(
-              'Skip',
-              style: context.textTheme.titleMedium?.copyWith(
-                color: AppColors.tetiary,
-                fontWeight: AppStyles.bold,
+            child: Container(
+              alignment: Alignment.centerRight,
+              padding: EdgeInsets.only(
+                top: AppDimens.largeHeightDimens,
+                right: AppDimens.extraLargeWidthDimens,
+              ),
+              child: Text(
+                'Skip',
+                style: context.textTheme.titleMedium?.copyWith(
+                  color: AppColors.tetiary,
+                  fontWeight: AppStyles.bold,
+                ),
               ),
             ),
           ),

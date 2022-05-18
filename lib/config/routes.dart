@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mi_learning/app/article/presentation/pages/article_viewer_page.dart';
+import 'package:mi_learning/app/article/presentation/providers/article_viewer_provider.dart';
 import 'package:mi_learning/app/auth/presentation/pages/auth_page.dart';
 import 'package:mi_learning/app/auth/presentation/provider/auth_provider.dart';
 import 'package:mi_learning/app/calendar/presentation/pages/schedule_detail_page.dart';
@@ -25,6 +27,8 @@ import 'package:mi_learning/app/notification/presentation/pages/notification_pag
 import 'package:mi_learning/app/notification/presentation/providers/notification_provider.dart';
 import 'package:mi_learning/app/order_detail/presentation/pages/order_detail_page.dart';
 import 'package:mi_learning/app/order_detail/presentation/providers/order_detail_provider.dart';
+import 'package:mi_learning/app/payment/presentation/pages/payment_page.dart';
+import 'package:mi_learning/app/payment/presentation/providers/payment_provider.dart';
 import 'package:mi_learning/app/setting/presentation/pages/setting_page.dart';
 import 'package:mi_learning/app/setting/presentation/providers/setting_provider.dart';
 import 'package:mi_learning/app/test/presentation/pages/test_page.dart';
@@ -55,6 +59,8 @@ class Routes {
   static const String timerChosen = '/timer_chosen';
   static const String notification = '/notifications';
   static const String orderDetail = '/order_detail';
+  static const String payment = '/payment';
+  static const String articleViewer = '/article_viewer';
 
   /// This is where you handle routing by name and arguments
   static Route<dynamic>? onGenerateRoute(RouteSettings routeSettings) {
@@ -198,6 +204,26 @@ class Routes {
           builder: (_) => RouteUtil.createPageProvider<OrderDetailProvider>(
             provider: (_) => OrderDetailProvider(),
             child: OrderDetailPage(),
+          ),
+        );
+
+      case Routes.payment:
+        return CupertinoPageRoute(
+          fullscreenDialog: true,
+          settings: routeSettings,
+          builder: (_) => RouteUtil.createPageProvider<PaymentProvider>(
+            provider: (_) => PaymentProvider(),
+            child: PaymentPage(),
+          ),
+        );
+
+      case Routes.articleViewer:
+        return CupertinoPageRoute(
+          fullscreenDialog: true,
+          settings: routeSettings,
+          builder: (_) => RouteUtil.createPageProvider<ArticleViewerProvider>(
+            provider: (_) => ArticleViewerProvider(),
+            child: ArticleViewerPage(),
           ),
         );
       default:

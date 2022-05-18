@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/article/presentation/providers/article_provider.dart';
+import 'package:mi_learning/app/article/presentation/providers/article_viewer_provider.dart';
+import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
+import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -13,6 +16,7 @@ class ArticlePage extends PageLoadingStateless<ArticleProvider> {
   Widget buildPage(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'Articles',
           style: context.textTheme.titleLarge,
@@ -43,18 +47,18 @@ class _ArticleTabBar extends StatefulWidget {
   State<_ArticleTabBar> createState() => __ArticleTabBarState();
 }
 
-class __ArticleTabBarState extends State<_ArticleTabBar>
+class __ArticleTabBarState
+    extends PageLoadingStateful<ArticleProvider, _ArticleTabBar>
     with SingleTickerProviderStateMixin {
   final ItemScrollController listScrollController = ItemScrollController();
   final ItemPositionsListener listItemPositionsListener =
       ItemPositionsListener.create();
 
   late final TabController _controller;
-  late final ArticleProvider provider;
 
   @override
   void initState() {
-    provider = Provider.of<ArticleProvider>(context, listen: false);
+    super.initState();
     _controller = TabController(
       length: provider.topics.length,
       vsync: this,
@@ -63,7 +67,6 @@ class __ArticleTabBarState extends State<_ArticleTabBar>
       _controller
           .animateTo(listItemPositionsListener.itemPositions.value.first.index);
     });
-    super.initState();
   }
 
   @override
@@ -73,7 +76,7 @@ class __ArticleTabBarState extends State<_ArticleTabBar>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage(BuildContext context) {
     return DefaultTabController(
       length: provider.topics.length,
       child: Scaffold(
@@ -123,53 +126,57 @@ class __ArticleTabBarState extends State<_ArticleTabBar>
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: 10,
                   itemBuilder: (context, index) {
-                    return IntrinsicHeight(
-                      child: Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                              AppDimens.mediumRadius,
-                            ),
-                            child: AspectRatio(
-                              aspectRatio: 14 / 9,
-                              child: Image.asset(
-                                'assets/images/flutter-course.jpeg',
-                                alignment: Alignment.center,
-                                width: 0.3.sw,
-                                fit: BoxFit.cover,
-                                isAntiAlias: true,
+                    return InkWell(
+                      onTap: () => navigator.pushNamed(Routes.articleViewer),
+                      child: IntrinsicHeight(
+                        child: Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                AppDimens.mediumRadius,
+                              ),
+                              child: AspectRatio(
+                                aspectRatio: 14 / 9,
+                                child: Image.asset(
+                                  'assets/images/flutter-course.jpeg',
+                                  alignment: Alignment.center,
+                                  width: 0.3.sw,
+                                  fit: BoxFit.cover,
+                                  isAntiAlias: true,
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(width: AppDimens.largeWidthDimens),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'nhancv',
-                                  maxLines: 1,
-                                  style: context.textTheme.bodySmall,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                Text(
-                                  'An AWS Cloud architecture for web hosting - 3 Tiers',
-                                  softWrap: true,
-                                  style: context.textTheme.titleSmall,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                Text(
-                                  '1 hours ago',
-                                  maxLines: 2,
-                                  style: context.textTheme.labelSmall,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
+                            SizedBox(width: AppDimens.largeWidthDimens),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'nhancv',
+                                    maxLines: 1,
+                                    style: context.textTheme.bodySmall,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    'An AWS Cloud architecture for web hosting - 3 Tiers',
+                                    softWrap: true,
+                                    style: context.textTheme.titleSmall,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    '1 hours ago',
+                                    maxLines: 2,
+                                    style: context.textTheme.labelSmall,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     );
                   },
@@ -182,4 +189,7 @@ class __ArticleTabBarState extends State<_ArticleTabBar>
       ),
     );
   }
+
+  @override
+  void initialization(BuildContext context) {}
 }

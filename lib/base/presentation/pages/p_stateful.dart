@@ -10,12 +10,11 @@ abstract class PageStateful<T extends DialogProvider, P extends StatefulWidget>
   late final T provider;
 
   @override
-  void didChangeDependencies() {
+  void initState() {
     provider = Provider.of<T>(context, listen: false);
     navigator = context.navigator;
     initialization(context);
-
-    super.didChangeDependencies();
+    super.initState();
   }
 
   @override

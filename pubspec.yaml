@@ -41,6 +41,7 @@ dependencies:
   modal_bottom_sheet: ^2.0.1
   table_calendar: ^3.0.5
   scrollable_positioned_list: ^0.2.3
+  webview_flutter: ^3.0.4
 
   # Localization
   easy_localization: ^3.0.0
