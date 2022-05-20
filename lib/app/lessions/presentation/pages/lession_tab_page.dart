@@ -43,7 +43,7 @@ class __LessionTabPageState extends State<_LessionTabPage>
                 showBarModalBottomSheet(
                   context: context,
                   builder: (_) => RouteUtil.createPageProvider(
-                    provider: (_) => LessionQuestionAnswerProvider(),
+                    provider: (_) => LessionQuestionAnswerPageProvider(),
                     child: WillPopScope(
                       onWillPop: () async {
                         _tabController.animateTo(currentTabIndex);
@@ -79,11 +79,11 @@ class __LessionTabPageState extends State<_LessionTabPage>
             ),
             RouteUtil.createPageProvider(
               child: LessionCourseContentPage(),
-              provider: (_) => LessionCourseContentProvider(),
+              provider: (_) => LessionCourseContentPageProvider(),
             ),
             RouteUtil.createPageProvider(
               child: LessionQuestionAnswerPage(),
-              provider: (_) => LessionQuestionAnswerProvider(),
+              provider: (_) => LessionQuestionAnswerPageProvider(),
             ),
           ],
         ),

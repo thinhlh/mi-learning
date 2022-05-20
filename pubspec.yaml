@@ -69,6 +69,7 @@ dependencies:
   # Firebase services
   firebase_core: ^1.14.0
   firebase_crashlytics: ^2.6.1
+  cloud_firestore: ^3.1.15
 
 dev_dependencies:
   flutter_lints: ^1.0.0

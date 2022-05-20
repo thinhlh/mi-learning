@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:mi_learning/app/lessions/presentation/pages/lession_question_answer_page.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/note_editor_page.dart';
-import 'package:mi_learning/app/lessions/presentation/providers/lession_course_content_provider.dart';
+import 'package:mi_learning/app/lessions/presentation/providers/lession_course_content_page_provider.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/lession_course_content_page.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/lession_note_page_provider.dart';
-import 'package:mi_learning/app/lessions/presentation/providers/lession_provider.dart';
-import 'package:mi_learning/app/lessions/presentation/providers/lession_question_answer_provider.dart';
-import 'package:mi_learning/app/lessions/presentation/providers/note_editor_provider.dart';
+import 'package:mi_learning/app/lessions/presentation/providers/lession_page_provider.dart';
+import 'package:mi_learning/app/lessions/presentation/providers/lession_question_answer_page_provider.dart';
+import 'package:mi_learning/app/lessions/presentation/providers/note_editor_page_provider.dart';
 import 'package:mi_learning/app/lessions/presentation/widgets/w_video_player.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
@@ -21,7 +21,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 part 'lession_tab_page.dart';
 part 'lession_note_page.dart';
 
-class LessionPage extends PageLoadingStateless<LessionProvider> {
+class LessionPage extends PageLoadingStateless<LessionPageProvider> {
   LessionPage({Key? key}) : super(key: key);
 
   @override

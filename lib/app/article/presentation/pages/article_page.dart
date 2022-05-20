@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/article/presentation/providers/article_provider.dart';
-import 'package:mi_learning/app/article/presentation/providers/article_viewer_provider.dart';
+import 'package:mi_learning/app/article/presentation/providers/article_page_provider.dart';
+import 'package:mi_learning/app/article/presentation/providers/article_viewer_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
@@ -11,7 +11,7 @@ import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-class ArticlePage extends PageLoadingStateless<ArticleProvider> {
+class ArticlePage extends PageLoadingStateless<ArticlePageProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
@@ -48,7 +48,7 @@ class _ArticleTabBar extends StatefulWidget {
 }
 
 class __ArticleTabBarState
-    extends PageLoadingStateful<ArticleProvider, _ArticleTabBar>
+    extends PageLoadingStateful<ArticlePageProvider, _ArticleTabBar>
     with SingleTickerProviderStateMixin {
   final ItemScrollController listScrollController = ItemScrollController();
   final ItemPositionsListener listItemPositionsListener =

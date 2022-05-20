@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mi_learning/app/course_detail/presentation/providers/detail/course_detail_discuss_page_provider.dart';
+import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 
-class CourseDetailDiscussPage extends StatelessWidget {
-  const CourseDetailDiscussPage({Key? key}) : super(key: key);
-
+class CourseDetailDiscussPage
+    extends PageLoadingStateless<CourseDetailDiscussPageProvider> {
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       floatingActionButton: FloatingActionButton(
@@ -60,4 +61,7 @@ class CourseDetailDiscussPage extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  void initialization(BuildContext context) {}
 }

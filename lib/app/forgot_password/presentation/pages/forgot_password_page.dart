@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mi_learning/app/common/presentation/widgets/w_back_button.dart';
 import 'package:mi_learning/app/common/presentation/widgets/w_text_field.dart';
-import 'package:mi_learning/app/forgot_password/presentation/providers/forgot_password_provider.dart';
+import 'package:mi_learning/app/forgot_password/presentation/providers/forgot_password_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
@@ -16,8 +16,8 @@ class ForgotPasswordPage extends StatefulWidget {
   State<StatefulWidget> createState() => _ForgotPasswordPage();
 }
 
-class _ForgotPasswordPage
-    extends PageLoadingStateful<ForgotPasswordProvider, ForgotPasswordPage> {
+class _ForgotPasswordPage extends PageLoadingStateful<
+    ForgotPasswordPageProvider, ForgotPasswordPage> {
   @override
   Widget buildPage(BuildContext context) {
     return Padding(

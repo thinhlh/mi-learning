@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/setting/presentation/providers/setting_provider.dart';
+import 'package:mi_learning/app/setting/presentation/providers/setting_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
@@ -22,7 +22,7 @@ class Setting {
   });
 }
 
-class SettingPage extends PageLoadingStateless<SettingProvider> {
+class SettingPage extends PageLoadingStateless<SettingPageProvider> {
   final Map<String, List<Setting>> settings = {
     "Account": [
       Setting(

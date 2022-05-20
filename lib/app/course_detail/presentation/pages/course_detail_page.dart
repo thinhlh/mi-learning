@@ -7,14 +7,19 @@ import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_d
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_lessions_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_ratings_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
+import 'package:mi_learning/app/course_detail/presentation/providers/detail/course_detail_about_page_provider.dart';
+import 'package:mi_learning/app/course_detail/presentation/providers/detail/course_detail_discuss_page_provider.dart';
+import 'package:mi_learning/app/course_detail/presentation/providers/detail/course_detail_lessions_page_provider.dart';
+import 'package:mi_learning/app/course_detail/presentation/providers/detail/course_detail_ratings_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
+import 'package:mi_learning/utils/route_util.dart';
 
-class CourseDetailPage extends PageLoadingStateless<CourseDetailProvider> {
+class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
   late final int id;
   CourseDetailPage({Key? key}) : super(key: key);
   @override
@@ -227,13 +232,25 @@ class _CouseDetailTabState extends State<_CouseDetailTab>
           physics: const BouncingScrollPhysics(),
           controller: tabController,
           children: [
-            const CourseDetailAboutPage(),
-            CourseDetailLessionsPage(
-              lessionAnimation: lessionAnimation,
-              lessionAnimationController: lessionAnimationController,
+            RouteUtil.createPageProvider(
+              provider: (_) => CourseDetailAboutPageProvider(),
+              child: CourseDetailAboutPage(),
             ),
-            const CourseDetailDiscussPage(),
-            const CourseDetailRatingsPage(),
+            RouteUtil.createPageProvider(
+              provider: (_) => CourseDetailLessionsPageProvider(),
+              child: CourseDetailLessionsPage(
+                lessionAnimation: lessionAnimation,
+                lessionAnimationController: lessionAnimationController,
+              ),
+            ),
+            RouteUtil.createPageProvider(
+              provider: (_) => CourseDetailDiscussPageProvider(),
+              child: CourseDetailDiscussPage(),
+            ),
+            RouteUtil.createPageProvider(
+              provider: (_) => CourseDetailRatingsPageProvider(),
+              child: CourseDetailRatingsPage(),
+            )
           ],
         ),
       ),

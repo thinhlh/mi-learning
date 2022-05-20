@@ -1,17 +1,18 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:mi_learning/app/course_detail/presentation/providers/detail/course_detail_about_page_provider.dart';
 import 'package:mi_learning/app/course_detail/presentation/widgets/expandable_text.dart';
+import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
-class CourseDetailAboutPage extends StatelessWidget {
-  const CourseDetailAboutPage({Key? key}) : super(key: key);
-
+class CourseDetailAboutPage
+    extends PageLoadingStateless<CourseDetailAboutPageProvider> {
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage(BuildContext context) {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Column(
@@ -135,4 +136,7 @@ class CourseDetailAboutPage extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  void initialization(BuildContext context) {}
 }

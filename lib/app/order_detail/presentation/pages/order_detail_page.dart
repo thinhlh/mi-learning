@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mi_learning/app/order_detail/presentation/providers/order_detail_provider.dart';
+import 'package:mi_learning/app/order_detail/presentation/providers/order_detail_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
@@ -9,7 +8,7 @@ import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
-class OrderDetailPage extends PageLoadingStateless<OrderDetailProvider> {
+class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(

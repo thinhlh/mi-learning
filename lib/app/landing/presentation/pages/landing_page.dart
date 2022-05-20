@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mi_learning/app/landing/presentation/providers/landing_provider.dart';
+import 'package:mi_learning/app/landing/presentation/providers/landing_page_provider.dart';
 import 'package:mi_learning/app/landing/presentation/widgets/landing_page_position.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
@@ -12,7 +12,7 @@ import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 
-class LandingPage extends PageLoadingStateless<LandingProvider> {
+class LandingPage extends PageLoadingStateless<LandingPageProvider> {
   final PageController _pageController = PageController(keepPage: true);
   final Curve _paeTransitionCurves = Curves.linear;
 
@@ -24,7 +24,7 @@ class LandingPage extends PageLoadingStateless<LandingProvider> {
         mainAxisSize: MainAxisSize.min,
         children: [
           LandingPagePosition(
-            chosenIndex: context.select<LandingProvider, int>(
+            chosenIndex: context.select<LandingPageProvider, int>(
               (provider) => provider.currentPage,
             ),
             length: provider.landingPages(context).length,
@@ -47,7 +47,7 @@ class LandingPage extends PageLoadingStateless<LandingProvider> {
                   curve: _paeTransitionCurves,
                 );
               },
-              child: Selector<LandingProvider, int>(
+              child: Selector<LandingPageProvider, int>(
                 selector: (_, provider) => provider.currentPage,
                 shouldRebuild: (oldValue, newValue) => oldValue != newValue,
                 builder: (_, currentPage, child) => Text(
@@ -139,7 +139,7 @@ class _LandingImagesState extends State<_LandingImages> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<LandingProvider>();
+    final provider = context.read<LandingPageProvider>();
 
     return SizedBox(
       height: 0.5.sh,

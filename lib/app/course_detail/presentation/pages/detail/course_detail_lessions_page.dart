@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:mi_learning/app/common/presentation/widgets/w_blur.dart';
+import 'package:mi_learning/app/course_detail/presentation/providers/detail/course_detail_lessions_page_provider.dart';
+import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
-class CourseDetailLessionsPage extends StatelessWidget {
+class CourseDetailLessionsPage
+    extends PageLoadingStateless<CourseDetailLessionsPageProvider> {
   final AnimationController lessionAnimationController;
   final Animation<double> lessionAnimation;
 
-  const CourseDetailLessionsPage({
+  CourseDetailLessionsPage({
     Key? key,
     required this.lessionAnimation,
     required this.lessionAnimationController,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage(BuildContext context) {
     final Widget lessons = SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.only(top: AppDimens.largeHeightDimens),
@@ -128,4 +131,7 @@ class CourseDetailLessionsPage extends StatelessWidget {
       },
     );
   }
+
+  @override
+  void initialization(BuildContext context) {}
 }

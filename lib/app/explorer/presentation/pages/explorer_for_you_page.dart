@@ -1,6 +1,7 @@
 part of 'explorer_page.dart';
 
-class _ExplorerForYouPage extends PageLoadingStateless<ExplorerForYouProvider> {
+class _ExplorerForYouPage
+    extends PageLoadingStateless<ExplorerForYouPageProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return SingleChildScrollView(

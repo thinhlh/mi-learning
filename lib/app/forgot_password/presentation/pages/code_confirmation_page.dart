@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
 import 'package:mi_learning/app/common/presentation/widgets/w_back_button.dart';
-import 'package:mi_learning/app/forgot_password/presentation/providers/code_confirmation_provider.dart';
+import 'package:mi_learning/app/forgot_password/presentation/providers/code_confirmation_page_provider.dart';
 import 'package:mi_learning/app/forgot_password/presentation/widgets/w_code_field.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
@@ -12,7 +12,7 @@ import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class CodeConfirmationPage
-    extends PageLoadingStateless<CodeConfirmationProvider> {
+    extends PageLoadingStateless<CodeConfirmationPageProvider> {
   CodeConfirmationPage({Key? key}) : super(key: key);
   @override
   Widget buildPage(BuildContext context) {

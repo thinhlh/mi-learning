@@ -1,7 +1,7 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/dashboard/presentation/providers/dashboard_provider.dart';
+import 'package:mi_learning/app/dashboard/presentation/providers/dashboard_page_provider.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/course_widget.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/live_event_card.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/my_course_widget.dart';
@@ -12,7 +12,7 @@ import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
-class DashboardPage extends PageLoadingStateless<DashboardProvider> {
+class DashboardPage extends PageLoadingStateless<DashboardPageProvider> {
   DashboardPage({Key? key}) : super(key: key);
 
   @override

@@ -1,7 +1,7 @@
 part of 'explorer_page.dart';
 
 class _ExplorerEditorChoicePage
-    extends PageLoadingStateless<ExplorerEditorChoiceProvider> {
+    extends PageLoadingStateless<ExplorerEditorChoicePageProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return Padding(

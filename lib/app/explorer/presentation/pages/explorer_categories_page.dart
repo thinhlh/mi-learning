@@ -1,7 +1,7 @@
 part of 'explorer_page.dart';
 
 class _ExplorerCategoriesPage
-    extends PageLoadingStateless<ExplorerCategoriesProvider> {
+    extends PageLoadingStateless<ExplorerCategoriesPageProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return GridView.builder(

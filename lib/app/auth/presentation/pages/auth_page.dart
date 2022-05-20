@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mi_learning/app/auth/presentation/provider/auth_provider.dart';
+import 'package:mi_learning/app/auth/presentation/provider/auth_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
 import 'package:mi_learning/base/presentation/widgets/w_text_field.dart';
 import 'package:mi_learning/config/colors.dart';
@@ -18,7 +18,7 @@ class AuthPage extends StatefulWidget {
   State<StatefulWidget> createState() => _AuthPageState();
 }
 
-class _AuthPageState extends PageLoadingStateful<AuthProvider, AuthPage>
+class _AuthPageState extends PageLoadingStateful<AuthPageProvider, AuthPage>
     with TickerProviderStateMixin {
   @override
   Widget buildPage(BuildContext context) {
@@ -59,7 +59,7 @@ class _AuthPageState extends PageLoadingStateful<AuthProvider, AuthPage>
             Expanded(
               child: InkWell(
                 onTap: () => provider.goToSignIn(),
-                child: Selector<AuthProvider, bool>(
+                child: Selector<AuthPageProvider, bool>(
                   selector: (_, provider) => provider.isLogin,
                   builder: (_, isLogin, child) => Container(
                     padding: EdgeInsets.symmetric(
@@ -87,7 +87,7 @@ class _AuthPageState extends PageLoadingStateful<AuthProvider, AuthPage>
             Expanded(
               child: InkWell(
                 onTap: () => provider.goToSignUp(),
-                child: Selector<AuthProvider, bool>(
+                child: Selector<AuthPageProvider, bool>(
                   selector: (_, provider) => provider.isLogin,
                   builder: (_, isLogin, child) => Container(
                     alignment: Alignment.center,

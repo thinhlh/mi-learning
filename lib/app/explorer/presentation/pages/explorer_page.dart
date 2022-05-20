@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/explorer/presentation/providers/explorer_provider.dart';
+import 'package:mi_learning/app/explorer/presentation/providers/explorer_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
@@ -16,7 +16,7 @@ part 'explorer_editor_choice_page.dart';
 part 'explorer_premium_page.dart';
 part 'explorer_free_page.dart';
 
-class ExplorerPage extends PageLoadingStateless<ExplorerProvider> {
+class ExplorerPage extends PageLoadingStateless<ExplorerPageProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(

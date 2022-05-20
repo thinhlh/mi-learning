@@ -1,7 +1,7 @@
 part of 'explorer_page.dart';
 
 class _ExplorerTopChartPage
-    extends PageLoadingStateless<ExplorerTopChartProvider> {
+    extends PageLoadingStateless<ExplorerTopChartPageProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return ListView.builder(

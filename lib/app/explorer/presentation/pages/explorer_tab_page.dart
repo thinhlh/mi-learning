@@ -48,27 +48,27 @@ class _ExplorerTabPageState extends State<_ExplorerTabPage>
           children: [
             RouteUtil.createPageProvider(
               child: _ExplorerForYouPage(),
-              provider: (_) => ExplorerForYouProvider(),
+              provider: (_) => ExplorerForYouPageProvider(),
             ),
             RouteUtil.createPageProvider(
               child: _ExplorerTopChartPage(),
-              provider: (_) => ExplorerTopChartProvider(),
+              provider: (_) => ExplorerTopChartPageProvider(),
             ),
             RouteUtil.createPageProvider(
               child: _ExplorerCategoriesPage(),
-              provider: (_) => ExplorerCategoriesProvider(),
+              provider: (_) => ExplorerCategoriesPageProvider(),
             ),
             RouteUtil.createPageProvider(
               child: _ExplorerEditorChoicePage(),
-              provider: (_) => ExplorerEditorChoiceProvider(),
+              provider: (_) => ExplorerEditorChoicePageProvider(),
             ),
             RouteUtil.createPageProvider(
               child: _ExplorerPremiumPage(),
-              provider: (_) => ExplorerPremiumProvider(),
+              provider: (_) => ExplorerPremiumPageProvider(),
             ),
             RouteUtil.createPageProvider(
               child: _ExplorerFreePage(),
-              provider: (_) => ExplorerFreeProvider(),
+              provider: (_) => ExplorerFreePageProvider(),
             ),
           ],
         ),

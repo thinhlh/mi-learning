@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
-import 'package:mi_learning/app/lessions/presentation/providers/lession_question_answer_provider.dart';
+import 'package:mi_learning/app/lessions/presentation/providers/lession_question_answer_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
@@ -10,7 +10,7 @@ import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class LessionQuestionAnswerPage
-    extends PageLoadingStateless<LessionQuestionAnswerProvider> {
+    extends PageLoadingStateless<LessionQuestionAnswerPageProvider> {
   final editor.QuillController controller = editor.QuillController.basic();
 
   @override
