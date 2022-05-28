@@ -50,6 +50,10 @@ class AppColors {
   static final Color scaffoldBackground = neutral.shade200;
   static final Color scaffoldBackgroundDark = neutral.shade800;
 
+  /// Shimmer
+  static final Color baseShimmerColor = AppColors.neutral.shade300;
+  static final Color highlightShimmerColor = AppColors.neutral.shade200;
+
   /// Follow design
 
   static const MaterialColor neutral = MaterialColor(0xFF9E9E9E, {

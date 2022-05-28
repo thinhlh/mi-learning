@@ -10,9 +10,9 @@ class TestPage extends PageLoadingStateless<TestProvider> {
   Widget buildPage(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        provider.showLoading(true);
+        showLoading(context, true);
         await provider.checkConnection();
-        provider.showLoading(false);
+        showLoading(context, false);
       },
       child: Center(
         child: Selector<TestProvider, String>(

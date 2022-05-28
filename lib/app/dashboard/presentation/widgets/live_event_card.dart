@@ -4,6 +4,7 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mi_learning/app/livestream/presentation/pages/live.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
@@ -123,7 +124,12 @@ class _LiveEventCardState extends State<LiveEventCard>
             ),
             const Spacer(),
             GestureDetector(
-              onTap: () => {},
+              onTap: () => context.navigator.push(
+                MaterialPageRoute(
+                  fullscreenDialog: true,
+                  builder: (_) => JoinChannelVideo(),
+                ),
+              ),
               child: Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: AppDimens.mediumWidthDimens,

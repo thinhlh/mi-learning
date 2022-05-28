@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mi_learning/app/article/domain/entities/article.dart';
 import 'package:mi_learning/app/article/presentation/providers/article_page_provider.dart';
-import 'package:mi_learning/app/article/presentation/providers/article_viewer_page_provider.dart';
+import 'package:mi_learning/app/article/presentation/widgets/article_category_widget.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
-import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -49,25 +50,12 @@ class _ArticleTabBar extends StatefulWidget {
 
 class __ArticleTabBarState
     extends PageLoadingStateful<ArticlePageProvider, _ArticleTabBar>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   final ItemScrollController listScrollController = ItemScrollController();
   final ItemPositionsListener listItemPositionsListener =
       ItemPositionsListener.create();
 
-  late final TabController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TabController(
-      length: provider.topics.length,
-      vsync: this,
-    );
-    listItemPositionsListener.itemPositions.addListener(() {
-      _controller
-          .animateTo(listItemPositionsListener.itemPositions.value.first.index);
-    });
-  }
+  late TabController _controller;
 
   @override
   void dispose() {
@@ -77,119 +65,68 @@ class __ArticleTabBarState
 
   @override
   Widget buildPage(BuildContext context) {
-    return DefaultTabController(
-      length: provider.topics.length,
-      child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 0,
-          bottom: TabBar(
-            isScrollable: true,
-            indicatorColor: AppColors.secondary,
-            indicatorSize: TabBarIndicatorSize.label,
-            controller: _controller,
-            physics: const BouncingScrollPhysics(),
-            onTap: (index) {
-              listScrollController.scrollTo(
-                index: index,
-                duration: const Duration(milliseconds: 300),
-              );
-            },
-            tabs: provider.topics.map((topic) => Tab(text: topic)).toList(),
-          ),
-        ),
-        body: Container(
-          margin: EdgeInsets.only(top: AppDimens.largeHeightDimens),
-          child: ScrollablePositionedList.separated(
-            itemPositionsListener: listItemPositionsListener,
-            itemScrollController: listScrollController,
-            separatorBuilder: (_, index) =>
-                SizedBox(height: AppDimens.largeHeightDimens),
-            padding: EdgeInsets.symmetric(
-              vertical: AppDimens.largeHeightDimens,
-              horizontal: AppDimens.largeWidthDimens,
+    return Selector<ArticlePageProvider, Map<String, List<Article>>>(
+      selector: (_, provider) => provider.articles,
+      builder: (context, articles, child) {
+        _controller = TabController(
+          length: provider.articles.length,
+          vsync: this,
+        );
+        listItemPositionsListener.itemPositions.addListener(() {
+          _controller.animateTo(
+              listItemPositionsListener.itemPositions.value.first.index);
+        });
+
+        return DefaultTabController(
+          length: articles.length,
+          child: Scaffold(
+            appBar: AppBar(
+              toolbarHeight: 0,
+              bottom: TabBar(
+                isScrollable: true,
+                indicatorColor: AppColors.secondary,
+                indicatorSize: TabBarIndicatorSize.label,
+                controller: _controller,
+                physics: const BouncingScrollPhysics(),
+                onTap: (index) {
+                  listScrollController.scrollTo(
+                    index: index,
+                    duration: const Duration(milliseconds: 300),
+                  );
+                },
+                tabs: articles.entries
+                    .toList()
+                    .map((e) => Tab(text: e.key))
+                    .toList(),
+              ),
             ),
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, parentIndex) => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  provider.topics[parentIndex],
-                  style: context.textTheme.titleSmall?.copyWith(
-                    color: AppColors.neutral.shade700,
-                  ),
+            body: Container(
+              margin: EdgeInsets.only(top: AppDimens.largeHeightDimens),
+              child: ScrollablePositionedList.separated(
+                itemPositionsListener: listItemPositionsListener,
+                itemScrollController: listScrollController,
+                separatorBuilder: (_, index) => SizedBox(
+                  height: AppDimens.largeHeightDimens,
                 ),
-                SizedBox(height: AppDimens.mediumHeightDimens),
-                ListView.separated(
-                  separatorBuilder: (_, index) =>
-                      SizedBox(height: AppDimens.mediumHeightDimens),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () => navigator.pushNamed(Routes.articleViewer),
-                      child: IntrinsicHeight(
-                        child: Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(
-                                AppDimens.mediumRadius,
-                              ),
-                              child: AspectRatio(
-                                aspectRatio: 14 / 9,
-                                child: Image.asset(
-                                  'assets/images/flutter-course.jpeg',
-                                  alignment: Alignment.center,
-                                  width: 0.3.sw,
-                                  fit: BoxFit.cover,
-                                  isAntiAlias: true,
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: AppDimens.largeWidthDimens),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'nhancv',
-                                    maxLines: 1,
-                                    style: context.textTheme.bodySmall,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Text(
-                                    'An AWS Cloud architecture for web hosting - 3 Tiers',
-                                    softWrap: true,
-                                    style: context.textTheme.titleSmall,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Text(
-                                    '1 hours ago',
-                                    maxLines: 2,
-                                    style: context.textTheme.labelSmall,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+                padding: EdgeInsets.symmetric(
+                  vertical: AppDimens.largeHeightDimens,
+                  horizontal: AppDimens.largeWidthDimens,
                 ),
-              ],
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, parentIndex) => ArticleCategoryWidget(
+                  parentIndex: parentIndex,
+                ),
+                itemCount: articles.length,
+              ),
             ),
-            itemCount: provider.topics.length,
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void initialization(BuildContext context) {
+    provider.getArticles().then((value) => showLoading(context, false));
+  }
 }

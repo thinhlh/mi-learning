@@ -66,11 +66,15 @@ class LandingPage extends PageLoadingStateless<LandingPageProvider> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           GestureDetector(
-            onTap: () => _pageController.animateToPage(
-              provider.landingPages(context).length - 1,
-              duration: const Duration(milliseconds: 400),
-              curve: _paeTransitionCurves,
-            ),
+            onTap: () => _pageController
+                .animateToPage(
+                  provider.landingPages(context).length - 1,
+                  duration: const Duration(milliseconds: 400),
+                  curve: _paeTransitionCurves,
+                )
+                .then(
+                  (value) => navigator.pushNamed(Routes.auth),
+                ),
             child: Container(
               alignment: Alignment.centerRight,
               padding: EdgeInsets.only(

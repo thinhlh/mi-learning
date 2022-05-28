@@ -65,10 +65,14 @@ class WDialog extends Dialog {
                           ),
                         ),
                         SizedBox(height: AppDimens.largeHeightDimens),
-                        Text(
-                          content,
-                          textAlign: TextAlign.center,
-                          style: context.textTheme.titleMedium,
+                        Flexible(
+                          child: Text(
+                            content,
+                            textAlign: TextAlign.center,
+                            style: context.textTheme.titleMedium,
+                            maxLines: null,
+                            softWrap: true,
+                          ),
                         ),
                         SizedBox(height: AppDimens.largeHeightDimens),
                         SizedBox(height: AppDimens.largeHeightDimens),
@@ -83,7 +87,9 @@ class WDialog extends Dialog {
                                         GestureDetector(
                                           onTap: () {
                                             Navigator.of(context).pop();
-                                            onActions[index].call();
+                                            if (onActions.isNotEmpty) {
+                                              onActions[index].call();
+                                            }
                                           },
                                           child: Text(
                                             actionString.toUpperCase(),

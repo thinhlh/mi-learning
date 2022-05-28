@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mi_learning/app/common/presentation/widgets/w_blur.dart';
-import 'package:mi_learning/app/course_detail/presentation/providers/detail/course_detail_lessions_page_provider.dart';
+import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
@@ -9,7 +9,7 @@ import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class CourseDetailLessionsPage
-    extends PageLoadingStateless<CourseDetailLessionsPageProvider> {
+    extends PageLoadingStateless<CourseDetailPageProvider> {
   final AnimationController lessionAnimationController;
   final Animation<double> lessionAnimation;
 
@@ -83,52 +83,55 @@ class CourseDetailLessionsPage
       ),
     );
     bool isBlur = true;
-    return StatefulBuilder(
-      builder: (_, setState) {
-        return isBlur
-            ? WBlur(
-                blur: isBlur,
-                overlayChild: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.lock,
-                      size: AppDimens.largeIcon,
-                    ),
-                    SizedBox(height: AppDimens.mediumHeightDimens),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          isBlur = !isBlur;
-                        });
-                      },
-                      child: Text(
-                        'Enroll in this course',
-                        style: context.textTheme.titleSmall?.copyWith(
-                          color: AppColors.neutral.shade50,
-                          fontWeight: AppStyles.bold,
-                        ),
+    return Container(
+      color: AppColors.neutral.shade50,
+      child: StatefulBuilder(
+        builder: (_, setState) {
+          return isBlur
+              ? WBlur(
+                  blur: isBlur,
+                  overlayChild: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.lock,
+                        size: AppDimens.largeIcon,
                       ),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                          AppColors.tetiary,
+                      SizedBox(height: AppDimens.mediumHeightDimens),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            isBlur = !isBlur;
+                          });
+                        },
+                        child: Text(
+                          'Enroll in this course',
+                          style: context.textTheme.titleSmall?.copyWith(
+                            color: AppColors.neutral.shade50,
+                            fontWeight: AppStyles.bold,
+                          ),
                         ),
-                        elevation: MaterialStateProperty.all(
-                            AppDimens.mediumElevation),
-                        padding: MaterialStateProperty.all(
-                          EdgeInsets.symmetric(
-                            horizontal: AppDimens.largeWidthDimens,
-                            vertical: AppDimens.largeHeightDimens,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            AppColors.tetiary,
+                          ),
+                          elevation: MaterialStateProperty.all(
+                              AppDimens.mediumElevation),
+                          padding: MaterialStateProperty.all(
+                            EdgeInsets.symmetric(
+                              horizontal: AppDimens.largeWidthDimens,
+                              vertical: AppDimens.largeHeightDimens,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                child: lessons,
-              )
-            : lessons;
-      },
+                    ],
+                  ),
+                  child: lessons,
+                )
+              : lessons;
+        },
+      ),
     );
   }
 

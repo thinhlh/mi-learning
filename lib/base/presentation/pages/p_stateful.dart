@@ -19,7 +19,7 @@ abstract class PageStateful<T extends DialogProvider, P extends StatefulWidget>
 
   @override
   void dispose() {
-    provider.dispose();
+    // provider.dispose();
     super.dispose();
   }
 

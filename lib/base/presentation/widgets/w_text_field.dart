@@ -7,6 +7,7 @@ import 'package:mi_learning/utils/extensions/context_extension.dart';
 class WidgetTextField extends StatelessWidget {
   final String label;
   final TextEditingController controller;
+  final IconData icon;
   final TextInputType? inputType;
   final bool? obsercureText;
 
@@ -14,6 +15,7 @@ class WidgetTextField extends StatelessWidget {
     Key? key,
     required this.label,
     required this.controller,
+    required this.icon,
     this.inputType,
     this.obsercureText,
   }) : super(key: key);
@@ -33,7 +35,7 @@ class WidgetTextField extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(
-            Icons.mail_outline_rounded,
+            icon,
             color: AppColors.textSecondary,
           ),
           SizedBox(width: AppDimens.largeWidthDimens),

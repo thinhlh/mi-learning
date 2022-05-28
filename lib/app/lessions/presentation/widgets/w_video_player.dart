@@ -21,7 +21,7 @@ class _WVideoPlayerState extends State<WVideoPlayer> {
 
   Future<void> _initializePlayer() async {
     _controller = VideoPlayerController.network(
-      'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/de0e3ee6-e40d-4da3-805b-b0643b4ff351/PC_-_Ht_Cho_Nhng_Ph_Phng_x_NewoulZ.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220508%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220508T060306Z&X-Amz-Expires=86400&X-Amz-Signature=c90ef77ec68613f82981cae988ba120c4999cd4c043649b6f6748eb634f4c125&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22PC%2520-%2520H%25C3%25A1t%2520Cho%2520Nh%25E1%25BB%25AFng%2520Ph%25E1%25BB%2591%2520Ph%25C6%25B0%25E1%25BB%259Dng%2520x%2520New%2524oulZ.mp4%22&x-id=GetObject',
+      'https://storage.googleapis.com/mi-learning.appspot.com/Flutter%20TDD%20Clean%20Architecture%20Course%20%5B1%5D%20%E2%80%93%20Explanation%20%26%20Project%20Structure.mp4',
     );
     _isInitializedVideo = _controller.initialize();
     await _isInitializedVideo;

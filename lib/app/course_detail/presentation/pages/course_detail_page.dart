@@ -2,15 +2,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mi_learning/app/common/domain/entity/course.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_about_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_discuss_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_lessions_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_ratings_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
-import 'package:mi_learning/app/course_detail/presentation/providers/detail/course_detail_about_page_provider.dart';
-import 'package:mi_learning/app/course_detail/presentation/providers/detail/course_detail_discuss_page_provider.dart';
-import 'package:mi_learning/app/course_detail/presentation/providers/detail/course_detail_lessions_page_provider.dart';
-import 'package:mi_learning/app/course_detail/presentation/providers/detail/course_detail_ratings_page_provider.dart';
+import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
@@ -18,9 +16,10 @@ import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:mi_learning/utils/route_util.dart';
+import 'package:provider/provider.dart';
 
 class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
-  late final int id;
+  late final String id;
   CourseDetailPage({Key? key}) : super(key: key);
   @override
   Widget buildPage(BuildContext context) {
@@ -42,7 +41,9 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'Flutter TDD Clean Architecture Course',
+                context.select<CourseDetailPageProvider, String>(
+                  (provider) => provider.course?.title ?? "",
+                ),
                 style: context.textTheme.titleLarge?.copyWith(
                   fontWeight: AppStyles.extraBold,
                 ),
@@ -52,51 +53,64 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'by Reso coder',
+                'by ${context.select<CourseDetailPageProvider, String>((provider) => provider.course?.teacher.name ?? "")}',
                 style: context.textTheme.caption?.copyWith(
                   fontSize: context.textTheme.subtitle2?.fontSize,
                 ),
               ),
             ),
-            SizedBox(height: AppDimens.largeHeightDimens),
-            SizedBox(
+            Container(
+              margin: EdgeInsets.symmetric(
+                vertical: AppDimens.largeHeightDimens,
+              ),
               width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () => navigator.pushNamed(Routes.orderDetail),
-                child: const Text(
-                  'ENROLL',
-                  style: TextStyle(
-                    letterSpacing: 1,
-                  ),
-                ),
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        AppDimens.mediumRadius,
+              child: context.select<CourseDetailPageProvider, bool>(
+                (provider) => provider.course?.enrolled ?? false,
+              )
+                  ? const SizedBox.shrink()
+                  : ElevatedButton(
+                      onPressed: () => navigator.pushNamed(Routes.orderDetail),
+                      child: const Text(
+                        'ENROLL',
+                        style: TextStyle(
+                          letterSpacing: 1,
+                        ),
+                      ),
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              AppDimens.mediumRadius,
+                            ),
+                          ),
+                        ),
+                        elevation: MaterialStateProperty.all(
+                          AppDimens.mediumElevation,
+                        ),
+                        padding: MaterialStateProperty.all(
+                          EdgeInsets.symmetric(
+                            vertical: 12.h,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  elevation: MaterialStateProperty.all(
-                    AppDimens.mediumElevation,
-                  ),
-                  padding: MaterialStateProperty.all(
-                    EdgeInsets.symmetric(
-                      vertical: 12.h,
-                    ),
-                  ),
-                ),
-              ),
             ),
-            SizedBox(height: AppDimens.largeHeightDimens),
             AspectRatio(
               aspectRatio: 16 / 9,
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppDimens.largeRadius),
                 ),
-                child: Image.asset(
-                  'assets/images/hoang_thinh.png',
+                child: Image.network(
+                  context.select<CourseDetailPageProvider, String>(
+                    (provider) => provider.course?.background ?? "",
+                  ),
+                  errorBuilder: (context, error, stackTrace) => Center(
+                    child: Text(
+                      'Unable to load image!',
+                      style: context.textTheme.titleLarge,
+                    ),
+                  ),
                   fit: BoxFit.cover,
                   alignment: Alignment.center,
                 ),
@@ -150,7 +164,8 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
 
   @override
   void initialization(BuildContext context) {
-    id = context.getArgument<int>() ?? 0;
+    id = context.getArgument<String>() ?? "";
+    provider.getCourseDetail(id);
   }
 }
 
@@ -161,7 +176,8 @@ class _CouseDetailTab extends StatefulWidget {
   State<_CouseDetailTab> createState() => _CouseDetailTabState();
 }
 
-class _CouseDetailTabState extends State<_CouseDetailTab>
+class _CouseDetailTabState
+    extends PageLoadingStateful<CourseDetailPageProvider, _CouseDetailTab>
     with TickerProviderStateMixin {
   late final TabController tabController;
   late final AnimationController lessionAnimationController;
@@ -201,14 +217,14 @@ class _CouseDetailTabState extends State<_CouseDetailTab>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildPage(BuildContext context) {
     return DefaultTabController(
       length: 3,
       initialIndex: 0,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: AppColors.neutral.shade50,
           toolbarHeight: 0,
           bottom: TabBar(
             physics: const BouncingScrollPhysics(),
@@ -228,32 +244,26 @@ class _CouseDetailTabState extends State<_CouseDetailTab>
             controller: tabController,
           ),
         ),
-        body: TabBarView(
-          physics: const BouncingScrollPhysics(),
-          controller: tabController,
-          children: [
-            RouteUtil.createPageProvider(
-              provider: (_) => CourseDetailAboutPageProvider(),
-              child: CourseDetailAboutPage(),
-            ),
-            RouteUtil.createPageProvider(
-              provider: (_) => CourseDetailLessionsPageProvider(),
-              child: CourseDetailLessionsPage(
+        body: Selector<CourseDetailPageProvider, Course?>(
+          selector: (_, provider) => provider.course,
+          builder: (_, course, child) => TabBarView(
+            physics: const BouncingScrollPhysics(),
+            controller: tabController,
+            children: [
+              CourseDetailAboutPage(),
+              CourseDetailLessionsPage(
                 lessionAnimation: lessionAnimation,
                 lessionAnimationController: lessionAnimationController,
               ),
-            ),
-            RouteUtil.createPageProvider(
-              provider: (_) => CourseDetailDiscussPageProvider(),
-              child: CourseDetailDiscussPage(),
-            ),
-            RouteUtil.createPageProvider(
-              provider: (_) => CourseDetailRatingsPageProvider(),
-              child: CourseDetailRatingsPage(),
-            )
-          ],
+              CourseDetailDiscussPage(),
+              CourseDetailRatingsPage(),
+            ],
+          ),
         ),
       ),
     );
   }
+
+  @override
+  void initialization(BuildContext context) {}
 }

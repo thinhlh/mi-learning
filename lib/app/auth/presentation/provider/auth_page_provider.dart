@@ -1,11 +1,36 @@
+import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mi_learning/app/auth/domain/usecase/sign_in_request_params.dart';
+import 'package:mi_learning/app/auth/domain/usecase/sign_in_use_case.dart';
+import 'package:mi_learning/app/auth/domain/usecase/sign_up_request_params.dart';
+import 'package:mi_learning/app/auth/domain/usecase/sign_up_use_case.dart';
+import 'package:mi_learning/app/common/domain/entity/tokens.dart';
+import 'package:mi_learning/base/failure.dart';
 import 'package:mi_learning/base/presentation/providers/loading_provider.dart';
 
 class AuthPageProvider extends LoadingProvider {
+  // Usecases
+  final SignInUseCase _signInUseCase;
+  final SignUpUseCase _signUpUseCase;
+
+  AuthPageProvider(this._signInUseCase, this._signUpUseCase);
+
   //  values
   bool _isLogin = true;
+  String? _role;
+
+  // controllers
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController reEnterPasswordController =
+      TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController occupationController = TextEditingController();
+
+  // getters & setters
+  bool get isLogin => _isLogin;
 
   bool _success = false;
   bool get success => _success;
@@ -14,8 +39,23 @@ class AuthPageProvider extends LoadingProvider {
     notifyListeners();
   }
 
-  // Public getter & setter
-  bool get isLogin => _isLogin;
+  String? get role => _role;
+  set role(String? value) {
+    _role = value;
+    notifyListeners();
+  }
+
+  // Methods
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    reEnterPasswordController.dispose();
+    nameController.dispose();
+    occupationController.dispose();
+    super.dispose();
+  }
 
   void goToSignUp() {
     if (_isLogin) {
@@ -31,11 +71,25 @@ class AuthPageProvider extends LoadingProvider {
     }
   }
 
-  void signIn() {
-    showLoading(true);
-    Future.delayed(const Duration(seconds: 3)).then((_) {
-      showLoading(false);
-      success = true;
-    });
+  Future<Either<Failure, bool>> signIn() {
+    return _signInUseCase(
+      SignInRequestParams(
+        email: emailController.text,
+        password: passwordController.text,
+      ),
+    );
+  }
+
+  Future<Either<Failure, dynamic>> signUp() {
+    return _signUpUseCase(
+      SignUpRequestParams(
+        email: emailController.text,
+        password: passwordController.text,
+        birthday: '',
+        name: nameController.text,
+        occupation: occupationController.text,
+        role: role?.toLowerCase() ?? '',
+      ),
+    );
   }
 }

@@ -7,3 +7,8 @@ class InitializationFailure extends Failure {
 }
 
 class APIFailure extends Failure {}
+
+class AuthenticationFailure extends Failure {
+  AuthenticationFailure({String? message})
+      : super(message: message ?? tr('message'));
+}

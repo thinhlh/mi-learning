@@ -15,7 +15,7 @@ class JWTInterceptor extends Interceptor {
     if (token == null) {
       // TODO no token found
     } else {
-      options.headers.putIfAbsent('Authorization', () => token);
+      options.headers.putIfAbsent('Authorization', () => 'Bearer ' + token);
     }
 
     super.onRequest(options, handler);

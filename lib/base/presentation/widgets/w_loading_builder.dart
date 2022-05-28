@@ -5,6 +5,10 @@ import 'package:mi_learning/services/dialogs/app_loading.dart';
 import 'package:provider/provider.dart';
 
 class WidgetLoadingBuilder<T extends LoadingProvider> extends StatelessWidget {
+  void showLoading(BuildContext context, bool show) {
+    show ? AppLoading.showLoading(context) : AppLoading.dismissLoading(context);
+  }
+
   final Widget parent;
 
   const WidgetLoadingBuilder(
@@ -18,17 +22,6 @@ class WidgetLoadingBuilder<T extends LoadingProvider> extends StatelessWidget {
       body: Stack(
         children: [
           parent,
-          Selector<T, bool>(
-            builder: (_, isLoading, child) {
-              SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
-                isLoading
-                    ? AppLoading.showLoading(context)
-                    : AppLoading.dismissLoading(context);
-              });
-              return const SizedBox.shrink();
-            },
-            selector: (_, provider) => provider.isLoading,
-          )
         ],
       ),
     );

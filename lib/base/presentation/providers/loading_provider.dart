@@ -6,7 +6,9 @@ abstract class LoadingProvider extends DialogProvider {
   bool get isLoading => _isLoading;
 
   void showLoading(bool show) {
-    _isLoading = show;
-    notifyListeners();
+    if (isLoading != show) {
+      _isLoading = show;
+      notifyListeners();
+    }
   }
 }

@@ -1,20 +1,25 @@
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:mi_learning/app/schedule/domain/entities/schedule.dart';
+import 'package:mi_learning/app/schedule/domain/entities/schedule_color.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/providers/schedule_detail_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
+import 'package:mi_learning/utils/date_time_helper.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
+import 'package:mi_learning/app/schedule/domain/entities/schedule_status.dart';
 import 'package:provider/provider.dart';
 
 class ScheduleDetailPage
     extends PageLoadingStateless<ScheduleDetailPageProvider> {
+  late final Schedule schedule;
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red.withOpacity(0.4),
+      backgroundColor: schedule.color.color,
       appBar: AppBar(
         centerTitle: true,
         foregroundColor: null,
@@ -74,15 +79,18 @@ class ScheduleDetailPage
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'How to achieve high performace in midterm test?',
+                      schedule.title,
                       style: context.textTheme.titleLarge,
                     ),
                     SizedBox(height: AppDimens.largeHeightDimens),
-                    const ListTile(
-                      leading: Icon(Icons.access_time_outlined),
+                    ListTile(
+                      leading: const Icon(Icons.access_time_outlined),
                       title: Text(
-                        '10:30 - 11:30',
-                        style: TextStyle(
+                        DateTimeHelper.format(
+                          schedule.dueDate,
+                          format: DateFormat('HH:mm a | dd-MM-yyyy'),
+                        ),
+                        style: const TextStyle(
                           fontWeight: AppStyles.bold,
                         ),
                       ),
@@ -92,24 +100,20 @@ class ScheduleDetailPage
                         Icons.event_note_outlined,
                       ),
                       title: Text(
-                        'Status',
+                        schedule.status.name,
                         style: TextStyle(
                           fontWeight: AppStyles.extraBold,
-                          color: AppColors.success,
+                          color: schedule.status.color,
                         ),
                       ),
                     ),
-                    const ListTile(
-                      leading: Icon(Icons.location_on_outlined),
-                      title: Text(
-                        'Microsoft Teams - msjkl',
-                      ),
+                    ListTile(
+                      leading: const Icon(Icons.location_on_outlined),
+                      title: Text(schedule.location),
                     ),
-                    const ListTile(
-                      leading: Icon(Icons.comment_outlined),
-                      title: Text(
-                        'Remember to bring your own calculator. We don\'t have any responsibility to resolve your problem during the test.',
-                      ),
+                    ListTile(
+                      leading: const Icon(Icons.comment_outlined),
+                      title: Text(schedule.note),
                     ),
                     SizedBox(height: AppDimens.mediumHeightDimens),
                     ListTile(
@@ -162,5 +166,7 @@ class ScheduleDetailPage
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void initialization(BuildContext context) {
+    schedule = context.getArgument();
+  }
 }

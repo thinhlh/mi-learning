@@ -168,9 +168,8 @@ class SettingPage extends PageLoadingStateless<SettingPageProvider> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => navigator.pushNamedAndRemoveUntil(
+                onPressed: () => navigator.pushReplacementNamed(
                   Routes.landing,
-                  (route) => true,
                 ),
                 child: Text(
                   'Sign Out',

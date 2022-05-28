@@ -42,6 +42,7 @@ dependencies:
   table_calendar: ^3.0.5
   scrollable_positioned_list: ^0.2.3
   webview_flutter: ^3.0.4
+  shimmer: ^2.0.0
 
   # Localization
   easy_localization: ^3.0.0
@@ -53,6 +54,7 @@ dependencies:
   dio: ^4.0.4
   http: ^0.13.4
   shared_preferences: ^2.0.13
+  agora_rtc_engine: ^5.2.0 # For livestreaming
 
   # Architecture libs
   # flutter_bloc: ^8.0.1
@@ -65,11 +67,13 @@ dependencies:
   # Helper
   intl: ^0.17.0
   logger: ^1.1.0
+  permission_handler: ^9.2.0
 
   # Firebase services
   firebase_core: ^1.14.0
   firebase_crashlytics: ^2.6.1
-  cloud_firestore: ^3.1.15
+  firebase_auth: ^3.3.18
+  # cloud_firestore: ^3.1.15
 
 dev_dependencies:
   flutter_lints: ^1.0.0

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/course_detail/presentation/providers/detail/course_detail_discuss_page_provider.dart';
+import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 
 class CourseDetailDiscussPage
-    extends PageLoadingStateless<CourseDetailDiscussPageProvider> {
+    extends PageLoadingStateless<CourseDetailPageProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.neutral.shade50,
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         child: const Icon(Icons.create),

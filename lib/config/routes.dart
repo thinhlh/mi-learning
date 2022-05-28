@@ -4,16 +4,16 @@ import 'package:get_it/get_it.dart';
 import 'package:mi_learning/app/article/presentation/pages/article_viewer_page.dart';
 import 'package:mi_learning/app/article/presentation/providers/article_viewer_page_provider.dart';
 import 'package:mi_learning/app/auth/presentation/pages/auth_page.dart';
+import 'package:mi_learning/app/auth/presentation/pages/code_confirmation_page.dart';
+import 'package:mi_learning/app/auth/presentation/pages/forgot_password_page.dart';
 import 'package:mi_learning/app/auth/presentation/provider/auth_page_provider.dart';
+import 'package:mi_learning/app/auth/presentation/provider/code_confirmation_page_provider.dart';
+import 'package:mi_learning/app/auth/presentation/provider/forgot_password_page_provider.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/pages/schedule_detail_page.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/pages/timer_chosen_page.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/providers/schedule_detail_page_provider.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/course_detail_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
-import 'package:mi_learning/app/forgot_password/presentation/pages/code_confirmation_page.dart';
-import 'package:mi_learning/app/forgot_password/presentation/pages/forgot_password_page.dart';
-import 'package:mi_learning/app/forgot_password/presentation/providers/code_confirmation_page_provider.dart';
-import 'package:mi_learning/app/forgot_password/presentation/providers/forgot_password_page_provider.dart';
 import 'package:mi_learning/app/home/presentation/pages/home_page.dart';
 import 'package:mi_learning/app/home/presentation/providers/home_page_provider.dart';
 import 'package:mi_learning/app/landing/presentation/pages/landing_page.dart';
@@ -47,20 +47,22 @@ class Routes {
   static const String test = '/test';
   static const String about = '/about';
   static const String auth = '/auth';
-  static const String forgotPassword = '/forgot_password';
-  static const String codeConfirmation = '/code_confirmation';
+  static const String signUp = '/sign-up';
+  static const String forgotPassword = '/forgot-password';
+  static const String codeConfirmation = '/code-confirmation';
   static const String home = '/home';
-  static const String courseDetail = '/course_detail';
+  static const String courseDetail = '/course-detail';
   static const String lession = '/lession';
   static const String explorer = '/explorer';
-  static const String noteEditor = '/note_editor';
+  static const String noteEditor = '/note-editor';
   static const String setting = '/setting';
-  static const String scheduleDetail = '/schedule_detail';
-  static const String timerChosen = '/timer_chosen';
+  static const String scheduleDetail = '/schedule-detail';
+  static const String timerChosen = '/timer-chosen';
   static const String notification = '/notifications';
-  static const String orderDetail = '/order_detail';
+  static const String orderDetail = '/order-detail';
   static const String payment = '/payment';
-  static const String articleViewer = '/article_viewer';
+  static const String articleViewer = '/article-viewer';
+  static const String emailVerification = '/email-verification';
 
   /// This is where you handle routing by name and arguments
   static Route<dynamic>? onGenerateRoute(RouteSettings routeSettings) {
@@ -91,7 +93,7 @@ class Routes {
           fullscreenDialog: true,
           settings: routeSettings,
           builder: (_) => RouteUtil.createPageProvider<AuthPageProvider>(
-            provider: (_) => AuthPageProvider(),
+            provider: (_) => AuthPageProvider(GetIt.I(), GetIt.I()),
             child: const AuthPage(),
           ),
         );
@@ -102,7 +104,7 @@ class Routes {
           settings: routeSettings,
           builder: (_) =>
               RouteUtil.createPageProvider<ForgotPasswordPageProvider>(
-            provider: (_) => ForgotPasswordPageProvider(),
+            provider: (_) => ForgotPasswordPageProvider(GetIt.I()),
             child: const ForgotPasswordPage(),
           ),
         );
@@ -134,7 +136,7 @@ class Routes {
           settings: routeSettings,
           builder: (_) =>
               RouteUtil.createPageProvider<CourseDetailPageProvider>(
-            provider: (_) => CourseDetailPageProvider(),
+            provider: (_) => CourseDetailPageProvider(GetIt.I()),
             child: CourseDetailPage(),
           ),
         );

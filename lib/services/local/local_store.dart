@@ -27,4 +27,20 @@ class LocalStore {
       return defValue;
     }
   }
+
+  Future<bool> store<T>(String key, T value) {
+    if (T is int) {
+      return _store.setInt(key, value as int);
+    } else if (T is double) {
+      return _store.setDouble(key, value as double);
+    } else if (T is bool) {
+      return _store.setBool(key, value as bool);
+    } else if (T is String) {
+      return _store.setString(key, value as String);
+    } else if (T is List<String>) {
+      return _store.setStringList(key, value as List<String>);
+    } else {
+      return _store.setString(key, value.toString());
+    }
+  }
 }
