@@ -43,4 +43,6 @@ class LocalStore {
       return _store.setString(key, value.toString());
     }
   }
+
+  Future<bool> remove(String key) => _store.remove(key);
 }

@@ -38,7 +38,10 @@ class Section {
     return Section(
       id: map['id'] ?? '',
       title: map['title'] ?? '',
-      lessons: List<Lesson>.from(map['lessons']?.map((x) => Lesson.fromMap(x))),
+      lessons: List<Lesson>.from(map['lessons']?.map((x) => Lesson.fromMap(x)))
+        ..sort(
+          (a, b) => a.lessonOrder.compareTo(b.lessonOrder),
+        ),
     );
   }
 

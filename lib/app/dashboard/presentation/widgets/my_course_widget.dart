@@ -23,6 +23,7 @@ class MyCourseWidget extends StatelessWidget {
         arguments: myCourse?.id,
       ),
       child: Container(
+        height: 0.16.sh,
         padding: EdgeInsets.all(
           AppDimens.largeWidthDimens,
         ),
@@ -32,9 +33,6 @@ class MyCourseWidget extends StatelessWidget {
           ),
           // border: Border.all(color: AppColors.neutral.shade500),
           color: AppColors.neutral.shade50,
-        ),
-        margin: EdgeInsets.only(
-          right: AppDimens.largeWidthDimens,
         ),
         width: 0.8.sw,
         child: myCourse == null

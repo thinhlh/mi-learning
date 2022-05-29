@@ -251,10 +251,7 @@ class _CouseDetailTabState
             controller: tabController,
             children: [
               CourseDetailAboutPage(),
-              CourseDetailLessionsPage(
-                lessionAnimation: lessionAnimation,
-                lessionAnimationController: lessionAnimationController,
-              ),
+              CourseDetailLessionsPage(lessionAnimation: lessionAnimation),
               CourseDetailDiscussPage(),
               CourseDetailRatingsPage(),
             ],

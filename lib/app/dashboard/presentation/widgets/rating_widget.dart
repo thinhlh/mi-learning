@@ -11,6 +11,7 @@ class RatingWidget extends StatefulWidget {
   final bool showSubTitle;
   final bool showRatingAnimation;
   final double? starSize;
+  final int totalRating;
   RatingWidget({
     Key? key,
     required this.rating,
@@ -19,6 +20,7 @@ class RatingWidget extends StatefulWidget {
     this.showSubTitle = false,
     this.showRatingAnimation = false,
     this.starSize,
+    this.totalRating = 0,
   }) : super(key: key);
 
   @override
@@ -89,7 +91,7 @@ class _RatingWidgetState extends State<RatingWidget> {
             Visibility(
               visible: widget.showSubTitle,
               child: Text(
-                'Based on 252 reviews',
+                'Based on ${widget.totalRating} reviews',
                 style: context.textTheme.caption,
               ),
             )

@@ -8,7 +8,11 @@ import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:video_player/video_player.dart';
 
 class WVideoPlayer extends StatefulWidget {
-  const WVideoPlayer({Key? key}) : super(key: key);
+  final String url;
+  WVideoPlayer({
+    Key? key,
+    required this.url,
+  }) : super(key: key);
 
   @override
   State<WVideoPlayer> createState() => _WVideoPlayerState();
@@ -20,9 +24,7 @@ class _WVideoPlayerState extends State<WVideoPlayer> {
   late Future<void> _isInitializedVideo;
 
   Future<void> _initializePlayer() async {
-    _controller = VideoPlayerController.network(
-      'https://storage.googleapis.com/mi-learning.appspot.com/Flutter%20TDD%20Clean%20Architecture%20Course%20%5B1%5D%20%E2%80%93%20Explanation%20%26%20Project%20Structure.mp4',
-    );
+    _controller = VideoPlayerController.network(widget.url);
     _isInitializedVideo = _controller.initialize();
     await _isInitializedVideo;
 

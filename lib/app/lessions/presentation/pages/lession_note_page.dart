@@ -1,10 +1,7 @@
 part of 'lession_page.dart';
 
 class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
-  final BoxConstraints _noteEditorConstraint;
   final _controller = editor.QuillController.basic();
-
-  _LessionNotePage(this._noteEditorConstraint);
 
   @override
   Widget buildPage(BuildContext context) {
@@ -18,7 +15,6 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
               AppDimens.mediumRadius,
             ),
           ),
-          constraints: _noteEditorConstraint,
           context: context,
           barrierColor: Colors.transparent,
           builder: (_) => RouteUtil.createPageProvider(

@@ -38,6 +38,8 @@ class CourseDetailRatingsPage
                         rating: provider.course?.courseRatings.average ?? 0.0,
                         direction: Axis.vertical,
                         showSubTitle: true,
+                        totalRating:
+                            provider.course?.courseRatings.ratings.length ?? 0,
                       ),
                     ),
                     SizedBox(width: AppDimens.extraLargeWidthDimens),

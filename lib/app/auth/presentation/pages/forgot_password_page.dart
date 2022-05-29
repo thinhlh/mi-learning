@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mi_learning/app/auth/presentation/provider/forgot_password_page_provider.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
@@ -61,45 +63,65 @@ class _ForgotPasswordPage extends PageLoadingStateful<
           SizedBox(height: AppDimens.extraLargeHeightDimens),
           SizedBox(
             width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () async {
-                if (emailController.text.isEmpty) {
-                  showDialog(
-                    context: context,
-                    builder: (_) => WDialog(
-                      dialogType: DialogType.error,
-                      content: 'Email must not be empty!',
-                      onActions: const [],
-                    ),
-                  );
-                } else {
-                  final result =
-                      await provider.sendPasswordReset(emailController.text);
+            child: Consumer<ForgotPasswordPageProvider>(
+              builder: (_, provider, child) => ElevatedButton(
+                onPressed: provider.countDownTimer?.isActive ?? false
+                    ? null
+                    : () async {
+                        if (emailController.text.isEmpty) {
+                          showDialog(
+                            context: context,
+                            builder: (_) => WDialog(
+                              dialogType: DialogType.error,
+                              content: 'Email must not be empty!',
+                              onActions: const [],
+                            ),
+                          );
+                        } else {
+                          final result = await provider
+                              .sendPasswordReset(emailController.text);
 
-                  result.fold(
-                    (failure) => showDialog(
-                      context: context,
-                      builder: (_) => WDialog(
-                        dialogType: DialogType.error,
-                        content: failure.message,
-                        onActions: const [],
-                      ),
-                    ),
-                    (r) => navigator.pushNamed(Routes.auth),
-                  );
-                }
-              },
-              child: Text(
-                context.select<ForgotPasswordPageProvider, String>(
-                  (provider) => provider.countDown?.isActive ?? false
+                          result.fold(
+                              (failure) => showDialog(
+                                    context: context,
+                                    builder: (_) => WDialog(
+                                      dialogType: DialogType.error,
+                                      content: failure.message,
+                                      onActions: const [],
+                                    ),
+                                  ), (r) {
+                            showDialog(
+                              context: context,
+                              builder: (_) => WDialog(
+                                dialogType: DialogType.success,
+                                content: 'Password reset email has been sent!',
+                                onActions: [
+                                  () => navigator.pushNamed(Routes.auth),
+                                ],
+                              ),
+                            );
+                          });
+                        }
+                      },
+                child: Text(
+                  provider.countDownTimer?.isActive ?? false
                       ? DateTimeHelper.formatDurationNoHout(
-                          Duration(seconds: provider.countDown?.tick ?? 0),
+                          Duration(
+                            seconds: const Duration(minutes: 2).inSeconds -
+                                (provider.countDownTimer?.tick ?? 0),
+                          ),
                         )
                       : 'Send me code',
+                  style: context.textTheme.titleMedium?.copyWith(
+                    color: AppColors.neutral.shade50,
+                    fontWeight: AppStyles.bold,
+                  ),
                 ),
-                style: context.textTheme.titleMedium?.copyWith(
-                  color: AppColors.neutral.shade50,
-                  fontWeight: AppStyles.bold,
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                      provider.countDownTimer?.isActive ?? false
+                          ? AppColors.neutral.shade400.withOpacity(0.7)
+                          : AppColors.primarySwatch.shade500),
                 ),
               ),
             ),

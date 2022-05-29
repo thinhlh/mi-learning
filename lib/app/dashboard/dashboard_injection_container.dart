@@ -1,9 +1,9 @@
 import 'package:mi_learning/app/dashboard/data/datasources/dashboard_remote_data_source.dart';
 import 'package:mi_learning/app/dashboard/data/repositories/dashboard_repository_impl.dart';
 import 'package:mi_learning/app/dashboard/domain/repository/dashboard_repository.dart';
+import 'package:mi_learning/app/dashboard/domain/usecases/get_basic_user_info_use_case.dart';
 import 'package:mi_learning/app/dashboard/domain/usecases/get_my_courses_use_case.dart';
 import 'package:mi_learning/app/dashboard/domain/usecases/get_recommended_courses_use_case.dart';
-import 'package:mi_learning/app/schedule/domain/usecases/get_dates_has_schedules_use_case.dart';
 import 'package:mi_learning/base/injection/injection_container.dart';
 
 class DashboardInjectionContainer extends InjectionContainer {
@@ -14,6 +14,9 @@ class DashboardInjectionContainer extends InjectionContainer {
 
   @override
   Future<void> init() async {
+    getIt.registerLazySingleton<GetBasicUserInfoUseCase>(
+        () => GetBasicUserInfoUseCase(getIt()));
+
     getIt.registerLazySingleton<GetMyCoursesUseCase>(
         () => GetMyCoursesUseCase(getIt()));
 

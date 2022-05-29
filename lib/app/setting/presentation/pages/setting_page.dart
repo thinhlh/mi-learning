@@ -1,58 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mi_learning/app/setting/domain/entities/setting.dart';
 import 'package:mi_learning/app/setting/presentation/providers/setting_page_provider.dart';
+import 'package:mi_learning/app/user/domain/entities/basic_user_info.dart';
+import 'package:mi_learning/base/domain/usecase/base_usecase.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
-
-class Setting {
-  final String title;
-  final String? subtitle;
-  final void Function() onPressed;
-  final bool isSwitch;
-
-  Setting({
-    required this.title,
-    this.subtitle,
-    required this.onPressed,
-    required this.isSwitch,
-  });
-}
+import 'package:mi_learning/utils/extensions/string_extension.dart';
 
 class SettingPage extends PageLoadingStateless<SettingPageProvider> {
-  final Map<String, List<Setting>> settings = {
-    "Account": [
-      Setting(
-        title: 'Edit profile',
-        onPressed: () {},
-        isSwitch: false,
-      ),
-      Setting(
-        title: 'Change password',
-        onPressed: () {},
-        isSwitch: true,
-      ),
-    ],
-    "Preferences": [
-      Setting(
-        title: 'Language',
-        subtitle: 'Vietnamese',
-        onPressed: () {},
-        isSwitch: false,
-      ),
-      Setting(
-        title: 'Saved Courses',
-        onPressed: () {},
-        isSwitch: true,
-      ),
-    ],
-  };
+  late final BasicUserInfo? userInfo;
+
+  Map<String, List<Setting>> getSettings(BuildContext context) => {
+        "Account": [
+          Setting(
+            title: 'Edit profile',
+            onPressed: () {},
+            isSwitch: false,
+          ),
+          Setting(
+            title: 'Change password',
+            onPressed: () {
+              context.navigator.pushNamed(Routes.changePassword);
+            },
+            isSwitch: false,
+          ),
+        ],
+        "Preferences": [
+          Setting(
+            title: 'Language',
+            subtitle: 'Vietnamese',
+            onPressed: () {},
+            isSwitch: false,
+          ),
+          Setting(
+            title: 'Saved Courses',
+            onPressed: () {},
+            isSwitch: true,
+          ),
+        ],
+      };
 
   @override
   Widget buildPage(BuildContext context) {
+    final settings = getSettings(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -83,16 +78,14 @@ class SettingPage extends PageLoadingStateless<SettingPageProvider> {
               alignment: Alignment.center,
               child: CircleAvatar(
                 radius: 50.r,
-                backgroundImage: const AssetImage(
-                  'assets/images/avatar.jpg',
-                ),
+                backgroundImage: NetworkImage(userInfo?.avatar ?? ""),
               ),
             ),
             SizedBox(height: AppDimens.largeHeightDimens),
             Align(
               alignment: Alignment.center,
               child: Text(
-                'Hoang Thinh',
+                userInfo?.name ?? "",
                 style: context.textTheme.titleLarge,
               ),
             ),
@@ -100,7 +93,7 @@ class SettingPage extends PageLoadingStateless<SettingPageProvider> {
             Align(
               alignment: Alignment.center,
               child: Text(
-                'Developer',
+                (userInfo?.occupation ?? "").toCamelCase(),
                 style: context.textTheme.subtitle1,
               ),
             ),
@@ -134,6 +127,7 @@ class SettingPage extends PageLoadingStateless<SettingPageProvider> {
                         return Column(
                           children: [
                             ListTile(
+                              onTap: setting.onPressed,
                               title: Text(setting.title),
                               subtitle: setting.subtitle != null
                                   ? Text(setting.subtitle ?? "")
@@ -168,9 +162,14 @@ class SettingPage extends PageLoadingStateless<SettingPageProvider> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => navigator.pushReplacementNamed(
-                  Routes.landing,
-                ),
+                onPressed: () async {
+                  final result = await provider.signOut();
+                  result.fold((l) => null, (result) {
+                    navigator.pushReplacementNamed(
+                      Routes.landing,
+                    );
+                  });
+                },
                 child: Text(
                   'Sign Out',
                   style: TextStyle(
@@ -186,5 +185,7 @@ class SettingPage extends PageLoadingStateless<SettingPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void initialization(BuildContext context) {
+    userInfo = context.getArgument<BasicUserInfo>();
+  }
 }

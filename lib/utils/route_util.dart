@@ -12,6 +12,7 @@ class RouteUtil {
     return ChangeNotifierProvider<T>(
       child: child,
       create: provider,
+      lazy: true,
     );
   }
 }

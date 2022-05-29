@@ -16,6 +16,7 @@ class Course {
   final double price;
   final String category;
   final bool enrolled;
+  final String? currentLesson;
   final List<Section> sections;
   final Teacher teacher;
   final CourseRating courseRatings;
@@ -26,6 +27,7 @@ class Course {
     required this.length,
     required this.background,
     this.icon,
+    this.currentLesson,
     required this.price,
     required this.category,
     required this.enrolled,
@@ -44,6 +46,7 @@ class Course {
     double? price,
     String? category,
     bool? enrolled,
+    String? currentLesson,
     List<Section>? sections,
     Teacher? teacher,
     CourseRating? courseRating,
@@ -61,6 +64,7 @@ class Course {
       sections: sections ?? this.sections,
       teacher: teacher ?? this.teacher,
       courseRatings: courseRating ?? this.courseRatings,
+      currentLesson: currentLesson ?? this.currentLesson,
     );
   }
 
@@ -78,6 +82,7 @@ class Course {
       'sections': sections.map((x) => x.toMap()).toList(),
       'teacher': teacher.toMap(),
       'courseRating': courseRatings.toMap(),
+      'currentLesson': currentLesson,
     };
   }
 
@@ -92,6 +97,7 @@ class Course {
       price: map['price']?.toDouble() ?? 0.0,
       category: map['category'] ?? '',
       enrolled: map['enrolled'] ?? false,
+      currentLesson: map['currentLesson'],
       sections:
           List<Section>.from(map['sections']?.map((x) => Section.fromMap(x))),
       teacher: Teacher.fromMap(map['teacher']),
@@ -105,7 +111,7 @@ class Course {
 
   @override
   String toString() {
-    return 'Course(id: $id, title: $title, description: $description, length: $length, background: $background, icon: $icon, price: $price, category: $category, enrolled: $enrolled, sections: $sections, teacher: $teacher, courseRating: $courseRatings)';
+    return 'Course(id: $id, title: $title, description: $description, length: $length, background: $background, icon: $icon, price: $price, category: $category, enrolled: $enrolled, currentLesson: $currentLesson, sections: $sections, teacher: $teacher, courseRating: $courseRatings)';
   }
 
   @override
@@ -122,6 +128,7 @@ class Course {
         other.price == price &&
         other.category == category &&
         other.enrolled == enrolled &&
+        other.currentLesson == currentLesson &&
         listEquals(other.sections, sections) &&
         other.teacher == teacher &&
         other.courseRatings == courseRatings;
@@ -138,6 +145,7 @@ class Course {
         price.hashCode ^
         category.hashCode ^
         enrolled.hashCode ^
+        currentLesson.hashCode ^
         sections.hashCode ^
         teacher.hashCode ^
         courseRatings.hashCode;

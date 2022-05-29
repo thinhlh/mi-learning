@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/article/presentation/providers/article_page_provider.dart';
 import 'package:mi_learning/app/article/presentation/widgets/article_widget.dart';
 import 'package:mi_learning/config/colors.dart';

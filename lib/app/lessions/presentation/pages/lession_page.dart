@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
+import 'package:mi_learning/app/common/domain/entity/course.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/lession_question_answer_page.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/note_editor_page.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/lession_course_content_page_provider.dart';
@@ -35,20 +36,20 @@ class LessionPage extends PageLoadingStateless<LessionPageProvider> {
                 : AppColors.neutral.shade900,
           ),
           title: Text(
-            'Lession',
+            'Lesson',
             style: context.textTheme.titleMedium?.copyWith(
               fontWeight: AppStyles.bold,
             ),
           ),
           centerTitle: true,
         ),
-        const WVideoPlayer(),
+        WVideoPlayer(url: provider.lesson?.videoLesson?.videoUrl ?? ''),
         SizedBox(height: AppDimens.largeHeightDimens),
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: AppDimens.mediumWidthDimens),
           child: Text(
-            'Flutter TDD Clean Architecture Course [1] - Explanation & Project Structure',
+            provider.lesson?.title ?? '',
             style: context.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -65,9 +66,7 @@ class LessionPage extends PageLoadingStateless<LessionPageProvider> {
                   ),
                 ),
                 Expanded(
-                  child: _LessionTabPage(
-                    parentConstraint: constraint,
-                  ),
+                  child: _LessionTabPage(course: provider.course),
                 ),
               ],
             ),
@@ -78,5 +77,9 @@ class LessionPage extends PageLoadingStateless<LessionPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void initialization(BuildContext context) {
+    final arguments = context.getArgument<Map<String, dynamic>>();
+    provider.course = arguments?['course'];
+    provider.lesson = arguments?['lesson'];
+  }
 }

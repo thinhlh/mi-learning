@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,17 +9,34 @@ import 'package:mi_learning/app/dashboard/presentation/providers/dashboard_page_
 import 'package:mi_learning/app/dashboard/presentation/widgets/recommended_course_widget.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/live_event_card.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/my_course_widget.dart';
+import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
+import 'package:mi_learning/utils/extensions/string_extension.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
-class DashboardPage extends PageLoadingStateless<DashboardPageProvider> {
-  DashboardPage({Key? key}) : super(key: key);
+class DashboardPage extends StatefulWidget {
+  const DashboardPage({Key? key}) : super(key: key);
+
+  @override
+  State<DashboardPage> createState() => _DashboardPageState();
+}
+
+class _DashboardPageState
+    extends PageLoadingStateful<DashboardPageProvider, DashboardPage>
+    with AutomaticKeepAliveClientMixin {
+  _DashboardPageState() : super();
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return buildPage(context);
+  }
 
   @override
   Widget buildPage(BuildContext context) {
@@ -60,7 +79,10 @@ class DashboardPage extends PageLoadingStateless<DashboardPageProvider> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             GestureDetector(
-              onTap: () => navigator.pushNamed(Routes.setting),
+              onTap: () => navigator.pushNamed(
+                Routes.setting,
+                arguments: provider.userInfo,
+              ),
               child: SizedBox.square(
                 dimension: AppDimens.avatar,
                 child: ClipRRect(
@@ -78,7 +100,9 @@ class DashboardPage extends PageLoadingStateless<DashboardPageProvider> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Hoang Thinh',
+                  context.select<DashboardPageProvider, String>(
+                    ((provider) => provider.userInfo?.name ?? ""),
+                  ),
                   style: context.textTheme.titleLarge?.copyWith(
                     fontSize: 20.sp,
                     fontWeight: AppStyles.extraBold,
@@ -86,7 +110,10 @@ class DashboardPage extends PageLoadingStateless<DashboardPageProvider> {
                 ),
                 SizedBox(height: AppDimens.smallHeightDimens),
                 Text(
-                  'Developer',
+                  context.select<DashboardPageProvider, String>(
+                    (provider) =>
+                        (provider.userInfo?.occupation ?? "").toCamelCase(),
+                  ),
                   style: context.textTheme.bodySmall?.copyWith(
                     fontSize: 16.sp,
                   ),
@@ -134,10 +161,16 @@ class DashboardPage extends PageLoadingStateless<DashboardPageProvider> {
                 fontWeight: AppStyles.bold,
               ),
             ),
-            Text(
-              'Show all',
-              style: context.textTheme.subtitle2?.copyWith(
-                color: AppColors.tetiary,
+            GestureDetector(
+              onTap: () => navigator.pushNamed(
+                Routes.myCourses,
+                arguments: provider.myCourse,
+              ),
+              child: Text(
+                'Show all',
+                style: context.textTheme.subtitle2?.copyWith(
+                  color: AppColors.tetiary,
+                ),
               ),
             ),
           ],
@@ -161,14 +194,16 @@ class DashboardPage extends PageLoadingStateless<DashboardPageProvider> {
     return Container(
       height: 0.16.sh,
       margin: EdgeInsets.only(top: AppDimens.mediumHeightDimens),
-      child: ListView.builder(
+      child: ListView.separated(
+        separatorBuilder: (context, index) => SizedBox(
+          width: AppDimens.largeWidthDimens,
+        ),
         physics: const BouncingScrollPhysics(),
         itemBuilder: (_, index) => MyCourseWidget(
           myCourse: myCourses?[index],
         ),
         scrollDirection: Axis.horizontal,
-        itemCount: myCourses?.length ?? 10,
-        shrinkWrap: true,
+        itemCount: min(myCourses?.length ?? 3, 3),
       ),
     );
   }
@@ -211,7 +246,11 @@ class DashboardPage extends PageLoadingStateless<DashboardPageProvider> {
 
   @override
   void initialization(BuildContext context) {
+    provider.getBasicUserInfo();
     provider.getMyCourses();
     provider.getRecommendedCourses();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

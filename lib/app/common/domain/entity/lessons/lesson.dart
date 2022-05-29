@@ -1,21 +1,35 @@
 import 'dart:convert';
 
+import 'package:mi_learning/app/common/domain/entity/lessons/test_lesson.dart';
+import 'package:mi_learning/app/common/domain/entity/lessons/video_lesson.dart';
+
 class Lesson {
   final String id;
-  final int? lessonOrder;
-
+  final int lessonOrder;
+  final String title;
+  final VideoLesson? videoLesson;
+  final TestLesson? testLesson;
   Lesson({
     required this.id,
-    this.lessonOrder,
+    required this.lessonOrder,
+    required this.title,
+    this.videoLesson,
+    this.testLesson,
   });
 
   Lesson copyWith({
     String? id,
     int? lessonOrder,
+    String? title,
+    VideoLesson? videoLesson,
+    TestLesson? testLesson,
   }) {
     return Lesson(
       id: id ?? this.id,
       lessonOrder: lessonOrder ?? this.lessonOrder,
+      title: title ?? this.title,
+      videoLesson: videoLesson ?? this.videoLesson,
+      testLesson: testLesson ?? this.testLesson,
     );
   }
 
@@ -23,6 +37,9 @@ class Lesson {
     return {
       'id': id,
       'lessonOrder': lessonOrder,
+      'title': title,
+      'videoLesson': videoLesson?.toMap(),
+      'testLesson': testLesson?.toMap(),
     };
   }
 
@@ -30,6 +47,13 @@ class Lesson {
     return Lesson(
       id: map['id'] ?? '',
       lessonOrder: map['lessonOrder']?.toInt(),
+      title: map['title'] ?? '',
+      videoLesson: map['videoLesson'] != null
+          ? VideoLesson.fromMap(map['videoLesson'])
+          : null,
+      testLesson: map['testLesson'] != null
+          ? TestLesson.fromMap(map['testLesson'])
+          : null,
     );
   }
 
@@ -38,7 +62,9 @@ class Lesson {
   factory Lesson.fromJson(String source) => Lesson.fromMap(json.decode(source));
 
   @override
-  String toString() => 'Lesson(id: $id, lessonOrder: $lessonOrder)';
+  String toString() {
+    return 'Lesson(id: $id, lessonOrder: $lessonOrder, title: $title, videoLesson: $videoLesson, testLesson: $testLesson)';
+  }
 
   @override
   bool operator ==(Object other) {
@@ -46,9 +72,18 @@ class Lesson {
 
     return other is Lesson &&
         other.id == id &&
-        other.lessonOrder == lessonOrder;
+        other.lessonOrder == lessonOrder &&
+        other.title == title &&
+        other.videoLesson == videoLesson &&
+        other.testLesson == testLesson;
   }
 
   @override
-  int get hashCode => id.hashCode ^ lessonOrder.hashCode;
+  int get hashCode {
+    return id.hashCode ^
+        lessonOrder.hashCode ^
+        title.hashCode ^
+        videoLesson.hashCode ^
+        testLesson.hashCode;
+  }
 }

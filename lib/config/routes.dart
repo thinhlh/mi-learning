@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get_it/get_it.dart';
@@ -9,6 +10,8 @@ import 'package:mi_learning/app/auth/presentation/pages/forgot_password_page.dar
 import 'package:mi_learning/app/auth/presentation/provider/auth_page_provider.dart';
 import 'package:mi_learning/app/auth/presentation/provider/code_confirmation_page_provider.dart';
 import 'package:mi_learning/app/auth/presentation/provider/forgot_password_page_provider.dart';
+import 'package:mi_learning/app/my_courses/presentation/pages/my_courses_page.dart';
+import 'package:mi_learning/app/my_courses/presentation/providers/my_courses_page_provider.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/pages/schedule_detail_page.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/pages/timer_chosen_page.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/providers/schedule_detail_page_provider.dart';
@@ -29,7 +32,9 @@ import 'package:mi_learning/app/order_detail/presentation/providers/order_detail
 import 'package:mi_learning/app/payment/presentation/pages/payment_page.dart';
 import 'package:mi_learning/app/payment/presentation/providers/payment_page_provider.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/providers/timer_chosen_page_provider.dart';
+import 'package:mi_learning/app/setting/presentation/pages/change_password_page.dart';
 import 'package:mi_learning/app/setting/presentation/pages/setting_page.dart';
+import 'package:mi_learning/app/setting/presentation/providers/change_password_page_provider.dart';
 import 'package:mi_learning/app/setting/presentation/providers/setting_page_provider.dart';
 import 'package:mi_learning/app/test/presentation/pages/test_page.dart';
 import 'package:mi_learning/app/test/presentation/provider/test_provider.dart';
@@ -41,7 +46,8 @@ class Routes {
   static final RouteObserver<PageRoute> routeObserver =
       RouteObserver<PageRoute>();
 
-  static String get initial => landing;
+  static String get initial =>
+      FirebaseAuth.instance.currentUser == null ? landing : home;
 
   static const String landing = '/landing';
   static const String test = '/test';
@@ -52,7 +58,7 @@ class Routes {
   static const String codeConfirmation = '/code-confirmation';
   static const String home = '/home';
   static const String courseDetail = '/course-detail';
-  static const String lession = '/lession';
+  static const String lessons = '/lesson';
   static const String explorer = '/explorer';
   static const String noteEditor = '/note-editor';
   static const String setting = '/setting';
@@ -63,6 +69,8 @@ class Routes {
   static const String payment = '/payment';
   static const String articleViewer = '/article-viewer';
   static const String emailVerification = '/email-verification';
+  static const String changePassword = '/profile/chang-password';
+  static const String myCourses = '/courses/me';
 
   /// This is where you handle routing by name and arguments
   static Route<dynamic>? onGenerateRoute(RouteSettings routeSettings) {
@@ -141,7 +149,7 @@ class Routes {
           ),
         );
 
-      case Routes.lession:
+      case Routes.lessons:
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
@@ -166,7 +174,7 @@ class Routes {
           fullscreenDialog: true,
           settings: routeSettings,
           builder: (_) => RouteUtil.createPageProvider<SettingPageProvider>(
-            provider: (_) => SettingPageProvider(),
+            provider: (_) => SettingPageProvider(GetIt.I()),
             child: SettingPage(),
           ),
         );
@@ -231,6 +239,27 @@ class Routes {
               RouteUtil.createPageProvider<ArticleViewerPageProvider>(
             provider: (_) => ArticleViewerPageProvider(),
             child: ArticleViewerPage(),
+          ),
+        );
+
+      case Routes.changePassword:
+        return CupertinoPageRoute(
+          fullscreenDialog: true,
+          settings: routeSettings,
+          builder: (_) =>
+              RouteUtil.createPageProvider<ChangePasswordPageProvider>(
+            provider: (_) => ChangePasswordPageProvider(GetIt.I()),
+            child: ChangePasswordPage(),
+          ),
+        );
+
+      case Routes.myCourses:
+        return CupertinoPageRoute(
+          fullscreenDialog: true,
+          settings: routeSettings,
+          builder: (_) => RouteUtil.createPageProvider<MyCoursesPageProvider>(
+            provider: (_) => MyCoursesPageProvider(),
+            child: MyCoursePage(),
           ),
         );
       default:

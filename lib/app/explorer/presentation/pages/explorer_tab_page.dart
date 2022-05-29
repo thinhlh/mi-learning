@@ -56,7 +56,7 @@ class _ExplorerTabPageState extends State<_ExplorerTabPage>
             ),
             RouteUtil.createPageProvider(
               child: _ExplorerCategoriesPage(),
-              provider: (_) => ExplorerCategoriesPageProvider(),
+              provider: (_) => ExplorerCategoriesPageProvider(GetIt.I()),
             ),
             RouteUtil.createPageProvider(
               child: _ExplorerEditorChoicePage(),

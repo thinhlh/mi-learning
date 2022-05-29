@@ -1,11 +1,10 @@
 part of 'lession_page.dart';
 
 class _LessionTabPage extends StatefulWidget {
-  final BoxConstraints parentConstraint;
-
+  final Course? course;
   const _LessionTabPage({
     Key? key,
-    required this.parentConstraint,
+    required this.course,
   }) : super(key: key);
 
   @override
@@ -74,12 +73,14 @@ class __LessionTabPageState extends State<_LessionTabPage>
           controller: _tabController,
           children: [
             RouteUtil.createPageProvider(
-              child: _LessionNotePage(widget.parentConstraint),
+              child: _LessionNotePage(),
               provider: (_) => LessionNotePageProvider(),
             ),
             RouteUtil.createPageProvider(
               child: LessionCourseContentPage(),
-              provider: (_) => LessionCourseContentPageProvider(),
+              provider: (_) => LessionCourseContentPageProvider(
+                course: widget.course,
+              ),
             ),
             RouteUtil.createPageProvider(
               child: LessionQuestionAnswerPage(),

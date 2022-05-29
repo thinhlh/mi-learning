@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/article/domain/entities/article.dart';
 import 'package:mi_learning/app/article/presentation/providers/article_page_provider.dart';
 import 'package:mi_learning/app/article/presentation/widgets/article_category_widget.dart';

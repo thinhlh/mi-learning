@@ -27,12 +27,13 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
               provider: (_) => DashboardPageProvider(
                 GetIt.I(),
                 GetIt.I(),
+                GetIt.I(),
               ),
               child: DashboardPage(),
             );
           case 1:
             return RouteUtil.createPageProvider(
-              provider: (_) => ExplorerPageProvider(),
+              provider: (_) => ExplorerPageProvider(GetIt.I()),
               child: ExplorerPage(),
             );
           case 2:
@@ -56,8 +57,6 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
       tabBar: CupertinoTabBar(
         backgroundColor: Colors.transparent,
         border: Border.all(style: BorderStyle.none),
-        // currentIndex: 3,
-        // height: 0,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home)),
           BottomNavigationBarItem(icon: Icon(Icons.explore)),
