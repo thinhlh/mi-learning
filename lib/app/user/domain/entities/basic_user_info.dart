@@ -61,8 +61,11 @@ class BasicUserInfo {
       name: map['name'] ?? '',
       email: map['email'] ?? '',
       occupation: map['occupation'] ?? '',
-      birthday: DateTimeHelper.dateTimeFromServerDateTimeResponse(
-          (map['birthday'] as List<dynamic>).cast<int>()),
+      birthday: map['birthday'] == null
+          ? DateTime.now()
+          : DateTimeHelper.dateTimeFromServerDateTimeResponse(
+              (map['birthday'] as List<dynamic>).cast<int>(),
+            ),
       avatar: map['avatar'] ?? '',
       role: map['role'] ?? '',
     );

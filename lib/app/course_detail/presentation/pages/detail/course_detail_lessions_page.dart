@@ -6,6 +6,7 @@ import 'package:mi_learning/app/course_detail/presentation/widgets/course_detail
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
+import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
@@ -95,7 +96,20 @@ class CourseDetailLessionsPage
         ),
         SizedBox(height: AppDimens.mediumHeightDimens),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            navigator
+                .pushNamed(
+              Routes.orderDetail,
+              arguments: provider.course!,
+            )
+                .then(
+              (value) {
+                if (value == true) {
+                  navigator.pop();
+                }
+              },
+            );
+          },
           child: Text(
             'Enroll in this course',
             style: context.textTheme.titleSmall?.copyWith(

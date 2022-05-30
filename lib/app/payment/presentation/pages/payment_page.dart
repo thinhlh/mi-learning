@@ -49,60 +49,69 @@ class PaymentPage extends PageLoadingStateless<PaymentPageProvider> {
                 ),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: 5,
-                itemBuilder: (_, index) => Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 0.8,
-                      color: AppColors.tetiary,
+                itemCount: 2,
+                itemBuilder: (_, index) => GestureDetector(
+                  onTap: () => navigator.pop(index),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 0.8,
+                        color: AppColors.tetiary,
+                      ),
+                      borderRadius: BorderRadius.circular(
+                        AppDimens.largeRadius,
+                      ),
                     ),
-                    borderRadius: BorderRadius.circular(
-                      AppDimens.largeRadius,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: AppDimens.largeWidthDimens,
+                      vertical: AppDimens.largeHeightDimens,
                     ),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: AppDimens.largeWidthDimens,
-                    vertical: AppDimens.largeHeightDimens,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Payment with Credit Card',
-                              style: context.textTheme.titleLarge?.copyWith(
-                                fontWeight: AppStyles.extraBold,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                index != 0
+                                    ? 'Payment with Credit Card'
+                                    : 'Payment with Momo',
+                                style: context.textTheme.titleLarge?.copyWith(
+                                  fontWeight: AppStyles.extraBold,
+                                ),
+                                softWrap: true,
                               ),
-                              softWrap: true,
                             ),
-                          ),
-                          const Icon(
-                            Icons.credit_card_rounded,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: AppDimens.mediumHeightDimens),
-                      Text(
-                        'Reliable third party wallet in Vietnam',
-                        style: context.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
+                            const Icon(
+                              Icons.credit_card_rounded,
+                            ),
+                          ],
                         ),
-                      ),
-                      SizedBox(height: AppDimens.smallHeightDimens),
-                      Text(
-                        'Get valuable cashback on every charge.',
-                        style: context.textTheme.bodySmall?.copyWith(
-                          color: context.textTheme.bodyMedium?.color,
+                        SizedBox(height: AppDimens.mediumHeightDimens),
+                        Text(
+                          index == 0
+                              ? 'Reliable third party wallet in Vietnam'
+                              : 'Manage your process ',
+                          style: context.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: AppDimens.smallHeightDimens),
-                      Text(
-                        'Fees and limit vary',
-                        style: context.textTheme.caption,
-                      ),
-                    ],
+                        SizedBox(height: AppDimens.smallHeightDimens),
+                        Text(
+                          index == 0
+                              ? 'Get valuable cashback on every charge.'
+                              : 'Minmal fees and cashback',
+                          style: context.textTheme.bodySmall?.copyWith(
+                            color: context.textTheme.bodyMedium?.color,
+                          ),
+                        ),
+                        SizedBox(height: AppDimens.smallHeightDimens),
+                        Text(
+                          'Fees and limit are none',
+                          style: context.textTheme.caption,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

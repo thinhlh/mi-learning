@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:mi_learning/app/common/domain/entity/lessons/test_lesson.dart';
 import 'package:mi_learning/app/common/domain/entity/lessons/video_lesson.dart';
+import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
 
 class Lesson {
   final String id;
@@ -55,6 +56,10 @@ class Lesson {
           ? TestLesson.fromMap(map['testLesson'])
           : null,
     );
+  }
+
+  factory Lesson.fromCourseDetailLesson(CourseDetailLesson lesson) {
+    return Lesson.fromMap(lesson.toMap());
   }
 
   String toJson() => json.encode(toMap());

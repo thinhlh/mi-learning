@@ -1,5 +1,6 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mi_learning/app/common/domain/entity/category.dart';
@@ -13,13 +14,13 @@ import 'package:mi_learning/app/explorer/presentation/widgets/course_square_widg
 import 'package:mi_learning/app/explorer/presentation/widgets/course_top_chart_widget.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
-import 'package:mi_learning/base/presentation/pages/p_stateful.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:mi_learning/utils/route_util.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 part 'explorer_tab_page.dart';
 part 'explorer_for_you_page.dart';

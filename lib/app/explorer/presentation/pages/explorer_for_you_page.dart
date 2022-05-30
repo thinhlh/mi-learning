@@ -30,12 +30,20 @@ class _ExplorerForYouPage
           SizedBox(height: AppDimens.mediumHeightDimens),
           SizedBox(
             height: 0.35.sh,
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: 10,
-              itemBuilder: (_, index) => const CourseMediumWidget(),
+            child: Selector<ExplorerPageProvider, List<Course>>(
+              selector: (_, provider) => provider.courses,
+              builder: (_, courses, child) => courses.isNotEmpty
+                  ? _FeatureCourses(
+                      courses: courses,
+                    )
+                  : Shimmer.fromColors(
+                      baseColor: AppColors.baseShimmerColor,
+                      highlightColor: AppColors.highlightShimmerColor,
+                      enabled: true,
+                      child: _FeatureCourses(
+                        courses: courses,
+                      ),
+                    ),
             ),
           ),
           SizedBox(height: AppDimens.extraLargeHeightDimens),
@@ -49,7 +57,21 @@ class _ExplorerForYouPage
                 ),
               ),
               SizedBox(height: AppDimens.largeHeightDimens),
-              const CourseLargeWidget(),
+              Selector<ExplorerPageProvider, List<Course>>(
+                selector: (_, provider) => provider.courses,
+                builder: (_, courses, child) => courses.isEmpty
+                    ? Shimmer.fromColors(
+                        enabled: true,
+                        child: SizedBox(
+                          width: 0.8.sw,
+                          height: 0.4.sh,
+                        ),
+                        baseColor: AppColors.baseShimmerColor,
+                        highlightColor: AppColors.highlightShimmerColor)
+                    : CourseLargeWidget(
+                        course: courses.last,
+                      ),
+              ),
             ],
           ),
           SizedBox(height: AppDimens.extraLargeHeightDimens),
@@ -71,12 +93,17 @@ class _ExplorerForYouPage
           SizedBox(height: AppDimens.mediumHeightDimens),
           SizedBox(
             height: 0.25.sh,
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: 10,
-              itemBuilder: (_, index) => const CourseSmallWidget(),
+            child: Selector<ExplorerPageProvider, List<Course>>(
+              selector: (_, provider) => provider.courses,
+              builder: (_, courses, child) => ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: 10,
+                itemBuilder: (_, index) => CourseSmallWidget(
+                  course: courses[index],
+                ),
+              ),
             ),
           ),
         ],
@@ -86,4 +113,25 @@ class _ExplorerForYouPage
 
   @override
   void initialization(BuildContext context) {}
+}
+
+class _FeatureCourses extends StatelessWidget {
+  final List<Course> courses;
+  const _FeatureCourses({
+    Key? key,
+    required this.courses,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      physics: const BouncingScrollPhysics(),
+      shrinkWrap: true,
+      scrollDirection: Axis.horizontal,
+      itemCount: courses.length,
+      itemBuilder: (_, index) => CourseMediumWidget(
+        course: courses[index],
+      ),
+    );
+  }
 }

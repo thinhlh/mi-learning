@@ -1,5 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mi_learning/app/common/domain/entity/course.dart';
+import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
+import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
+import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
 import 'package:mi_learning/app/order_detail/presentation/providers/order_detail_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
@@ -7,8 +12,12 @@ import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
+import 'package:mi_learning/utils/extensions/string_extension.dart';
+import 'package:provider/provider.dart';
 
 class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
+  late final Course course;
+
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
@@ -17,15 +26,6 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
           'Order Detail',
           style: context.textTheme.titleLarge,
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.close_rounded,
-              color: AppColors.neutral.shade900,
-            ),
-          ),
-        ],
         centerTitle: true,
         leading: IconButton(
           onPressed: () => navigator.pop(),
@@ -51,12 +51,16 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
             ),
             SizedBox(height: AppDimens.largeHeightDimens),
             Text(
-              'Hoang Thinh',
+              context.select<OrderDetailPageProvider, String>(
+                (provider) => provider.userInfo?.name ?? "",
+              ),
               style: context.textTheme.bodyLarge,
             ),
             SizedBox(height: AppDimens.smallHeightDimens),
             Text(
-              'Role',
+              context.select<OrderDetailPageProvider, String>(
+                (provider) => (provider.userInfo?.role ?? "").toCamelCase(),
+              ),
               style: context.textTheme.bodySmall,
             ),
             SizedBox(height: AppDimens.smallHeightDimens),
@@ -68,8 +72,8 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
                   style: context.textTheme.titleLarge,
                 ),
                 TextButton(
-                  onPressed: () {},
-                  child: Text(
+                  onPressed: () => navigator.pop(),
+                  child: const Text(
                     'Browse more',
                   ),
                 ),
@@ -86,7 +90,7 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Swift UI The completed course',
+                      course.title,
                       style: context.textTheme.titleSmall,
                     ),
                   ],
@@ -95,9 +99,10 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('\$9.99'),
                     Text(
-                      '\$25.99',
+                        '\$${NumberFormat.currency(symbol: '').format(course.price - course.price * 20 / 100)}'),
+                    Text(
+                      '\$${NumberFormat.currency(symbol: '').format(course.price)}',
                       style: context.textTheme.bodyMedium?.copyWith(
                         decoration: TextDecoration.lineThrough,
                       ),
@@ -110,17 +115,23 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
                     borderRadius: BorderRadius.circular(
                       AppDimens.largeRadius,
                     ),
-                    child: SvgPicture.asset(
-                      'assets/images/swift.svg',
+                    child: Image.network(
+                      course.background,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
               ),
-              itemCount: 3,
+              itemCount: 1,
             ),
-            SizedBox(height: AppDimens.smallHeightDimens),
+            SizedBox(height: AppDimens.largeHeightDimens),
             InkWell(
-              onTap: () => navigator.pushNamed(Routes.payment),
+              onTap: () => navigator.pushNamed(Routes.payment).then(
+                (value) {
+                  provider.paymentResult = value as int;
+                  provider.notifyListeners();
+                },
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -129,14 +140,21 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
                     'Payment',
                     style: context.textTheme.titleLarge,
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: AppDimens.smallIcon,
-                    ),
+                  Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: AppDimens.smallIcon,
                   ),
                 ],
+              ),
+            ),
+            SizedBox(height: AppDimens.smallWidthDimens),
+            Selector<OrderDetailPageProvider, int?>(
+              selector: (_, provider) => provider.paymentResult,
+              builder: (_, index, child) => Visibility(
+                child: Text(
+                  'Payment with ${index == 0 ? 'Momo' : 'Credit'}',
+                  style: context.textTheme.titleSmall,
+                ),
               ),
             ),
             SizedBox(height: AppDimens.largeHeightDimens),
@@ -153,7 +171,7 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
                   style: context.textTheme.titleMedium,
                 ),
                 Text(
-                  '\$77.03',
+                  '\$${NumberFormat.currency(symbol: '').format(course.price)}',
                   style: context.textTheme.titleMedium?.copyWith(
                     fontWeight: AppStyles.bold,
                     letterSpacing: 1.5,
@@ -170,7 +188,7 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
                   style: context.textTheme.titleMedium?.copyWith(),
                 ),
                 Text(
-                  '\$48.00',
+                  '-\$${NumberFormat.currency(symbol: '').format(course.price * 20 / 100)}',
                   style: context.textTheme.titleMedium?.copyWith(
                     fontWeight: AppStyles.bold,
                     letterSpacing: 1.5,
@@ -187,7 +205,7 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
                   style: context.textTheme.titleMedium?.copyWith(),
                 ),
                 Text(
-                  '\$7.70',
+                  '+\$${NumberFormat.currency(symbol: '').format(course.price * 10 / 100)}',
                   style: context.textTheme.titleMedium?.copyWith(
                     fontWeight: AppStyles.bold,
                     letterSpacing: 1.5,
@@ -205,7 +223,7 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
                   style: context.textTheme.titleMedium?.copyWith(),
                 ),
                 Text(
-                  '\$29.03',
+                  '\$${NumberFormat.currency(symbol: '').format(course.price * 90 / 100)}',
                   style: context.textTheme.titleLarge?.copyWith(
                     fontWeight: AppStyles.bold,
                     letterSpacing: 1.5,
@@ -217,7 +235,35 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  showLoading(context, true);
+                  final result = await provider.checkout(course);
+                  await Future.delayed(const Duration(seconds: 3));
+                  showLoading(context, false);
+
+                  result.fold(
+                    (l) {
+                      showDialog(
+                        context: context,
+                        builder: (_) => WDialog(
+                          dialogType: DialogType.error,
+                          content: l.message,
+                          onActions: [],
+                        ),
+                      );
+                    },
+                    (r) => showDialog(
+                      context: context,
+                      builder: (_) => WDialog(
+                        dialogType: DialogType.success,
+                        content: 'Purchase Course Success',
+                        onActions: [
+                          () => navigator.pop(true),
+                        ],
+                      ),
+                    ),
+                  );
+                },
                 child: const Text(
                   'CHECKOUT',
                   style: TextStyle(
@@ -234,5 +280,8 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void initialization(BuildContext context) {
+    course = context.getArgument<Course>()!;
+    provider.getBasicUserInfo();
+  }
 }

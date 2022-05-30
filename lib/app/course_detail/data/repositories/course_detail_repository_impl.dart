@@ -2,6 +2,7 @@ import 'package:mi_learning/app/common/domain/entity/course.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mi_learning/app/course_detail/data/datasources/course_detail_remote_data_source.dart';
 import 'package:mi_learning/app/course_detail/domain/repositories/course_detail_repository.dart';
+import 'package:mi_learning/app/course_detail/domain/usecases/toggle_save_course_use_case.dart';
 import 'package:mi_learning/base/failure.dart';
 
 class CourseDetailRepositoryImpl implements CourseDetailRepository {
@@ -14,5 +15,21 @@ class CourseDetailRepositoryImpl implements CourseDetailRepository {
   @override
   Future<Either<Failure, Course>> getCourseDetail(String courseId) {
     return _courseDetailRemoteDataSource.getCourseDetail(courseId);
+  }
+
+  @override
+  Future<Either<Failure, bool>> toggleSaveCourse(
+      ToggleSaveCourseParams params) {
+    return _courseDetailRemoteDataSource.toggleSaveCourse(params);
+  }
+
+  @override
+  Future<Either<Failure, List<Course>>> getSavedCourse() async {
+    return _courseDetailRemoteDataSource.getSavedCourses();
+  }
+
+  @override
+  Future<Either<Failure, bool>> checkout(String courseId) {
+    return _courseDetailRemoteDataSource.checkout(courseId);
   }
 }

@@ -34,10 +34,10 @@ class AuthFirebaseDataSourceImpl implements AuthFirebaseDataSource {
       );
       final user = userCredential.user;
 
-      if (user != null && !user.emailVerified) {
-        user.sendEmailVerification();
-        return const Right(false);
-      }
+      // if (user != null && !user.emailVerified) {
+      //   user.sendEmailVerification();
+      //   return const Right(false);
+      // }
       return const Right(true);
     } on FirebaseAuthException catch (e) {
       String message = '';

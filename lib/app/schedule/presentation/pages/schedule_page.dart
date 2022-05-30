@@ -17,10 +17,10 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class SchedulePage extends PageLoadingStateless<SchedulePageProvider> {
-  late PageController _scheduleController;
-
   @override
   Widget buildPage(BuildContext context) {
+    PageController _scheduleController = PageController();
+
     provider.getDatesHasSchedules();
 
     return Scaffold(

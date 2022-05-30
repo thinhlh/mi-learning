@@ -86,69 +86,15 @@ class _ExplorerEditorChoicePage
           SizedBox(height: AppDimens.largeHeightDimens),
           SizedBox(
             height: 0.35.sh,
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: 10,
-              itemBuilder: (_, index) => Padding(
-                padding: EdgeInsets.only(right: AppDimens.largeWidthDimens),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                          AppDimens.largeRadius,
-                        ),
-                        child: Image.asset(
-                          'assets/images/flutter-course.jpeg',
-                          fit: BoxFit.cover,
-                          width: 0.8.sw,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: AppDimens.mediumHeightDimens),
-                    Row(
-                      children: [
-                        Container(
-                          width: 70.w,
-                          height: 70.w,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(AppDimens.largeRadius),
-                            image: const DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage(
-                                'assets/images/user-avatar-1.jpg',
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: AppDimens.largeWidthDimens),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Flutter Crash Course',
-                              style: context.textTheme.titleMedium?.copyWith(
-                                fontWeight: AppStyles.bold,
-                              ),
-                            ),
-                            Text(
-                              'Flutter • Beginner • Mobile',
-                              style: context.textTheme.bodyMedium,
-                            ),
-                            Text(
-                              '4.8 ★ - 24 hours',
-                              style: context.textTheme.bodyMedium,
-                            ),
-                          ],
-                        )
-                      ],
-                    )
-                  ],
+            child: Selector<ExplorerPageProvider, List<Course>>(
+              selector: (_, provider) => provider.courses,
+              builder: (_, courses, child) => ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: 3,
+                itemBuilder: (_, index) => CourseMediumWidget(
+                  course: courses[Random().nextInt(courses.length)],
                 ),
               ),
             ),

@@ -9,8 +9,8 @@ import 'package:mi_learning/app/dashboard/presentation/providers/dashboard_page_
 import 'package:mi_learning/app/dashboard/presentation/widgets/recommended_course_widget.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/live_event_card.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/my_course_widget.dart';
+import 'package:mi_learning/app/home/presentation/providers/home_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
-import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
@@ -40,27 +40,30 @@ class _DashboardPageState
 
   @override
   Widget buildPage(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(context),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: AppDimens.largeWidthDimens,
-          vertical: AppDimens.largeHeightDimens,
-        ),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: AppDimens.largeHeightDimens),
-              const LiveEventCard(),
-              SizedBox(height: AppDimens.largeHeightDimens),
-              _buildMyLearning(context),
-              SizedBox(height: AppDimens.largeHeightDimens),
-              _buildRecommendation(context),
-              SizedBox(height: AppDimens.largeHeightDimens),
-            ],
+    return RefreshIndicator(
+      onRefresh: () async => fetchData(),
+      child: Scaffold(
+        appBar: _buildAppBar(context),
+        body: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppDimens.largeWidthDimens,
+            vertical: AppDimens.largeHeightDimens,
+          ),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: AppDimens.largeHeightDimens),
+                const LiveEventCard(),
+                SizedBox(height: AppDimens.largeHeightDimens),
+                _buildMyLearning(context),
+                SizedBox(height: AppDimens.largeHeightDimens),
+                _buildRecommendation(context),
+                SizedBox(height: AppDimens.largeHeightDimens),
+              ],
+            ),
           ),
         ),
       ),
@@ -85,11 +88,15 @@ class _DashboardPageState
               ),
               child: SizedBox.square(
                 dimension: AppDimens.avatar,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Image.asset(
-                    'assets/images/avatar.jpg',
-                    fit: BoxFit.cover,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: CircleAvatar(
+                    radius: 50.r,
+                    backgroundImage: NetworkImage(
+                      context.select<DashboardPageProvider, String>(
+                        (provider) => provider.userInfo?.avatar ?? "",
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -194,17 +201,27 @@ class _DashboardPageState
     return Container(
       height: 0.16.sh,
       margin: EdgeInsets.only(top: AppDimens.mediumHeightDimens),
-      child: ListView.separated(
-        separatorBuilder: (context, index) => SizedBox(
-          width: AppDimens.largeWidthDimens,
-        ),
-        physics: const BouncingScrollPhysics(),
-        itemBuilder: (_, index) => MyCourseWidget(
-          myCourse: myCourses?[index],
-        ),
-        scrollDirection: Axis.horizontal,
-        itemCount: min(myCourses?.length ?? 3, 3),
-      ),
+      child: myCourses?.isEmpty ?? true
+          ? GestureDetector(
+              onTap: () => context.read<HomeProvider>().tabController.index = 1,
+              child: Center(
+                child: Text(
+                  'You have not enrolled any courses, try out now!',
+                  style: context.textTheme.titleLarge,
+                ),
+              ),
+            )
+          : ListView.separated(
+              separatorBuilder: (context, index) => SizedBox(
+                width: AppDimens.largeWidthDimens,
+              ),
+              physics: const BouncingScrollPhysics(),
+              itemBuilder: (_, index) => MyCourseWidget(
+                myCourse: myCourses?[index],
+              ),
+              scrollDirection: Axis.horizontal,
+              itemCount: min(myCourses?.length ?? 3, 3),
+            ),
     );
   }
 
@@ -246,6 +263,10 @@ class _DashboardPageState
 
   @override
   void initialization(BuildContext context) {
+    fetchData();
+  }
+
+  void fetchData() {
     provider.getBasicUserInfo();
     provider.getMyCourses();
     provider.getRecommendedCourses();

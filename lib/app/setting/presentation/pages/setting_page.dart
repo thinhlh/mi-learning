@@ -39,8 +39,8 @@ class SettingPage extends PageLoadingStateless<SettingPageProvider> {
           ),
           Setting(
             title: 'Saved Courses',
-            onPressed: () {},
-            isSwitch: true,
+            onPressed: () => context.navigator.pushNamed(Routes.savedCourses),
+            isSwitch: false,
           ),
         ],
       };

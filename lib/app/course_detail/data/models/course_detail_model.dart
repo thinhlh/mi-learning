@@ -14,6 +14,7 @@ class CourseDetailModel extends Course {
     required double price,
     required String category,
     required bool enrolled,
+    required bool saved,
     required List<Section> sections,
     required Teacher teacher,
     required CourseRating courseRatings,
@@ -30,5 +31,6 @@ class CourseDetailModel extends Course {
           sections: sections,
           teacher: teacher,
           courseRatings: courseRatings,
+          saved: saved,
         );
 }

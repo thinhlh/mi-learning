@@ -120,9 +120,21 @@ class _AuthPageForm extends StatelessWidget {
                       onActions: [],
                     ),
                   ),
-                  (r) {
+                  (emailVerified) {
                     if (isLogin) {
+                      // if (emailVerified) {
                       context.navigator.pushNamed(Routes.home);
+                      // } else {
+                      //   showDialog(
+                      //     context: context,
+                      //     builder: (context) => WDialog(
+                      //       dialogType: DialogType.info,
+                      //       content:
+                      //           'Please verify your email address before login!',
+                      //       onActions: [],
+                      //     ),
+                      //   );
+                      // }
                     } else {
                       showDialog(
                         context: context,

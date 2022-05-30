@@ -1,10 +1,10 @@
 part of 'lession_page.dart';
 
 class _LessionTabPage extends StatefulWidget {
-  final Course? course;
+  final CourseDetail? courseDetail;
   const _LessionTabPage({
     Key? key,
-    required this.course,
+    required this.courseDetail,
   }) : super(key: key);
 
   @override
@@ -79,7 +79,7 @@ class __LessionTabPageState extends State<_LessionTabPage>
             RouteUtil.createPageProvider(
               child: LessionCourseContentPage(),
               provider: (_) => LessionCourseContentPageProvider(
-                course: widget.course,
+                courseDetail: widget.courseDetail,
               ),
             ),
             RouteUtil.createPageProvider(

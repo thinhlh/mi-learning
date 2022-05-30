@@ -3,6 +3,9 @@ import 'package:mi_learning/app/auth/auth_injection_container.dart';
 import 'package:mi_learning/app/course_detail/course_detail_injection_container.dart';
 import 'package:mi_learning/app/dashboard/dashboard_injection_container.dart';
 import 'package:mi_learning/app/explorer/explorer_injection_container.dart';
+import 'package:mi_learning/app/lessions/lesson_injection_container.dart';
+import 'package:mi_learning/app/saved_course/domain/get_saved_courses_use_case.dart';
+import 'package:mi_learning/app/saved_course/saved_courses_injection_container.dart';
 import 'package:mi_learning/app/schedule/schedule_injection_container.dart';
 import 'package:mi_learning/app/setting/setting_injection_container.dart';
 import 'package:mi_learning/app/test/test_injection_container.dart';
@@ -21,5 +24,7 @@ class DependencyInitializer {
     await TestInjectionContainer.instance.init();
     await UserInjectionContainer.instance.init();
     await ExplorerInjectionContainer.instance.init();
+    await LessonInjectionContainer.instance.init();
+    await SavedCoursesInjectionContainer.instance.init();
   }
 }

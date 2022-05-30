@@ -69,7 +69,20 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
               )
                   ? const SizedBox.shrink()
                   : ElevatedButton(
-                      onPressed: () => navigator.pushNamed(Routes.orderDetail),
+                      onPressed: provider.course == null
+                          ? null
+                          : () => navigator
+                                  .pushNamed(
+                                Routes.orderDetail,
+                                arguments: provider.course!,
+                              )
+                                  .then(
+                                (value) {
+                                  if (value == true) {
+                                    navigator.pop();
+                                  }
+                                },
+                              ),
                       child: const Text(
                         'ENROLL',
                         style: TextStyle(
@@ -145,19 +158,19 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
         style: context.textTheme.titleLarge?.copyWith(),
       ),
       actions: [
-        StatefulBuilder(
-          builder: (_, setState) => IconButton(
-            onPressed: () {
-              setState(() {});
-            },
-            icon: Icon(
-              Random().nextBool()
-                  ? Icons.bookmark_rounded
-                  : Icons.bookmark_border_rounded,
-              color: AppColors.neutral.shade900,
-            ),
+        IconButton(
+          onPressed: () async {
+            provider.toggleSaveCourse(id);
+          },
+          icon: Icon(
+            context.select<CourseDetailPageProvider, bool>(
+              (provider) => provider.course?.saved ?? false,
+            )
+                ? Icons.bookmark_rounded
+                : Icons.bookmark_border_rounded,
+            color: AppColors.neutral.shade900,
           ),
-        )
+        ),
       ],
     );
   }

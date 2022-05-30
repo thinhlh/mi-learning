@@ -143,18 +143,18 @@ class ScheduleDetailPage
                       ),
                     ),
                     SizedBox(height: AppDimens.extraLargeHeightDimens),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: const Text('Taking your test'),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                            AppColors.primarySwatch.shade400,
-                          ),
-                        ),
-                      ),
-                    ),
+                    // SizedBox(
+                    //   width: double.infinity,
+                    //   child: ElevatedButton(
+                    //     onPressed: () {},
+                    //     child: const Text('Taking your test'),
+                    //     style: ButtonStyle(
+                    //       backgroundColor: MaterialStateProperty.all(
+                    //         AppColors.primarySwatch.shade400,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

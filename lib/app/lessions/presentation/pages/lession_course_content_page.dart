@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:mi_learning/app/common/domain/entity/course.dart';
 import 'package:mi_learning/app/common/domain/entity/lessons/lesson.dart';
 import 'package:mi_learning/app/common/domain/entity/section.dart';
+import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
+import 'package:mi_learning/app/lessions/domain/entities/lesson_push_detail_params.dart';
 
 import 'package:mi_learning/app/lessions/presentation/providers/lession_course_content_page_provider.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/lession_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
+import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
@@ -20,21 +23,22 @@ class LessionCourseContentPage
   Widget buildPage(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: AppDimens.largeHeightDimens),
-      child: Selector<LessionCourseContentPageProvider, List<Section>>(
-        selector: (_, provider) => provider.course?.sections ?? [],
+      child:
+          Selector<LessionCourseContentPageProvider, List<CourseDetailSection>>(
+        selector: (_, provider) => provider.courseDetail?.sections ?? [],
         builder: (_, sections, child) => ListView.builder(
           physics: const BouncingScrollPhysics(),
           itemBuilder: (_, index) => ExpansionTile(
             subtitle: Builder(builder: (context) {
               final totalLessons = sections[index].lessons.length;
-              final currentLessonId = provider.course?.currentLesson;
+              final currentLessonId = provider.courseDetail?.currentLesson;
               final currentLesson = sections
-                  .fold<List<Lesson>>(
+                  .fold<List<CourseDetailLesson>>(
                     [],
                     (previousList, currentSection) =>
                         previousList..addAll(currentSection.lessons),
                   )
-                  .firstWhere((lesson) => lesson.id == currentLessonId)
+                  .firstWhere((lesson) => lesson.lessonId == currentLessonId)
                   .lessonOrder;
 
               final sectionLength = sections.fold<int>(
@@ -69,17 +73,27 @@ class LessionCourseContentPage
                   final currentViewingLesson =
                       context.read<LessionPageProvider>().lesson;
                   return ListTile(
+                    onTap: lesson.lessonId == currentViewingLesson?.id
+                        ? null
+                        : () {
+                            navigator.pushReplacementNamed(
+                              Routes.lessons,
+                              arguments: LessonPushDetailParams(
+                                lesson: Lesson.fromCourseDetailLesson(lesson),
+                                courseId: provider.courseDetail?.courseId ?? "",
+                              ),
+                            );
+                          },
                     contentPadding: EdgeInsets.zero,
                     leading: Checkbox(
-                      value: Random().nextBool(),
+                      value: lesson.courseDetailMetaData.finished,
                       onChanged: (value) {},
                     ),
                     title: Text(
                       '${lessonIndex + 1}. ${lesson.title}',
                       style: context.textTheme.bodyMedium,
                     ),
-                    selected: lesson.id ==
-                        context.read<LessionPageProvider>().lesson?.id,
+                    selected: lesson.lessonId == currentViewingLesson?.id,
                     selectedTileColor: AppColors.neutral.shade400,
                     subtitle: Padding(
                       padding:
@@ -89,7 +103,9 @@ class LessionCourseContentPage
                           const Icon(Icons.play_circle),
                           SizedBox(width: AppDimens.mediumWidthDimens),
                           Text(
-                            '4min',
+                            lesson.videoLesson == null
+                                ? lesson.testLesson?.question ?? ""
+                                : '${Duration(seconds: lesson.videoLesson?.length ?? 0).inMinutes}min',
                             style: context.textTheme.caption,
                           )
                         ],

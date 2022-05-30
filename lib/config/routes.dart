@@ -12,6 +12,8 @@ import 'package:mi_learning/app/auth/presentation/provider/code_confirmation_pag
 import 'package:mi_learning/app/auth/presentation/provider/forgot_password_page_provider.dart';
 import 'package:mi_learning/app/my_courses/presentation/pages/my_courses_page.dart';
 import 'package:mi_learning/app/my_courses/presentation/providers/my_courses_page_provider.dart';
+import 'package:mi_learning/app/saved_course/presentation/pages/saved_courses_page.dart';
+import 'package:mi_learning/app/saved_course/presentation/providers/saved_courses_page_provider.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/pages/schedule_detail_page.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/pages/timer_chosen_page.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/providers/schedule_detail_page_provider.dart';
@@ -71,6 +73,7 @@ class Routes {
   static const String emailVerification = '/email-verification';
   static const String changePassword = '/profile/chang-password';
   static const String myCourses = '/courses/me';
+  static const String savedCourses = '/courses/saved';
 
   /// This is where you handle routing by name and arguments
   static Route<dynamic>? onGenerateRoute(RouteSettings routeSettings) {
@@ -144,7 +147,10 @@ class Routes {
           settings: routeSettings,
           builder: (_) =>
               RouteUtil.createPageProvider<CourseDetailPageProvider>(
-            provider: (_) => CourseDetailPageProvider(GetIt.I()),
+            provider: (_) => CourseDetailPageProvider(
+              GetIt.I(),
+              GetIt.I(),
+            ),
             child: CourseDetailPage(),
           ),
         );
@@ -154,7 +160,7 @@ class Routes {
           fullscreenDialog: true,
           settings: routeSettings,
           builder: (_) => RouteUtil.createPageProvider<LessionPageProvider>(
-            provider: (_) => LessionPageProvider(),
+            provider: (_) => LessionPageProvider(GetIt.I()),
             child: LessionPage(),
           ),
         );
@@ -216,7 +222,10 @@ class Routes {
           fullscreenDialog: true,
           settings: routeSettings,
           builder: (_) => RouteUtil.createPageProvider<OrderDetailPageProvider>(
-            provider: (_) => OrderDetailPageProvider(),
+            provider: (_) => OrderDetailPageProvider(
+              GetIt.I(),
+              GetIt.I(),
+            ),
             child: OrderDetailPage(),
           ),
         );
@@ -260,6 +269,17 @@ class Routes {
           builder: (_) => RouteUtil.createPageProvider<MyCoursesPageProvider>(
             provider: (_) => MyCoursesPageProvider(),
             child: MyCoursePage(),
+          ),
+        );
+
+      case Routes.savedCourses:
+        return CupertinoPageRoute(
+          fullscreenDialog: true,
+          settings: routeSettings,
+          builder: (_) =>
+              RouteUtil.createPageProvider<SavedCoursesPageProvider>(
+            provider: (_) => SavedCoursesPageProvider(GetIt.I()),
+            child: SavedCoursesPage(),
           ),
         );
       default:

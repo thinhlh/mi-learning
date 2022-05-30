@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:mi_learning/app/common/domain/entity/course.dart';
+import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
+import 'package:mi_learning/app/lessions/domain/entities/lesson_push_detail_params.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/lession_question_answer_page.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/note_editor_page.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/lession_course_content_page_provider.dart';
@@ -15,9 +17,11 @@ import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
+import 'package:mi_learning/utils/date_time_helper.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:mi_learning/utils/route_util.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:provider/provider.dart';
 
 part 'lession_tab_page.dart';
 part 'lession_note_page.dart';
@@ -66,7 +70,14 @@ class LessionPage extends PageLoadingStateless<LessionPageProvider> {
                   ),
                 ),
                 Expanded(
-                  child: _LessionTabPage(course: provider.course),
+                  child: Selector<LessionPageProvider, CourseDetail?>(
+                    selector: (_, provider) => provider.courseDetail,
+                    builder: (_, courseDetail, child) {
+                      return _LessionTabPage(
+                        courseDetail: courseDetail,
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
@@ -78,8 +89,9 @@ class LessionPage extends PageLoadingStateless<LessionPageProvider> {
 
   @override
   void initialization(BuildContext context) {
-    final arguments = context.getArgument<Map<String, dynamic>>();
-    provider.course = arguments?['course'];
-    provider.lesson = arguments?['lesson'];
+    final arguments = context.getArgument<LessonPushDetailParams>();
+    provider.courseId = arguments?.courseId;
+    provider.lesson = arguments?.lesson;
+    provider.getCourseDetail();
   }
 }

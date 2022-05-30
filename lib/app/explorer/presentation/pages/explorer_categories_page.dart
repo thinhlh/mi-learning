@@ -20,22 +20,27 @@ class _ExplorerCategoriesPageState extends PageLoadingStateful<
   Widget buildPage(BuildContext context) {
     return Selector<ExplorerCategoriesPageProvider, List<Category>>(
       selector: (_, provider) => provider.categories,
-      builder: (_, categories, child) => GridView.builder(
-        padding: EdgeInsets.symmetric(
-          horizontal: AppDimens.largeWidthDimens,
-          vertical: AppDimens.largeHeightDimens,
+      builder: (_, categories, child) => RefreshIndicator(
+        onRefresh: () async {
+          provider.getCategories();
+        },
+        child: GridView.builder(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppDimens.largeWidthDimens,
+            vertical: AppDimens.largeHeightDimens,
+          ),
+          physics: const BouncingScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 1 / 1.3,
+            crossAxisSpacing: AppDimens.largeWidthDimens,
+            mainAxisSpacing: AppDimens.smallHeightDimens,
+          ),
+          itemBuilder: (_, index) => CourseCategoryWidget(
+            category: categories[index],
+          ),
+          itemCount: categories.length,
         ),
-        physics: const BouncingScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 1 / 1.3,
-          crossAxisSpacing: AppDimens.largeWidthDimens,
-          mainAxisSpacing: AppDimens.smallHeightDimens,
-        ),
-        itemBuilder: (_, index) => CourseCategoryWidget(
-          category: categories[index],
-        ),
-        itemCount: categories.length,
       ),
     );
   }
@@ -46,5 +51,5 @@ class _ExplorerCategoriesPageState extends PageLoadingStateful<
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }

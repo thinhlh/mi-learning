@@ -15,14 +15,14 @@ class _ExplorerTabPageState extends State<_ExplorerTabPage>
 
   @override
   void initState() {
-    _tabController = TabController(length: 6, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 6,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           toolbarHeight: 0,
@@ -37,8 +37,8 @@ class _ExplorerTabPageState extends State<_ExplorerTabPage>
               Tab(text: 'Top charts'),
               Tab(text: 'Categories'),
               Tab(text: 'Teachers\'s choice'),
-              Tab(text: 'Premium'),
-              Tab(text: 'Free'),
+              // Tab(text: 'Premium'),
+              // Tab(text: 'Free'),
             ],
           ),
         ),
@@ -62,14 +62,14 @@ class _ExplorerTabPageState extends State<_ExplorerTabPage>
               child: _ExplorerEditorChoicePage(),
               provider: (_) => ExplorerEditorChoicePageProvider(),
             ),
-            RouteUtil.createPageProvider(
-              child: _ExplorerPremiumPage(),
-              provider: (_) => ExplorerPremiumPageProvider(),
-            ),
-            RouteUtil.createPageProvider(
-              child: _ExplorerFreePage(),
-              provider: (_) => ExplorerFreePageProvider(),
-            ),
+            // RouteUtil.createPageProvider(
+            //   child: _ExplorerPremiumPage(),
+            //   provider: (_) => ExplorerPremiumPageProvider(),
+            // ),
+            // RouteUtil.createPageProvider(
+            //   child: _ExplorerFreePage(),
+            //   provider: (_) => ExplorerFreePageProvider(),
+            // ),
           ],
         ),
       ),

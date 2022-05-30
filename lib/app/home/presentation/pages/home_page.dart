@@ -19,6 +19,7 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return CupertinoTabScaffold(
+      controller: provider.tabController,
       resizeToAvoidBottomInset: false,
       tabBuilder: ((_, index) {
         switch (index) {
@@ -29,7 +30,7 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
                 GetIt.I(),
                 GetIt.I(),
               ),
-              child: DashboardPage(),
+              child: const DashboardPage(),
             );
           case 1:
             return RouteUtil.createPageProvider(

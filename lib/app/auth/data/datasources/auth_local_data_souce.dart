@@ -18,6 +18,6 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
         LocalStoreKeys.refreshToken,
         tokens.refreshToken,
       )
-    ]).then((value) => value.any((element) => element != true));
+    ]).then((value) => true);
   }
 }
