@@ -35,19 +35,24 @@ abstract class BaseApi extends Api {
 
       case DioErrorType.response:
         {
-          if (exception.response == null) {
+          if (exception.response?.data == null) {
             if (exception.response?.statusCode != null) {
               message = _handlingErrorOnStatusCode(exception);
             }
           } else {
-            final Map<String, dynamic> payload = exception.response?.data;
-
             try {
-              final error = BaseError.fromMap(payload);
-              message = error.message;
-            } on Exception {
+              if (exception.response?.data is String) {
+                message = exception.response?.data;
+              } else {
+                final Map<String, dynamic> payload = exception.response?.data;
+
+                final error = BaseError.fromMap(payload);
+                message = error.message;
+              }
+            } on Object {
               // On parse error
               // Do nothing
+              message = 'Error';
             }
           }
         }

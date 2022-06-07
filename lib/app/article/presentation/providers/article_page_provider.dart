@@ -11,6 +11,10 @@ class ArticlePageProvider extends LoadingProvider {
 
   ArticlePageProvider(this._getArticlesUseCase);
 
+  Map<String, List<Article>> _articles = {};
+
+  Map<String, List<Article>> get articles => _articles;
+
   Future<Either<Failure, Map<String, List<Article>>>> getArticles() {
     return _getArticlesUseCase(NoParams()).then((_) {
       return _.fold(
@@ -27,16 +31,4 @@ class ArticlePageProvider extends LoadingProvider {
       );
     });
   }
-
-  Map<String, List<Article>> _articles = {
-    // 'Flutter': [],
-    // 'Django': [],
-    // 'Architecture': [],
-    // 'Web3': [],
-    // 'Science': [],
-    // 'Devs & Life': [],
-    // 'Design': [],
-  };
-
-  Map<String, List<Article>> get articles => _articles;
 }

@@ -34,7 +34,7 @@ class Env {
   factory Env.prod() {
     return Env._internal(
       envType: EnvType.prod,
-      baseUrl: 'http://10.0.2.2:8080/api',
+      baseUrl: 'https://thinhlh-mi-learning.herokuapp.com',
       agoraAppId: "520db85d84374e4eaef700bb2ed76fc6",
       agoraChannelToken:
           "006520db85d84374e4eaef700bb2ed76fc6IABr6zwOiHwWcrKE9Vu2yBIaAO+ONVGHvaT+XCQ5gifdwWLMzZAAAAAAEAAv13+tghOPYgEAAQCBE49i",

@@ -54,7 +54,7 @@ class ExplorerPage extends PageLoadingStateless<ExplorerPageProvider> {
                   borderSide: BorderSide.none,
                   borderRadius: BorderRadius.circular(50.r),
                 ),
-                hintText: 'Search for apps & games',
+                hintText: 'Search for courses',
               ),
             ),
           ),

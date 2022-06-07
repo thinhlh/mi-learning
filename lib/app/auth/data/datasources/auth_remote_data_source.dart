@@ -3,6 +3,7 @@ import 'package:mi_learning/app/auth/domain/usecase/sign_in_request_params.dart'
 import 'package:mi_learning/app/auth/domain/usecase/sign_up_request_params.dart';
 import 'package:mi_learning/app/common/domain/entity/tokens.dart';
 import 'package:mi_learning/base/failure.dart';
+import 'package:mi_learning/core/env/app_config.dart';
 import 'package:mi_learning/services/rest_api/models/base_api.dart';
 
 mixin _EndPoint {

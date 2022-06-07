@@ -73,6 +73,7 @@ abstract class Api {
     ProgressCallback? onReceiveProgres,
   }) async {
     try {
+      print(AppConfig.instance.env.baseUrl + endpoint);
       final response = await _dio.post(
         AppConfig.instance.env.baseUrl + endpoint,
         data: data,
