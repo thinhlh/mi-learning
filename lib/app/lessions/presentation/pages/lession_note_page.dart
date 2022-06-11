@@ -5,6 +5,9 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
 
   @override
   Widget buildPage(BuildContext context) {
+    final currentChosenLessonId =
+        context.read<LessionPageProvider>().lesson?.id;
+    log('lessionId:' + currentChosenLessonId.toString());
     return Scaffold(
       resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
@@ -18,8 +21,9 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
           context: context,
           barrierColor: Colors.transparent,
           builder: (_) => RouteUtil.createPageProvider(
-            provider: (_) => NoteEditorPageProvider(),
-            child: NoteEditorPage(editor.QuillController.basic()),
+            provider: (_) => NoteEditorPageProvider(GetIt.I()),
+            child: NoteEditorPage(
+                editor.QuillController.basic(), currentChosenLessonId!),
           ),
         ),
         child: const Icon(Icons.add),
@@ -44,6 +48,7 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
               selector: (_, provider) {
                 final currentChosenLessonId =
                     context.read<LessionPageProvider>().lesson?.id;
+                // log('lessionId:' + currentChosenLessonId.toString());
                 final lessons = context
                         .read<LessionPageProvider>()
                         .courseDetail
@@ -53,6 +58,8 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
                       (prev, secion) => prev..addAll(secion.lessons),
                     ) ??
                     [];
+                // lessons.forEach((e) => print('lessionId: ' + e.lessonId));
+                // print('lessionId:' + lessons.toString());
 
                 try {
                   return lessons
@@ -144,5 +151,7 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void initialization(BuildContext context) {
+    // provider.get().then((value) => showLoading(context, false));
+  }
 }

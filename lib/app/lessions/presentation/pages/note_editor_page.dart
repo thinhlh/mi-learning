@@ -1,24 +1,31 @@
+import 'dart:developer';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
+import 'package:mi_learning/app/lessions/presentation/providers/lession_page_provider.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/note_editor_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
+import 'package:provider/provider.dart';
 
 class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
   final editor.QuillController _controller;
-
-  NoteEditorPage(this._controller, {Key? key}) : super(key: key);
+  final String currentChosenLessonId;
+  NoteEditorPage(this._controller, this.currentChosenLessonId, {Key? key})
+      : super(key: key);
 
   @override
   Widget buildPage(BuildContext context) {
+    log('lessionId:' + currentChosenLessonId);
+    log('dateTimeNow' + DateTime.now().toString());
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(
@@ -115,7 +122,40 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  // log(_controller.plainTextEditingValue.text);
+
+                  showLoading(context, true);
+                  final result = await provider.postNote(
+                    _controller.plainTextEditingValue.text,
+                    currentChosenLessonId,
+                    '10',
+                  );
+                  showLoading(context, false);
+
+                  result.fold(
+                    (l) {
+                      showDialog(
+                        context: context,
+                        builder: (_) => WDialog(
+                          dialogType: DialogType.error,
+                          content: l.message,
+                          onActions: [],
+                        ),
+                      );
+                    },
+                    (r) => showDialog(
+                      context: context,
+                      builder: (_) => WDialog(
+                        dialogType: DialogType.success,
+                        content: 'Purchase Course Success',
+                        onActions: [
+                          () => navigator.pop(true),
+                        ],
+                      ),
+                    ),
+                  );
+                },
                 child: const Text('Save'),
               ),
             )

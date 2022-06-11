@@ -18,4 +18,10 @@ class LessonRepositoryImpl implements LessonRepository {
   ) {
     return _lessonRemoteDataSource.getCourseDetail(params);
   }
+
+  @override
+  Future<Either<Failure, bool>> postNote(
+      String content, String lessonId, String createdAt) {
+    return _lessonRemoteDataSource.postNote(content, lessonId, createdAt);
+  }
 }

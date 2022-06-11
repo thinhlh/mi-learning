@@ -165,15 +165,15 @@ class Routes {
           ),
         );
 
-      case Routes.noteEditor:
-        return CupertinoPageRoute(
-          fullscreenDialog: true,
-          settings: routeSettings,
-          builder: (_) => RouteUtil.createPageProvider<NoteEditorPageProvider>(
-            provider: (_) => NoteEditorPageProvider(),
-            child: NoteEditorPage(QuillController.basic()),
-          ),
-        );
+      // case Routes.noteEditor:
+      //   return CupertinoPageRoute(
+      //     fullscreenDialog: true,
+      //     settings: routeSettings,
+      //     builder: (_) => RouteUtil.createPageProvider<NoteEditorPageProvider>(
+      //       provider: (_) => NoteEditorPageProvider(GetIt.I()),
+      //       child: NoteEditorPage(QuillController.basic()),
+      //     ),
+      //   );
 
       case Routes.setting:
         return CupertinoPageRoute(
