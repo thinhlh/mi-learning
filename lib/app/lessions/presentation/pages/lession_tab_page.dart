@@ -15,7 +15,7 @@ class _LessionTabPage extends StatefulWidget {
 
 class __LessionTabPageState extends State<_LessionTabPage>
     with SingleTickerProviderStateMixin {
-  late final TabController _tabController;
+  late TabController _tabController;
   int currentTabIndex = 0;
 
   @override
@@ -27,6 +27,7 @@ class __LessionTabPageState extends State<_LessionTabPage>
 
   @override
   Widget build(BuildContext context) {
+    print('safePadding ' + widget.safePadding.toString());
     return DefaultTabController(
       initialIndex: currentTabIndex,
       length: 3,
@@ -75,7 +76,9 @@ class __LessionTabPageState extends State<_LessionTabPage>
           controller: _tabController,
           children: [
             RouteUtil.createPageProvider(
-              child: _LessionNotePage(),
+              child: _LessionNotePage(
+                safePadding: widget.safePadding,
+              ),
               provider: (_) => LessionNotePageProvider(
                 courseDetail: widget.courseDetail,
               ),
