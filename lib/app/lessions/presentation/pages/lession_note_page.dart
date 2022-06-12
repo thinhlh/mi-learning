@@ -2,9 +2,18 @@ part of 'lession_page.dart';
 
 class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
   final _controller = editor.QuillController.basic();
+//   var json = jsonEncode('_controller.document'.toDelta().toJson());
 
+// var myJSON = jsonEncode('{message: hello}');
+//   final _controller = editor.QuillController(
+//       document: editor.Document.fromJson(jsonDecode('{message: hello}')),
+//       selection: TextSelection.collapsed(offset: 0));
   @override
   Widget buildPage(BuildContext context) {
+    final controller = editor.QuillController.basic();
+
+    final currentChosenLessonId =
+        context.read<LessionPageProvider>().lesson?.id;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
@@ -18,8 +27,12 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
           context: context,
           barrierColor: Colors.transparent,
           builder: (_) => RouteUtil.createPageProvider(
-            provider: (_) => NoteEditorPageProvider(),
-            child: NoteEditorPage(editor.QuillController.basic()),
+            provider: (_) => NoteEditorPageProvider(GetIt.I()),
+            child: NoteEditorPage(
+                controller,
+                currentChosenLessonId!,
+                context.read<LessionPageProvider>().second,
+                context.read<LessionNotePageProvider>().notes),
           ),
         ),
         child: const Icon(Icons.add),
@@ -41,27 +54,34 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
           ),
           Expanded(
             child: Selector<LessionPageProvider, List<CourseDetailNote>>(
-              selector: (_, provider) {
+              selector: (_, lessionProvider) {
                 final currentChosenLessonId =
                     context.read<LessionPageProvider>().lesson?.id;
-                final lessons = context
-                        .read<LessionPageProvider>()
-                        .courseDetail
-                        ?.sections
+                // log('lessionId:' + currentChosenLessonId.toString());
+                // log('content: ' +
+                //     provider.courseDetail!.sections[0].lessons[0]
+                //         .courseDetailMetaData.notes[0].content);
+                final lessons = lessionProvider.courseDetail?.sections
                         .fold<List<CourseDetailLesson>>(
                       [],
                       (prev, secion) => prev..addAll(secion.lessons),
                     ) ??
                     [];
+                // lessons.forEach((e) => print('lessionId: ' + e.lessonId));
+                // print('lessionId:' + lessons.toString());
 
                 try {
-                  return lessons
+                  provider.notes = lessons
                       .firstWhere(
-                        (lesson) => lesson.lessonId == provider.lesson?.id,
+                        (lesson) {
+                          return lesson.lessonId == lessionProvider.lesson?.id;
+                        },
                       )
                       .courseDetailMetaData
                       .notes;
+                  return provider.notes;
                 } catch (e) {
+                  print('error' + e.toString());
                   return [];
                 }
               },
@@ -74,67 +94,70 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
                     )
                   : ListView.builder(
                       shrinkWrap: true,
-                      itemBuilder: (_, index) => ExpansionTile(
-                        leading: Container(
-                          decoration: ShapeDecoration(
-                            shape: const StadiumBorder(),
-                            color: AppColors.neutral.shade900,
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: AppDimens.mediumWidthDimens,
-                            vertical: AppDimens.smallHeightDimens,
-                          ),
-                          child: Text(
-                            DateTimeHelper.formatDuration(
-                              Duration(
-                                seconds: notes[index].createdAt,
+                      itemBuilder: (context, index) {
+                        return ExpansionTile(
+                          leading: Container(
+                            decoration: ShapeDecoration(
+                              shape: const StadiumBorder(),
+                              color: AppColors.neutral.shade900,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: AppDimens.mediumWidthDimens,
+                              vertical: AppDimens.smallHeightDimens,
+                            ),
+                            child: Text(
+                              DateTimeHelper.formatDuration(
+                                Duration(
+                                  seconds: notes[index].createdAt,
+                                ),
+                              ),
+                              style: context.textTheme.bodySmall?.copyWith(
+                                color: AppColors.neutral.shade50,
                               ),
                             ),
-                            style: context.textTheme.bodySmall?.copyWith(
-                              color: AppColors.neutral.shade50,
+                          ),
+                          title: Text(
+                            notes[index].content,
+                            style: context.textTheme.titleMedium?.copyWith(
+                              fontWeight: AppStyles.bold,
                             ),
                           ),
-                        ),
-                        title: Text(
-                          'This is the note title',
-                          style: context.textTheme.titleMedium?.copyWith(
-                            fontWeight: AppStyles.bold,
-                          ),
-                        ),
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(AppDimens.mediumRadius),
-                              color: AppColors.neutral.shade50,
-                            ),
-                            margin: EdgeInsets.symmetric(
-                              horizontal: AppDimens.largeWidthDimens,
-                              vertical: AppDimens.mediumHeightDimens,
-                            ),
-                            child: editor.QuillEditor(
-                              autoFocus: false,
-                              expands: false,
-                              focusNode: FocusNode(canRequestFocus: false),
-                              // onTapUp: null,
-                              onTapDown: (detail, position) {
-                                navigator.pushNamed(Routes.noteEditor);
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    AppDimens.mediumRadius),
+                                color: AppColors.neutral.shade50,
+                              ),
+                              margin: EdgeInsets.symmetric(
+                                horizontal: AppDimens.largeWidthDimens,
+                                vertical: AppDimens.mediumHeightDimens,
+                              ),
+                              child: editor.QuillEditor(
+                                autoFocus: true,
+                                expands: false,
+                                focusNode: FocusNode(canRequestFocus: true),
+                                // onTapUp: null,
+                                onTapDown: (detail, position) {
+                                  navigator.pushNamed(Routes.noteEditor);
 
-                                return true;
-                              },
-                              scrollController: ScrollController(),
-                              scrollable: false,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: AppDimens.mediumWidthDimens,
-                                vertical: AppDimens.largeHeightDimens,
+                                  return true;
+                                },
+                                scrollController: ScrollController(),
+                                scrollable: false,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: AppDimens.mediumWidthDimens,
+                                  vertical: AppDimens.largeHeightDimens,
+                                ),
+                                controller: _controller,
+
+                                readOnly: false,
                               ),
-                              controller: _controller,
-                              readOnly: true,
                             ),
-                          ),
-                        ],
-                      ),
-                      itemCount: provider.notes.length,
+                          ],
+                        );
+                      },
+                      itemCount: notes.length,
                     ),
             ),
           )
@@ -144,5 +167,7 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void initialization(BuildContext context) {
+    // provider.get().then((value) => showLoading(context, false));
+  }
 }

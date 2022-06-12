@@ -29,7 +29,7 @@ class LessionCourseContentPage
         builder: (_, sections, child) => ListView.builder(
           physics: const BouncingScrollPhysics(),
           itemBuilder: (_, index) => ExpansionTile(
-            subtitle: Builder(builder: (context) {
+            subtitle: Builder(builder: (ctx) {
               final totalLessons = sections[index].lessons.length;
               final currentLessonId = provider.courseDetail?.currentLesson;
               final currentLesson = sections

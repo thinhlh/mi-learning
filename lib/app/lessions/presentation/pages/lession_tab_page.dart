@@ -74,7 +74,9 @@ class __LessionTabPageState extends State<_LessionTabPage>
           children: [
             RouteUtil.createPageProvider(
               child: _LessionNotePage(),
-              provider: (_) => LessionNotePageProvider(),
+              provider: (_) => LessionNotePageProvider(
+                courseDetail: widget.courseDetail,
+              ),
             ),
             RouteUtil.createPageProvider(
               child: LessionCourseContentPage(),

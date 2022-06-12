@@ -6,11 +6,15 @@ import 'package:mi_learning/services/rest_api/models/base_api.dart';
 
 mixin _Endpoint {
   final String courseDetail = '/course/detail';
+  final String createNote = '/note';
 }
 
 abstract class LessonRemoteDataSource extends BaseApi with _Endpoint {
   Future<Either<Failure, CourseDetail>> getCourseDetail(
       LessonGetCourseDetailParams params);
+
+  Future<Either<Failure, bool>> postNote(
+      String content, String lessonId, int createdAt);
 }
 
 class LessonRemoteDataSourceImpl extends LessonRemoteDataSource {
@@ -26,6 +30,23 @@ class LessonRemoteDataSourceImpl extends LessonRemoteDataSource {
       );
 
       return Right(CourseDetail.fromMap(result.data));
+    } catch (e) {
+      return Left(mapExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> postNote(
+      String content, String lessonId, int createdAt) async {
+    try {
+      final data = {
+        'content': content,
+        'lessonId': lessonId,
+        'createdAt': createdAt,
+      };
+      final result = await post(createNote, data: data);
+
+      return Right(result.data);
     } catch (e) {
       return Left(mapExceptionToFailure(e));
     }

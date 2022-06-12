@@ -11,6 +11,12 @@ class LessionPageProvider extends LoadingProvider {
   String? courseId;
   Lesson? lesson;
   CourseDetail? _courseDetail;
+   int _second = 0;
+  int get second => _second;
+  set second(int second) {
+    _second = second;
+    notifyListeners();
+  }
 
   LessionPageProvider(this._lessonGetCourseDetailUseCase);
 

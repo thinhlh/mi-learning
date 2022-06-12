@@ -7,4 +7,6 @@ abstract class LessonRepository {
   Future<Either<Failure, CourseDetail>> getCourseDetail(
     LessonGetCourseDetailParams params,
   );
+  Future<Either<Failure, bool>> postNote(
+      String content, String lessonId, int createdAt);
 }

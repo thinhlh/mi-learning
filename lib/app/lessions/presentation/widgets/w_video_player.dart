@@ -2,9 +2,11 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mi_learning/app/lessions/presentation/providers/lession_page_provider.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 class WVideoPlayer extends StatefulWidget {
@@ -94,6 +96,10 @@ class _WVideoPlayerState extends State<WVideoPlayer> {
   @override
   void initState() {
     _initializePlayer();
+    _controller.addListener(() {
+      context.read<LessionPageProvider>().second =
+          _controller.value.position.inSeconds;
+    });
     super.initState();
   }
 
@@ -106,6 +112,7 @@ class _WVideoPlayerState extends State<WVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    // print(context.read<LessionPageProvider>().second);
     return Container(
       color: AppColors.neutral.shade900,
       height: 0.25.sh,

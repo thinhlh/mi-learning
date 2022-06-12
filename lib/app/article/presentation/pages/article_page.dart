@@ -9,6 +9,7 @@ import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ArticlePage extends PageLoadingStateless<ArticlePageProvider> {
   @override
@@ -67,59 +68,69 @@ class __ArticleTabBarState
       selector: (_, provider) => provider.articles,
       builder: (context, articles, child) {
         _controller = TabController(
-          length: provider.articles.length,
+          length: articles.length,
           vsync: this,
         );
-        listItemPositionsListener.itemPositions.addListener(() {
-          _controller.animateTo(
-              listItemPositionsListener.itemPositions.value.first.index);
-        });
-
-        return DefaultTabController(
-          length: articles.length,
-          child: Scaffold(
-            appBar: AppBar(
-              toolbarHeight: 0,
-              bottom: TabBar(
-                isScrollable: true,
-                indicatorColor: AppColors.secondary,
-                indicatorSize: TabBarIndicatorSize.label,
-                controller: _controller,
-                physics: const BouncingScrollPhysics(),
-                onTap: (index) {
-                  listScrollController.scrollTo(
-                    index: index,
-                    duration: const Duration(milliseconds: 300),
-                  );
-                },
-                tabs: articles.entries
-                    .toList()
-                    .map((e) => Tab(text: e.key))
-                    .toList(),
-              ),
-            ),
-            body: Container(
-              margin: EdgeInsets.only(top: AppDimens.largeHeightDimens),
-              child: ScrollablePositionedList.separated(
-                itemPositionsListener: listItemPositionsListener,
-                itemScrollController: listScrollController,
-                separatorBuilder: (_, index) => SizedBox(
-                  height: AppDimens.largeHeightDimens,
-                ),
-                padding: EdgeInsets.symmetric(
-                  vertical: AppDimens.largeHeightDimens,
-                  horizontal: AppDimens.largeWidthDimens,
-                ),
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, parentIndex) => ArticleCategoryWidget(
-                  parentIndex: parentIndex,
-                ),
-                itemCount: articles.length,
-              ),
-            ),
-          ),
+        listItemPositionsListener.itemPositions.addListener(
+          () {
+            _controller.animateTo(
+                listItemPositionsListener.itemPositions.value.first.index);
+          },
         );
+
+        return articles.isEmpty
+            ? Shimmer.fromColors(
+                child: _buildBody(articles),
+                baseColor: AppColors.baseShimmerColor,
+                highlightColor: AppColors.highlightShimmerColor,
+              )
+            : _buildBody(articles);
       },
+    );
+  }
+
+  Widget _buildBody(Map<String, List<Article>> articles) {
+    return DefaultTabController(
+      length: articles.length,
+      child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 0,
+          bottom: TabBar(
+            isScrollable: true,
+            indicatorColor: AppColors.secondary,
+            indicatorSize: TabBarIndicatorSize.label,
+            controller: _controller,
+            physics: const BouncingScrollPhysics(),
+            onTap: (index) {
+              listScrollController.scrollTo(
+                index: index,
+                duration: const Duration(milliseconds: 300),
+              );
+            },
+            tabs:
+                articles.entries.toList().map((e) => Tab(text: e.key)).toList(),
+          ),
+        ),
+        body: Container(
+          margin: EdgeInsets.only(top: AppDimens.largeHeightDimens),
+          child: ScrollablePositionedList.separated(
+            itemPositionsListener: listItemPositionsListener,
+            itemScrollController: listScrollController,
+            separatorBuilder: (_, index) => SizedBox(
+              height: AppDimens.largeHeightDimens,
+            ),
+            padding: EdgeInsets.symmetric(
+              vertical: AppDimens.largeHeightDimens,
+              horizontal: AppDimens.largeWidthDimens,
+            ),
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, parentIndex) => ArticleCategoryWidget(
+              parentIndex: parentIndex,
+            ),
+            itemCount: articles.length,
+          ),
+        ),
+      ),
     );
   }
 
