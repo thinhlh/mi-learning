@@ -8,5 +8,5 @@ abstract class LessonRepository {
     LessonGetCourseDetailParams params,
   );
   Future<Either<Failure, bool>> postNote(
-      String content, String lessonId, String createdAt);
+      String content, String lessonId, int createdAt);
 }

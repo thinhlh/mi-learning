@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
+import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
+import 'package:mi_learning/app/lessions/presentation/providers/lession_note_page_provider.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/lession_page_provider.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/note_editor_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
@@ -17,13 +19,20 @@ import 'package:provider/provider.dart';
 class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
   final editor.QuillController _controller;
   final String currentChosenLessonId;
-  NoteEditorPage(this._controller, this.currentChosenLessonId, {Key? key})
+  final int second;
+  final List<CourseDetailNote> notes;
+
+  NoteEditorPage(
+      this._controller, this.currentChosenLessonId, this.second, this.notes,
+      {Key? key})
       : super(key: key);
 
   @override
   Widget buildPage(BuildContext context) {
+    print('second' + second.toString());
+
     log('lessionId:' + currentChosenLessonId);
-    log('dateTimeNow' + DateTime.now().toString());
+    // log('dateTimeNow' + DateTime.now().toString());
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -126,35 +135,52 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
                   // log(_controller.plainTextEditingValue.text);
 
                   showLoading(context, true);
-                  final result = await provider.postNote(
+                  await provider.postNote(
                     _controller.plainTextEditingValue.text,
                     currentChosenLessonId,
-                    '10',
+                    second,
                   );
-                  showLoading(context, false);
 
-                  result.fold(
-                    (l) {
-                      showDialog(
-                        context: context,
-                        builder: (_) => WDialog(
-                          dialogType: DialogType.error,
-                          content: l.message,
-                          onActions: [],
-                        ),
-                      );
-                    },
-                    (r) => showDialog(
-                      context: context,
-                      builder: (_) => WDialog(
-                        dialogType: DialogType.success,
-                        content: 'Purchase Course Success',
-                        onActions: [
-                          () => navigator.pop(true),
-                        ],
-                      ),
+                  notes.add(
+                    CourseDetailNote(
+                      content: _controller.plainTextEditingValue.text,
+                      createdAt: second,
+                      id: currentChosenLessonId,
                     ),
                   );
+                  showLoading(context, false);
+                  showDialog(
+                    context: context,
+                    builder: (_) => WDialog(
+                      dialogType: DialogType.success,
+                      content: 'Add Note Success',
+                      onActions: [
+                        () => navigator.pop(true),
+                      ],
+                    ),
+                  );
+                  // result.fold(
+                  //   (l) {
+                  //     showDialog(
+                  //       context: context,
+                  //       builder: (_) => WDialog(
+                  //         dialogType: DialogType.error,
+                  //         content: l.message,
+                  //         onActions: [],
+                  //       ),
+                  //     );
+                  //   },
+                  // (r) => showDialog(
+                  //   context: context,
+                  //   builder: (_) => WDialog(
+                  //     dialogType: DialogType.success,
+                  //     content: 'Purchase Course Success',
+                  //     onActions: [
+                  //       () => navigator.pop(true),
+                  //     ],
+                  //   ),
+                  // ),
+                  // );
                 },
                 child: const Text('Save'),
               ),

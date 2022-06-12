@@ -10,7 +10,7 @@ class NoteEditorPageProvider extends LoadingProvider {
     this._lessonRepository,
   );
   Future<Either<Failure, bool>> postNote(
-      String content, String lessonId, String createdAt) {
+      String content, String lessonId, int createdAt) {
     return _lessonRepository.postNote(content, lessonId, createdAt);
   }
 }

@@ -21,7 +21,7 @@ class LessonRepositoryImpl implements LessonRepository {
 
   @override
   Future<Either<Failure, bool>> postNote(
-      String content, String lessonId, String createdAt) {
+      String content, String lessonId, int createdAt) {
     return _lessonRemoteDataSource.postNote(content, lessonId, createdAt);
   }
 }

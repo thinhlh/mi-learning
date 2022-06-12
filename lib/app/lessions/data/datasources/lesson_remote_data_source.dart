@@ -14,7 +14,7 @@ abstract class LessonRemoteDataSource extends BaseApi with _Endpoint {
       LessonGetCourseDetailParams params);
 
   Future<Either<Failure, bool>> postNote(
-      String content, String lessonId, String createdAt);
+      String content, String lessonId, int createdAt);
 }
 
 class LessonRemoteDataSourceImpl extends LessonRemoteDataSource {
@@ -37,12 +37,12 @@ class LessonRemoteDataSourceImpl extends LessonRemoteDataSource {
 
   @override
   Future<Either<Failure, bool>> postNote(
-      String content, String lessonId, String createdAt) async {
+      String content, String lessonId, int createdAt) async {
     try {
       final data = {
-        'content': 'content',
-        'lessonId': 'aab0fd20-4aa4-48db-8b3d-979e7d59a432',
-        'createdAt': 10,
+        'content': content,
+        'lessonId': lessonId,
+        'createdAt': createdAt,
       };
       final result = await post(createNote, data: data);
 
