@@ -33,14 +33,17 @@ import 'package:mi_learning/app/order_detail/presentation/pages/order_detail_pag
 import 'package:mi_learning/app/order_detail/presentation/providers/order_detail_page_provider.dart';
 import 'package:mi_learning/app/payment/presentation/pages/payment_page.dart';
 import 'package:mi_learning/app/payment/presentation/providers/payment_page_provider.dart';
+import 'package:mi_learning/app/schedule_detail/presentation/providers/schedule_detail_test_page_provider.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/providers/timer_chosen_page_provider.dart';
 import 'package:mi_learning/app/setting/presentation/pages/change_password_page.dart';
 import 'package:mi_learning/app/setting/presentation/pages/setting_page.dart';
 import 'package:mi_learning/app/setting/presentation/providers/change_password_page_provider.dart';
 import 'package:mi_learning/app/setting/presentation/providers/setting_page_provider.dart';
-import 'package:mi_learning/app/test/presentation/pages/test_page.dart';
 import 'package:mi_learning/app/test/presentation/provider/test_provider.dart';
 import 'package:mi_learning/utils/route_util.dart';
+
+import '../app/schedule_detail/presentation/pages/schedule_detail_test_page.dart';
+import '../app/test/presentation/pages/test_page.dart';
 
 class Routes {
   Routes._internal();
@@ -74,6 +77,7 @@ class Routes {
   static const String changePassword = '/profile/chang-password';
   static const String myCourses = '/courses/me';
   static const String savedCourses = '/courses/saved';
+  static const String quiz = '/schedule-detail/quiz';
 
   /// This is where you handle routing by name and arguments
   static Route<dynamic>? onGenerateRoute(RouteSettings routeSettings) {
@@ -193,6 +197,16 @@ class Routes {
               RouteUtil.createPageProvider<ScheduleDetailPageProvider>(
             provider: (_) => ScheduleDetailPageProvider(),
             child: ScheduleDetailPage(),
+          ),
+        );
+      case Routes.quiz:
+        return CupertinoPageRoute(
+          fullscreenDialog: true,
+          settings: routeSettings,
+          builder: (_) =>
+              RouteUtil.createPageProvider<ScheduleDetailTestPageProvider>(
+            provider: (_) => ScheduleDetailTestPageProvider(),
+            child: ScheduleDetailTestPage(),
           ),
         );
 
