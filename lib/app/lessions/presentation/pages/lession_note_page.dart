@@ -1,40 +1,50 @@
 part of 'lession_page.dart';
 
 class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
-  final _controller = editor.QuillController.basic();
-//   var json = jsonEncode('_controller.document'.toDelta().toJson());
+  //   var json = jsonEncode('_controller.document'.toDelta().toJson());
 
 // var myJSON = jsonEncode('{message: hello}');
 //   final _controller = editor.QuillController(
 //       document: editor.Document.fromJson(jsonDecode('{message: hello}')),
 //       selection: TextSelection.collapsed(offset: 0));
+  final double safePadding;
+  _LessionNotePage({
+    required this.safePadding,
+  });
+  final _controller = editor.QuillController.basic();
+
   @override
   Widget buildPage(BuildContext context) {
     final controller = editor.QuillController.basic();
-
     final currentChosenLessonId =
         context.read<LessionPageProvider>().lesson?.id;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
-        onPressed: () => showModalBottomSheet(
-          isScrollControlled: true,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              AppDimens.mediumRadius,
+        onPressed: () {
+          showModalBottomSheet(
+            isScrollControlled: true,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                AppDimens.mediumRadius,
+              ),
             ),
-          ),
-          context: context,
-          barrierColor: Colors.transparent,
-          builder: (_) => RouteUtil.createPageProvider(
-            provider: (_) => NoteEditorPageProvider(GetIt.I()),
-            child: NoteEditorPage(
-                controller,
-                currentChosenLessonId!,
-                context.read<LessionPageProvider>().second,
-                context.read<LessionNotePageProvider>().notes),
-          ),
-        ),
+            useRootNavigator: true,
+            context: context,
+            barrierColor: Colors.transparent,
+            builder: (_) => RouteUtil.createPageProvider(
+              provider: (_) => NoteEditorPageProvider(GetIt.I()),
+              child: Padding(
+                padding: EdgeInsets.only(top: safePadding),
+                child: NoteEditorPage(
+                    controller,
+                    currentChosenLessonId!,
+                    context.read<LessionPageProvider>().second,
+                    context.read<LessionNotePageProvider>().notes),
+              ),
+            ),
+          );
+        },
         child: const Icon(Icons.add),
       ),
       body: Column(
@@ -149,7 +159,7 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
                                   horizontal: AppDimens.mediumWidthDimens,
                                   vertical: AppDimens.largeHeightDimens,
                                 ),
-                                controller: _controller,
+                                controller: controller,
 
                                 readOnly: false,
                               ),

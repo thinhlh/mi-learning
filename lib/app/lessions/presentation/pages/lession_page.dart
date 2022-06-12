@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:get_it/get_it.dart';
@@ -34,6 +32,7 @@ class LessionPage extends PageLoadingStateless<LessionPageProvider> {
 
   @override
   Widget buildPage(BuildContext context) {
+    final safePadding = MediaQuery.of(context).padding.top;
     return Column(
       children: [
         AppBar(
@@ -78,6 +77,7 @@ class LessionPage extends PageLoadingStateless<LessionPageProvider> {
                     builder: (_, courseDetail, child) {
                       return _LessionTabPage(
                         courseDetail: courseDetail,
+                        safePadding: safePadding,
                       );
                     },
                   ),
