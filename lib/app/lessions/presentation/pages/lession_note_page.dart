@@ -10,7 +10,7 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
 //       selection: TextSelection.collapsed(offset: 0));
   @override
   Widget buildPage(BuildContext context) {
-    print(context.read<LessionPageProvider>().second);
+    final controller = editor.QuillController.basic();
 
     final currentChosenLessonId =
         context.read<LessionPageProvider>().lesson?.id;
@@ -29,7 +29,7 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
           builder: (_) => RouteUtil.createPageProvider(
             provider: (_) => NoteEditorPageProvider(GetIt.I()),
             child: NoteEditorPage(
-                editor.QuillController.basic(),
+                controller,
                 currentChosenLessonId!,
                 context.read<LessionPageProvider>().second,
                 context.read<LessionNotePageProvider>().notes),
