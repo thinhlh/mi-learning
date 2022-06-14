@@ -1,7 +1,7 @@
 part of 'lession_page.dart';
 
 class _LessionTabPage extends StatefulWidget {
-  final CourseDetail? courseDetail;
+  final CourseDetail courseDetail;
   final double safePadding;
   const _LessionTabPage({
     Key? key,
@@ -86,7 +86,7 @@ class __LessionTabPageState extends State<_LessionTabPage>
             RouteUtil.createPageProvider(
               child: LessionCourseContentPage(),
               provider: (_) => LessionCourseContentPageProvider(
-                courseDetail: widget.courseDetail,
+                course: widget.courseDetail,
               ),
             ),
             RouteUtil.createPageProvider(

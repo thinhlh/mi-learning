@@ -10,8 +10,9 @@ class LessionPageProvider extends LoadingProvider {
 
   String? courseId;
   Lesson? lesson;
-  CourseDetail? _courseDetail;
-   int _second = 0;
+  CourseDetail _courseDetail =
+      CourseDetail(courseId: "0", currentLesson: '', length: 0, sections: []);
+  int _second = 0;
   int get second => _second;
   set second(int second) {
     _second = second;
@@ -20,9 +21,9 @@ class LessionPageProvider extends LoadingProvider {
 
   LessionPageProvider(this._lessonGetCourseDetailUseCase);
 
-  CourseDetail? get courseDetail => _courseDetail;
+  CourseDetail get courseDetail => _courseDetail;
 
-  set courseDetail(CourseDetail? value) {
+  set courseDetail(CourseDetail value) {
     _courseDetail = value;
     notifyListeners();
   }

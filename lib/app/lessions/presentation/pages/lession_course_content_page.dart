@@ -25,21 +25,29 @@ class LessionCourseContentPage
       margin: EdgeInsets.only(top: AppDimens.largeHeightDimens),
       child:
           Selector<LessionCourseContentPageProvider, List<CourseDetailSection>>(
-        selector: (_, provider) => provider.courseDetail?.sections ?? [],
+        selector: (_, provider) {
+          final section = provider.courseDetailSection;
+          return section;
+        },
         builder: (_, sections, child) => ListView.builder(
           physics: const BouncingScrollPhysics(),
           itemBuilder: (_, index) => ExpansionTile(
             subtitle: Builder(builder: (ctx) {
               final totalLessons = sections[index].lessons.length;
-              final currentLessonId = provider.courseDetail?.currentLesson;
-              final currentLesson = sections
-                  .fold<List<CourseDetailLesson>>(
-                    [],
-                    (previousList, currentSection) =>
-                        previousList..addAll(currentSection.lessons),
-                  )
-                  .firstWhere((lesson) => lesson.lessonId == currentLessonId)
-                  .lessonOrder;
+              final currentLessonId = provider.courseDetail.currentLesson;
+              late int currentLesson;
+              try {
+                currentLesson = sections
+                    .fold<List<CourseDetailLesson>>(
+                      [],
+                      (previousList, currentSection) =>
+                          previousList..addAll(currentSection.lessons),
+                    )
+                    .firstWhere((lesson) => lesson.lessonId == currentLessonId)
+                    .lessonOrder;
+              } catch (e) {
+                currentLesson = 0;
+              }
 
               final sectionLength = sections.fold<int>(
                 0,
@@ -80,7 +88,7 @@ class LessionCourseContentPage
                               Routes.lessons,
                               arguments: LessonPushDetailParams(
                                 lesson: Lesson.fromCourseDetailLesson(lesson),
-                                courseId: provider.courseDetail?.courseId ?? "",
+                                courseId: provider.courseDetail.courseId,
                               ),
                             );
                           },

@@ -71,12 +71,12 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
                 // log('content: ' +
                 //     provider.courseDetail!.sections[0].lessons[0]
                 //         .courseDetailMetaData.notes[0].content);
-                final lessons = lessionProvider.courseDetail?.sections
-                        .fold<List<CourseDetailLesson>>(
-                      [],
-                      (prev, secion) => prev..addAll(secion.lessons),
-                    ) ??
-                    [];
+                final lessons = lessionProvider.courseDetail.sections
+                    .fold<List<CourseDetailLesson>>(
+                  [],
+                  (prev, secion) => prev..addAll(secion.lessons),
+                );
+
                 // lessons.forEach((e) => print('lessionId: ' + e.lessonId));
                 // print('lessionId:' + lessons.toString());
 
@@ -91,7 +91,6 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
                       .notes;
                   return provider.notes;
                 } catch (e) {
-                  print('error' + e.toString());
                   return [];
                 }
               },

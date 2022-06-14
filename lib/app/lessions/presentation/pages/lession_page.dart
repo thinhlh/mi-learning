@@ -23,6 +23,7 @@ import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:mi_learning/utils/route_util.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 part 'lession_tab_page.dart';
 part 'lession_note_page.dart';
@@ -72,13 +73,22 @@ class LessionPage extends PageLoadingStateless<LessionPageProvider> {
                   ),
                 ),
                 Expanded(
-                  child: Selector<LessionPageProvider, CourseDetail?>(
+                  child: Selector<LessionPageProvider, CourseDetail>(
                     selector: (_, provider) => provider.courseDetail,
                     builder: (_, courseDetail, child) {
-                      return _LessionTabPage(
-                        courseDetail: courseDetail,
-                        safePadding: safePadding,
-                      );
+                      return courseDetail.sections.isNotEmpty
+                          ? _LessionTabPage(
+                              courseDetail: courseDetail,
+                              safePadding: safePadding,
+                            )
+                          : Shimmer.fromColors(
+                              child: _LessionTabPage(
+                                courseDetail: courseDetail,
+                                safePadding: safePadding,
+                              ),
+                              baseColor: AppColors.baseShimmerColor,
+                              highlightColor: AppColors.highlightShimmerColor,
+                            );
                     },
                   ),
                 ),
