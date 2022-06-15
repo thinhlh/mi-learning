@@ -21,24 +21,24 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, bool>> signIn(SignInRequestParams params) async {
-    final firebaseSignInResult =
-        await _authFirebaseDataSource.emailPasswordSignIn(
-      params.email,
-      params.password,
-    );
+    // final firebaseSignInResult =
+    //     await _authFirebaseDataSource.emailPasswordSignIn(
+    //   params.email,
+    //   params.password,
+    // );
 
-    return firebaseSignInResult.fold(
-      (failure) => Left(failure),
-      (result) async {
-        final loginResult = await _remoteDataSource.signIn(params);
+    // return firebaseSignInResult.fold(
+    //   (failure) => Left(failure),
+    //   (result) async {
+    final loginResult = await _remoteDataSource.signIn(params);
 
-        return loginResult.fold(
-          (l) => Left(l),
-          (tokens) async => Right(
-            await _localDataSource.storeTokens(tokens),
-          ),
-        );
-      },
+    return loginResult.fold(
+      (l) => Left(l),
+      (tokens) async => Right(
+        await _localDataSource.storeTokens(tokens),
+      ),
+      // );
+      // },
     );
   }
 

@@ -31,6 +31,7 @@ class ExplorerPageProvider extends LoadingProvider {
   }
 
   Future<Either<Failure, List<Course>>> getCourses() async {
+    showLoading(true);
     final result = await _getExplorerCoursesUseCase(NoParams());
 
     return result.fold((failure) => Left(failure), (value) {

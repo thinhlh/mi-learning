@@ -36,7 +36,7 @@ class _AuthPageState extends PageLoadingStateful<AuthPageProvider, AuthPage>
           children: const [
             _AuthPageHeader(),
             _AuthPageForm(),
-            _AuthPageSocialLogin()
+            // _AuthPageSocialLogin()
           ],
         ),
       ),
