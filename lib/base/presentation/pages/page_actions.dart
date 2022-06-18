@@ -10,4 +10,6 @@ abstract class PageActions {
   /// In Stateful pages, it will be executed after initState.
   @mustCallSuper
   void initialization(BuildContext context);
+
+  void afterFirstBuild(BuildContext context);
 }

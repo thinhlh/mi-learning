@@ -8,7 +8,6 @@ import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
-import 'package:provider/provider.dart';
 
 class CourseDetailAboutPage
     extends PageLoadingStateless<CourseDetailPageProvider> {

@@ -1,7 +1,13 @@
 part of 'explorer_page.dart';
 
-class _ExplorerForYouPage
-    extends PageLoadingStateless<ExplorerForYouPageProvider> {
+class _ExplorerForYouPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _ExplorerForYouState();
+}
+
+class _ExplorerForYouState
+    extends PageLoadingStateful<ExplorerForYouPageProvider, _ExplorerForYouPage>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget buildPage(BuildContext context) {
     return SingleChildScrollView(
@@ -113,6 +119,9 @@ class _ExplorerForYouPage
 
   @override
   void initialization(BuildContext context) {}
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _FeatureCourses extends StatelessWidget {

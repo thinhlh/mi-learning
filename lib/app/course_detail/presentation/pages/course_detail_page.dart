@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/common/domain/entity/course.dart';
@@ -15,7 +13,6 @@ import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
-import 'package:mi_learning/utils/route_util.dart';
 import 'package:provider/provider.dart';
 
 class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
@@ -178,7 +175,12 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
   @override
   void initialization(BuildContext context) {
     id = context.getArgument<String>() ?? "";
-    provider.getCourseDetail(id);
+  }
+
+  @override
+  void afterFirstBuild(BuildContext context) async {
+    showLoading(context, true);
+    provider.getCourseDetail(id).then((v) => showLoading(context, false));
   }
 }
 

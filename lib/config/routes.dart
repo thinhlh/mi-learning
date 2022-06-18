@@ -52,7 +52,7 @@ class Routes {
       RouteObserver<PageRoute>();
 
   static String get initial =>
-      FirebaseAuth.instance.currentUser == null ? landing : home;
+      FirebaseAuth.instance.currentUser == null ? home : home;
 
   static const String landing = '/landing';
   static const String test = '/test';

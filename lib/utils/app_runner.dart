@@ -17,7 +17,7 @@ class AppRunner {
   Future<void> runApplication() async {
     WidgetsFlutterBinding.ensureInitialized();
 
-    AppConfig.initialize(env: Env.prod());
+    AppConfig.initialize(env: Env.dev());
 
     await Future.wait([
       _initializeDependencies(),

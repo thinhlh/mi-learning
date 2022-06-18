@@ -21,6 +21,10 @@ abstract class PageStateless<T extends DialogProvider> extends StatelessWidget
       _initialized = true;
     }
 
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      afterFirstBuild(context);
+    });
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -28,4 +32,7 @@ abstract class PageStateless<T extends DialogProvider> extends StatelessWidget
       ),
     );
   }
+
+  @override
+  void afterFirstBuild(BuildContext context) {}
 }
