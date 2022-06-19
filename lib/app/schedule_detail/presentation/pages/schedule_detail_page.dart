@@ -170,7 +170,8 @@ class ScheduleDetailPage
   }
 
   @override
-  void initialization(BuildContext context) {
+  void beforeBuild(BuildContext context) {
+    super.beforeBuild(context);
     schedule = context.getArgument();
   }
 }

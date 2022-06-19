@@ -46,7 +46,8 @@ class _ExplorerCategoriesPageState extends PageLoadingStateful<
   }
 
   @override
-  void initialization(BuildContext context) {
+  void afterFirstBuild(BuildContext context) {
+    super.afterFirstBuild(context);
     provider.getCategories();
   }
 

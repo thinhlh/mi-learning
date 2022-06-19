@@ -157,7 +157,4 @@ class CourseDetailAboutPage
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }

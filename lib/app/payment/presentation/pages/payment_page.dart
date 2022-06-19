@@ -121,7 +121,4 @@ class PaymentPage extends PageLoadingStateless<PaymentPageProvider> {
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }

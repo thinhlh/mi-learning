@@ -185,7 +185,8 @@ class SettingPage extends PageLoadingStateless<SettingPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {
+  void beforeBuild(BuildContext context) {
+    super.beforeBuild(context);
     userInfo = context.getArgument<BasicUserInfo>();
   }
 }

@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mi_learning/app/article/presentation/pages/article_viewer_page.dart';
 import 'package:mi_learning/app/article/presentation/providers/article_viewer_page_provider.dart';
@@ -23,9 +22,7 @@ import 'package:mi_learning/app/home/presentation/pages/home_page.dart';
 import 'package:mi_learning/app/home/presentation/providers/home_page_provider.dart';
 import 'package:mi_learning/app/landing/presentation/pages/landing_page.dart';
 import 'package:mi_learning/app/landing/presentation/providers/landing_page_provider.dart';
-import 'package:mi_learning/app/lessions/presentation/pages/note_editor_page.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/lession_page.dart';
-import 'package:mi_learning/app/lessions/presentation/providers/note_editor_page_provider.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/lession_page_provider.dart';
 import 'package:mi_learning/app/notification/presentation/pages/notification_page.dart';
 import 'package:mi_learning/app/notification/presentation/providers/notification_page_provider.dart';

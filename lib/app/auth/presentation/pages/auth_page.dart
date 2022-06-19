@@ -42,9 +42,6 @@ class _AuthPageState extends PageLoadingStateful<AuthPageProvider, AuthPage>
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }
 
 class _AuthPageForm extends StatelessWidget {

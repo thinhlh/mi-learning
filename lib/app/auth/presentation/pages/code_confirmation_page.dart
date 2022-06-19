@@ -107,9 +107,4 @@ class CodeConfirmationPage
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {
-    final email = context.getArgument<String>();
-  }
 }

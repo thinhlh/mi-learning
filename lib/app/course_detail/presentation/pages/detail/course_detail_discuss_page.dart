@@ -61,7 +61,4 @@ class CourseDetailDiscussPage
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }

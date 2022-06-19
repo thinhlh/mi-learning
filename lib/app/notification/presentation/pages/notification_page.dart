@@ -86,7 +86,4 @@ class NotificationPage extends PageLoadingStateless<NotificationPageProvider> {
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }

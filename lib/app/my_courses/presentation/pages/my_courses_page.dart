@@ -59,7 +59,8 @@ class MyCoursePage extends PageLoadingStateless<MyCoursesPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {
+  void beforeBuild(BuildContext context) {
+    super.beforeBuild(context);
     provider.myCourses = context.getArgument<List<MyCourse>>() ?? [];
   }
 }

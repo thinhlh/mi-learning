@@ -118,9 +118,6 @@ class LandingPage extends PageLoadingStateless<LandingPageProvider> {
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }
 
 class _LandingImages extends StatefulWidget {

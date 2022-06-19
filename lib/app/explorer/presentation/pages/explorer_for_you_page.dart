@@ -1,13 +1,7 @@
 part of 'explorer_page.dart';
 
-class _ExplorerForYouPage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _ExplorerForYouState();
-}
-
-class _ExplorerForYouState
-    extends PageLoadingStateful<ExplorerForYouPageProvider, _ExplorerForYouPage>
-    with AutomaticKeepAliveClientMixin {
+class _ExplorerForYouPage
+    extends PageLoadingStateless<ExplorerForYouPageProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return SingleChildScrollView(
@@ -105,7 +99,7 @@ class _ExplorerForYouState
                 physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                itemCount: 10,
+                itemCount: courses.length,
                 itemBuilder: (_, index) => CourseSmallWidget(
                   course: courses[index],
                 ),
@@ -116,12 +110,6 @@ class _ExplorerForYouState
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class _FeatureCourses extends StatelessWidget {

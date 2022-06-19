@@ -1,16 +1,12 @@
-import 'dart:math';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/schedule/domain/entities/schedule.dart';
-import 'package:mi_learning/app/schedule/domain/entities/schedule_color.dart';
 import 'package:mi_learning/app/schedule/presentation/providers/schedule_page_provider.dart';
 import 'package:mi_learning/app/schedule/presentation/widgets/schedule_widget.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
-import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
@@ -19,10 +15,8 @@ import 'package:table_calendar/table_calendar.dart';
 class SchedulePage extends PageLoadingStateless<SchedulePageProvider> {
   @override
   Widget buildPage(BuildContext context) {
+    print('Schedule BUILD');
     PageController _scheduleController = PageController();
-
-    provider.getDatesHasSchedules();
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -39,7 +33,6 @@ class SchedulePage extends PageLoadingStateless<SchedulePageProvider> {
               return TableCalendar(
                 onCalendarCreated: ((pageController) {
                   _scheduleController = pageController;
-                  provider.getSchedulesOfDate();
                 }),
                 focusedDay: provider.selectedDate,
                 currentDay: provider.selectedDate,
@@ -151,5 +144,12 @@ class SchedulePage extends PageLoadingStateless<SchedulePageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void afterFirstBuild(BuildContext context) async {
+    super.afterFirstBuild(context);
+
+    // showLoading(context, true);
+    await provider.getDatesHasSchedules();
+    await provider.getSchedulesOfDate();
+    // showLoading(context, false);
+  }
 }

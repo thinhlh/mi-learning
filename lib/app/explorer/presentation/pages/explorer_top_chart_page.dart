@@ -23,7 +23,4 @@ class _ExplorerTopChartPage
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }

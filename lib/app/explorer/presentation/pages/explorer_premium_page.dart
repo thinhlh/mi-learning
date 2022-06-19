@@ -48,7 +48,4 @@ class _ExplorerPremiumPage
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }

@@ -133,7 +133,4 @@ class CourseDetailLessionsPage
       ],
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }

@@ -40,7 +40,8 @@ class ArticleViewerPage
   }
 
   @override
-  void initialization(BuildContext context) {
+  void beforeBuild(BuildContext context) {
+    super.beforeBuild(context);
     if (Platform.isAndroid) WebView.platform = AndroidWebView();
     url = context.getArgument<String>() ?? "https://flutter.dev";
   }

@@ -280,8 +280,14 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {
+  void beforeBuild(BuildContext context) {
+    super.beforeBuild(context);
     course = context.getArgument<Course>()!;
+  }
+
+  @override
+  void afterFirstBuild(BuildContext context) {
+    super.afterFirstBuild(context);
     provider.getBasicUserInfo();
   }
 }

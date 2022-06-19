@@ -25,7 +25,4 @@ class TestPage extends PageLoadingStateless<TestProvider> {
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }

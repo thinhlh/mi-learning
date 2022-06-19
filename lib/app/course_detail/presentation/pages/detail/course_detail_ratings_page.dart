@@ -93,7 +93,4 @@ class CourseDetailRatingsPage
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }

@@ -13,7 +13,14 @@ class CourseDetailPageProvider extends LoadingProvider {
   final GetCourseDetailUseCase _getCourseDetailUseCase;
   final ToggleSaveCourseUseCase _toggleSaveCourseUseCase;
 
-  Course? course;
+  Course? _course;
+
+  Course? get course => _course;
+
+  set course(Course? course) {
+    _course = course;
+    notifyListeners();
+  }
 
   Future<Either<Failure, Course>> getCourseDetail(String courseId) async {
     final result =
@@ -25,7 +32,6 @@ class CourseDetailPageProvider extends LoadingProvider {
       },
       (data) {
         course = data;
-        notifyListeners();
         return Right(data);
       },
     );

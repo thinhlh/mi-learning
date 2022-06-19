@@ -130,7 +130,4 @@ class _ForgotPasswordPage extends PageLoadingStateful<
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }

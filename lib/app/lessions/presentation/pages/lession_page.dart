@@ -101,10 +101,16 @@ class LessionPage extends PageLoadingStateless<LessionPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {
+  void beforeBuild(BuildContext context) {
+    super.beforeBuild(context);
     final arguments = context.getArgument<LessonPushDetailParams>();
     provider.courseId = arguments?.courseId;
     provider.lesson = arguments?.lesson;
+  }
+
+  @override
+  void afterFirstBuild(BuildContext context) {
+    super.afterFirstBuild(context);
     provider.getCourseDetail();
   }
 }

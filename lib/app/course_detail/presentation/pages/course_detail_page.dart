@@ -173,14 +173,18 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {
+  void beforeBuild(BuildContext context) {
+    super.beforeBuild(context);
     id = context.getArgument<String>() ?? "";
   }
 
   @override
   void afterFirstBuild(BuildContext context) async {
-    showLoading(context, true);
-    provider.getCourseDetail(id).then((v) => showLoading(context, false));
+    super.afterFirstBuild(context);
+    // showLoading(context, true);
+    await provider.getCourseDetail(id);
+    print('CALLED AFTER FIRST BUILD');
+    // showLoading(context, false);
   }
 }
 
@@ -275,7 +279,4 @@ class _CouseDetailTabState
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }

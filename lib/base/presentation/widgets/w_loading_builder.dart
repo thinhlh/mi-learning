@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:mi_learning/base/presentation/providers/loading_provider.dart';
 import 'package:mi_learning/services/dialogs/app_loading.dart';
-import 'package:provider/provider.dart';
 
 class WidgetLoadingBuilder<T extends LoadingProvider> extends StatelessWidget {
   void showLoading(BuildContext context, bool show) {

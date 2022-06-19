@@ -92,9 +92,9 @@ class _ExplorerEditorChoicePage
                 physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                itemCount: 3,
+                itemCount: min(courses.length, 3),
                 itemBuilder: (_, index) => CourseMediumWidget(
-                  course: courses[Random().nextInt(courses.length)],
+                  course: courses[Random().nextInt(min(courses.length, 3))],
                 ),
               ),
             ),
@@ -104,7 +104,4 @@ class _ExplorerEditorChoicePage
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }

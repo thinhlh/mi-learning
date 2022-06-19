@@ -35,9 +35,6 @@ class ArticlePage extends PageLoadingStateless<ArticlePageProvider> {
       body: const _ArticleTabBar(),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }
 
 class _ArticleTabBar extends StatefulWidget {
@@ -135,7 +132,11 @@ class __ArticleTabBarState
   }
 
   @override
-  void initialization(BuildContext context) {
-    provider.getArticles().then((value) => showLoading(context, false));
+  void afterFirstBuild(BuildContext context) async {
+    super.afterFirstBuild(context);
+
+    showLoading(context, true);
+    await provider.getArticles();
+    showLoading(context, false);
   }
 }

@@ -262,14 +262,17 @@ class _DashboardPageState
   }
 
   @override
-  void initialization(BuildContext context) {
+  void afterFirstBuild(BuildContext context) {
+    super.afterFirstBuild(context);
     fetchData();
   }
 
-  void fetchData() {
-    provider.getBasicUserInfo();
-    provider.getMyCourses();
-    provider.getRecommendedCourses();
+  void fetchData() async {
+    showLoading(context, true);
+    await provider.getBasicUserInfo();
+    await provider.getMyCourses();
+    await provider.getRecommendedCourses();
+    showLoading(context, false);
   }
 
   @override

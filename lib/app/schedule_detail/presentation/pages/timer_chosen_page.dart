@@ -54,7 +54,8 @@ class TimerChosenPage extends PageLoadingStateless<TimerChosenPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {
+  void beforeBuild(BuildContext context) {
+    super.beforeBuild(context);
     timerMinutes = context.getArgument();
   }
 }

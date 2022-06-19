@@ -180,7 +180,4 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }

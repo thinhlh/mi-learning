@@ -110,7 +110,4 @@ class ChangePasswordPage
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }

@@ -174,9 +174,4 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {
-    // provider.get().then((value) => showLoading(context, false));
-  }
 }

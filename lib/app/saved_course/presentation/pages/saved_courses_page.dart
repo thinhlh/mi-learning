@@ -51,7 +51,8 @@ class SavedCoursesPage extends PageLoadingStateless<SavedCoursesPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {
+  void afterFirstBuild(BuildContext context) {
+    super.afterFirstBuild(context);
     provider.getSavedCourses();
   }
 }

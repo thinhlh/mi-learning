@@ -13,18 +13,14 @@ abstract class PageStateful<T extends DialogProvider, P extends StatefulWidget>
   void initState() {
     provider = Provider.of<T>(context, listen: false);
     navigator = context.navigator;
-    initialization(context);
+    beforeBuild(context);
     super.initState();
 
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      afterFirstBuild(context);
+      if (mounted) {
+        afterFirstBuild(context);
+      }
     });
-  }
-
-  @override
-  void dispose() {
-    provider.dispose();
-    super.dispose();
   }
 
   @override
@@ -37,5 +33,10 @@ abstract class PageStateful<T extends DialogProvider, P extends StatefulWidget>
   }
 
   @override
+  @mustCallSuper
+  void beforeBuild(BuildContext context) {}
+
+  @override
+  @mustCallSuper
   void afterFirstBuild(BuildContext context) {}
 }

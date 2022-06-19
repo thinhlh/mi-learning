@@ -44,9 +44,6 @@ class LessionQuestionAnswerPage
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }
 
 class Comment extends StatelessWidget {

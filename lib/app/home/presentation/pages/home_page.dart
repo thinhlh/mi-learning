@@ -67,7 +67,4 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
       ),
     );
   }
-
-  @override
-  void initialization(BuildContext context) {}
 }
