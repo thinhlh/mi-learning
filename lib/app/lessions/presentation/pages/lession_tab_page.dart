@@ -44,8 +44,8 @@ class __LessionTabPageState extends State<_LessionTabPage>
               if (index == 2) {
                 showBarModalBottomSheet(
                   context: context,
-                  builder: (_) => RouteUtil.createPageProvider(
-                    provider: (_) => LessionQuestionAnswerPageProvider(),
+                  builder: (_) => RouteUtil.createPageBloc(
+                    bloc: (_) => LessionQuestionAnswerPageProvider(),
                     child: WillPopScope(
                       onWillPop: () async {
                         _tabController.animateTo(currentTabIndex);
@@ -75,23 +75,23 @@ class __LessionTabPageState extends State<_LessionTabPage>
         body: TabBarView(
           controller: _tabController,
           children: [
-            RouteUtil.createPageProvider(
+            RouteUtil.createPageBloc(
               child: _LessionNotePage(
                 safePadding: widget.safePadding,
               ),
-              provider: (_) => LessionNotePageProvider(
+              bloc: (_) => LessionNotePageProvider(
                 courseDetail: widget.courseDetail,
               ),
             ),
-            RouteUtil.createPageProvider(
+            RouteUtil.createPageBloc(
               child: LessionCourseContentPage(),
-              provider: (_) => LessionCourseContentPageProvider(
+              bloc: (_) => LessionCourseContentPageProvider(
                 course: widget.courseDetail,
               ),
             ),
-            RouteUtil.createPageProvider(
+            RouteUtil.createPageBloc(
               child: LessionQuestionAnswerPage(),
-              provider: (_) => LessionQuestionAnswerPageProvider(),
+              bloc: (_) => LessionQuestionAnswerPageProvider(),
             ),
           ],
         ),

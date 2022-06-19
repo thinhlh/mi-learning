@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mi_learning/app/auth/presentation/provider/auth_page_provider.dart';
+import 'package:mi_learning/app/auth/presentation/blocs/auth/auth_page_bloc.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
+import 'package:mi_learning/app/user/domain/entities/role.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
 import 'package:mi_learning/base/presentation/widgets/w_text_field.dart';
 import 'package:mi_learning/config/colors.dart';
@@ -13,7 +14,7 @@ import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/services/dialogs/app_loading.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
-import 'package:provider/provider.dart';
+import 'package:mi_learning/utils/extensions/string_extension.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -22,8 +23,7 @@ class AuthPage extends StatefulWidget {
   State<StatefulWidget> createState() => _AuthPageState();
 }
 
-class _AuthPageState extends PageLoadingStateful<AuthPageProvider, AuthPage>
-    with TickerProviderStateMixin {
+class _AuthPageState extends PageLoadingStateful<AuthPageBloc, AuthPage> {
   @override
   Widget buildPage(BuildContext context) {
     return SingleChildScrollView(
@@ -42,9 +42,93 @@ class _AuthPageState extends PageLoadingStateful<AuthPageProvider, AuthPage>
       ),
     );
   }
+}
+
+class _AuthPageHeader extends StatelessWidget {
+  const _AuthPageHeader({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  void initialization(BuildContext context) {}
+  Widget build(BuildContext context) {
+    final bloc = context.read<AuthPageBloc>();
+
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.neutral.shade300,
+        borderRadius: BorderRadius.circular(AppDimens.largeRadius),
+      ),
+      margin: EdgeInsets.symmetric(
+        vertical: AppDimens.extraLargeHeightDimens,
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: AppDimens.smallHeightDimens,
+          horizontal: AppDimens.mediumWidthDimens,
+        ),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: InkWell(
+                onTap: () => bloc.goToSignIn(),
+                child: BlocSelector<AuthPageBloc, AuthPageState, bool>(
+                  selector: (state) => (state as AuthPageStateInitial).isLogin,
+                  builder: (_, isLogin) => Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: isLogin ? 10.h : 0.0,
+                    ),
+                    decoration: isLogin
+                        ? BoxDecoration(
+                            color: AppColors.backgroundLight,
+                            borderRadius:
+                                BorderRadius.circular(AppDimens.largeRadius),
+                          )
+                        : null,
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Sign In',
+                      style: context.textTheme.titleMedium?.copyWith(
+                        color: isLogin ? null : AppColors.textSecondary,
+                        fontWeight: AppStyles.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: InkWell(
+                onTap: () => bloc.goToSignUp(),
+                child: BlocSelector<AuthPageBloc, AuthPageState, bool>(
+                  selector: (state) => (state as AuthPageStateInitial).isLogin,
+                  builder: (_, isLogin) => Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(
+                      vertical: isLogin ? 0.0 : 10.h,
+                    ),
+                    decoration: !isLogin
+                        ? BoxDecoration(
+                            color: AppColors.backgroundLight,
+                            borderRadius:
+                                BorderRadius.circular(AppDimens.largeRadius),
+                          )
+                        : null,
+                    child: Text(
+                      'Sign Up',
+                      style: context.textTheme.titleMedium?.copyWith(
+                        color: isLogin ? AppColors.textSecondary : null,
+                        fontWeight: AppStyles.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class _AuthPageForm extends StatelessWidget {
@@ -53,121 +137,122 @@ class _AuthPageForm extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<AuthPageProvider>();
+    final bloc = context.read<AuthPageBloc>();
 
-    return Selector<AuthPageProvider, bool>(
-      selector: (_, provider) => provider.isLogin,
-      shouldRebuild: (previous, next) => previous != next,
-      child: const _AuthPageEmailPasswordTextFields(),
-      builder: (_, isLogin, child) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          FittedBox(
-            child: Text(
-              isLogin ? "Welcome back" : 'Welcome to Mi Learning',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: AppStyles.bold,
-                  ),
-            ),
-          ),
-          SizedBox(height: AppDimens.mediumHeightDimens),
-          Text(
-            isLogin
-                ? 'Did you enjoy your day?'
-                : 'Shall we know about each other a little bit?',
-            style: context.textTheme.titleMedium?.copyWith(
-              color: AppColors.textSecondary,
-            ),
-          ),
-          SizedBox(height: AppDimens.extraLargeHeightDimens),
-          child!,
-          Visibility(
-            visible: !isLogin,
-            child: const _AuthPageSignUpForm(),
-          ),
-          SizedBox(height: isLogin ? AppDimens.largeHeightDimens : 0),
-          Visibility(
-            visible: isLogin,
-            child: GestureDetector(
-              onTap: () => context.navigator.pushNamed(Routes.forgotPassword),
-              child: Align(
-                alignment: Alignment.centerRight,
+    return BlocSelector<AuthPageBloc, AuthPageState, bool>(
+        selector: (state) => (state as AuthPageStateInitial).isLogin,
+        builder: (_, isLogin) {
+          const child = _AuthPageEmailPasswordTextFields();
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FittedBox(
                 child: Text(
-                  'Forgot password',
-                  style: context.textTheme.titleMedium?.copyWith(
-                    decoration: TextDecoration.underline,
-                    color: AppColors.textDisable,
-                  ),
+                  isLogin ? "Welcome back" : 'Welcome to Mi Learning',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontWeight: AppStyles.bold,
+                      ),
                 ),
               ),
-            ),
-          ),
-          SizedBox(height: AppDimens.extraLargeHeightDimens),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () async {
-                AppLoading.showLoading(context);
-                final result =
-                    await (isLogin ? provider.signIn() : provider.signUp());
-                AppLoading.dismissLoading(context);
-                result.fold(
-                  (failure) => showDialog(
-                    context: context,
-                    builder: (context) => WDialog(
-                      dialogType: DialogType.error,
-                      content: failure.message,
-                      onActions: [],
+              SizedBox(height: AppDimens.mediumHeightDimens),
+              Text(
+                isLogin
+                    ? 'Did you enjoy your day?'
+                    : 'Shall we know about each other a little bit?',
+                style: context.textTheme.titleMedium?.copyWith(
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              SizedBox(height: AppDimens.extraLargeHeightDimens),
+              child,
+              Visibility(
+                visible: !isLogin,
+                child: const _AuthPageSignUpForm(),
+              ),
+              SizedBox(height: isLogin ? AppDimens.largeHeightDimens : 0),
+              Visibility(
+                visible: isLogin,
+                child: GestureDetector(
+                  onTap: () =>
+                      context.navigator.pushNamed(Routes.forgotPassword),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'Forgot password',
+                      style: context.textTheme.titleMedium?.copyWith(
+                        decoration: TextDecoration.underline,
+                        color: AppColors.textDisable,
+                      ),
                     ),
                   ),
-                  (emailVerified) {
-                    if (isLogin) {
-                      // if (emailVerified) {
-                      context.navigator.pushNamed(Routes.home);
-                      // } else {
-                      //   showDialog(
-                      //     context: context,
-                      //     builder: (context) => WDialog(
-                      //       dialogType: DialogType.info,
-                      //       content:
-                      //           'Please verify your email address before login!',
-                      //       onActions: [],
-                      //     ),
-                      //   );
-                      // }
-                    } else {
-                      showDialog(
+                ),
+              ),
+              SizedBox(height: AppDimens.extraLargeHeightDimens),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    AppLoading.showLoading(context);
+                    final result =
+                        await (isLogin ? bloc.signIn() : bloc.signUp());
+                    AppLoading.dismissLoading(context);
+                    result.fold(
+                      (failure) => showDialog(
                         context: context,
                         builder: (context) => WDialog(
-                          dialogType: DialogType.success,
-                          content: 'Register success!',
-                          onActions: [],
+                          dialogType: DialogType.error,
+                          content: failure.message,
+                          onActions: const [],
                         ),
-                      );
+                      ),
+                      (emailVerified) {
+                        if (isLogin) {
+                          // if (emailVerified) {
+                          context.navigator.pushNamed(Routes.home);
+                          // } else {
+                          //   showDialog(
+                          //     context: context,
+                          //     builder: (context) => WDialog(
+                          //       dialogType: DialogType.info,
+                          //       content:
+                          //           'Please verify your email address before login!',
+                          //       onActions: [],
+                          //     ),
+                          //   );
+                          // }
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) => WDialog(
+                              dialogType: DialogType.success,
+                              content: 'Register success!',
+                              onActions: const [],
+                            ),
+                          );
 
-                      provider.goToSignIn();
-                    }
+                          bloc.goToSignIn();
+                        }
+                      },
+                    );
                   },
-                );
-              },
-              style: ButtonStyle(
-                padding: MaterialStateProperty.all(
-                  const EdgeInsets.symmetric(vertical: 24),
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all(
+                      const EdgeInsets.symmetric(vertical: 24),
+                    ),
+                  ),
+                  child: Text(
+                    isLogin ? 'Sign In' : 'Sign Up',
+                    style: context.textTheme.titleMedium?.copyWith(
+                      color: AppColors.neutral.shade50,
+                      fontWeight: AppStyles.bold,
+                    ),
+                  ),
                 ),
               ),
-              child: Text(
-                isLogin ? 'Sign In' : 'Sign Up',
-                style: context.textTheme.titleMedium?.copyWith(
-                  color: AppColors.neutral.shade50,
-                  fontWeight: AppStyles.bold,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: AppDimens.extraLargeHeightDimens),
-        ],
-      ),
-    );
+              SizedBox(height: AppDimens.extraLargeHeightDimens),
+            ],
+          );
+        });
   }
 }
 
@@ -178,13 +263,13 @@ class _AuthPageSignUpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthPageProvider provider = context.read<AuthPageProvider>();
+    final AuthPageBloc bloc = context.read<AuthPageBloc>();
     return Column(
       children: [
         SizedBox(height: AppDimens.extraLargeHeightDimens),
         WidgetTextField(
           label: 're-enter password',
-          controller: provider.reEnterPasswordController,
+          controller: bloc.reEnterPasswordController,
           inputType: TextInputType.visiblePassword,
           obsercureText: true,
           icon: Icons.vpn_key_outlined,
@@ -192,14 +277,14 @@ class _AuthPageSignUpForm extends StatelessWidget {
         SizedBox(height: AppDimens.extraLargeHeightDimens),
         WidgetTextField(
           label: 'name',
-          controller: provider.nameController,
+          controller: bloc.nameController,
           inputType: TextInputType.name,
           icon: Icons.person_outline,
         ),
         SizedBox(height: AppDimens.extraLargeHeightDimens),
         WidgetTextField(
           label: 'occupation',
-          controller: provider.occupationController,
+          controller: bloc.occupationController,
           inputType: TextInputType.text,
           icon: Icons.work_outline_rounded,
         ),
@@ -226,9 +311,9 @@ class _AuthPageSignUpForm extends StatelessWidget {
             horizontal: AppDimens.largeWidthDimens,
             vertical: AppDimens.mediumHeightDimens,
           ),
-          child: Selector<AuthPageProvider, String?>(
-            selector: (_, provider) => provider.role,
-            builder: (_, roleValue, child) => DropdownButton<String>(
+          child: BlocSelector<AuthPageBloc, AuthPageState, Role?>(
+            selector: (state) => (state as AuthPageStateInitial).role,
+            builder: (_, roleValue) => DropdownButton<Role>(
               underline: const SizedBox(),
               value: roleValue,
               isExpanded: true,
@@ -239,18 +324,14 @@ class _AuthPageSignUpForm extends StatelessWidget {
                   color: AppColors.textSecondary,
                 ),
               ),
-              items: const <DropdownMenuItem<String>>[
-                DropdownMenuItem(
-                  child: Text('Student'),
-                  value: 'Student',
-                ),
-                DropdownMenuItem(
-                  child: Text('Teacher'),
-                  value: 'Teacher',
-                ),
-              ],
+              items: Role.values
+                  .map((role) => DropdownMenuItem<Role>(
+                        child: Text(role.name.toCamelCase()),
+                        value: role,
+                      ))
+                  .toList(),
               onChanged: (value) {
-                provider.role = value;
+                bloc.changeRole(value);
               },
             ),
           ),
@@ -267,20 +348,20 @@ class _AuthPageEmailPasswordTextFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<AuthPageProvider>();
+    final bloc = context.read<AuthPageBloc>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         WidgetTextField(
           label: 'email',
-          controller: provider.emailController,
+          controller: bloc.emailController,
           inputType: TextInputType.emailAddress,
           icon: Icons.email_outlined,
         ),
         SizedBox(height: AppDimens.extraLargeHeightDimens),
         WidgetTextField(
           label: 'password',
-          controller: provider.passwordController,
+          controller: bloc.passwordController,
           inputType: TextInputType.visiblePassword,
           obsercureText: true,
           icon: Icons.vpn_key_outlined,
@@ -396,94 +477,6 @@ class _AuthPageSocialLogin extends StatelessWidget {
           ],
         )
       ],
-    );
-  }
-}
-
-class _AuthPageHeader extends StatelessWidget {
-  const _AuthPageHeader({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final provider = context.read<AuthPageProvider>();
-
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.neutral.shade300,
-        borderRadius: BorderRadius.circular(AppDimens.largeRadius),
-      ),
-      margin: EdgeInsets.symmetric(
-        vertical: AppDimens.extraLargeHeightDimens,
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: AppDimens.smallHeightDimens,
-          horizontal: AppDimens.mediumWidthDimens,
-        ),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: InkWell(
-                onTap: () => provider.goToSignIn(),
-                child: Selector<AuthPageProvider, bool>(
-                  shouldRebuild: ((previous, next) => previous != next),
-                  selector: (_, provider) => provider.isLogin,
-                  builder: (_, isLogin, child) => Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: isLogin ? 10.h : 0.0,
-                    ),
-                    decoration: isLogin
-                        ? BoxDecoration(
-                            color: AppColors.backgroundLight,
-                            borderRadius:
-                                BorderRadius.circular(AppDimens.largeRadius),
-                          )
-                        : null,
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Sign In',
-                      style: context.textTheme.titleMedium?.copyWith(
-                        color: isLogin ? null : AppColors.textSecondary,
-                        fontWeight: AppStyles.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: InkWell(
-                onTap: () => provider.goToSignUp(),
-                child: Selector<AuthPageProvider, bool>(
-                  selector: (_, provider) => provider.isLogin,
-                  builder: (_, isLogin, child) => Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.symmetric(
-                      vertical: isLogin ? 0.0 : 10.h,
-                    ),
-                    decoration: !isLogin
-                        ? BoxDecoration(
-                            color: AppColors.backgroundLight,
-                            borderRadius:
-                                BorderRadius.circular(AppDimens.largeRadius),
-                          )
-                        : null,
-                    child: Text(
-                      'Sign Up',
-                      style: context.textTheme.titleMedium?.copyWith(
-                        color: isLogin ? AppColors.textSecondary : null,
-                        fontWeight: AppStyles.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mi_learning/app/payment/presentation/providers/payment_page_provider.dart';
+import 'package:mi_learning/app/payment/presentation/bloc/payment_page_bloc.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
-class PaymentPage extends PageLoadingStateless<PaymentPageProvider> {
+class PaymentPage extends PageLoadingStateless<PaymentPageBloc> {
+  PaymentPage({Key? key}) : super(key: key);
+
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
@@ -123,5 +125,5 @@ class PaymentPage extends PageLoadingStateless<PaymentPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }

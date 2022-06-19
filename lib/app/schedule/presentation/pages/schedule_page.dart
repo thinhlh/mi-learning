@@ -21,7 +21,7 @@ class SchedulePage extends PageLoadingStateless<SchedulePageProvider> {
   Widget buildPage(BuildContext context) {
     PageController _scheduleController = PageController();
 
-    provider.getDatesHasSchedules();
+    bloc.getDatesHasSchedules();
 
     return Scaffold(
       appBar: AppBar(
@@ -151,5 +151,5 @@ class SchedulePage extends PageLoadingStateless<SchedulePageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }

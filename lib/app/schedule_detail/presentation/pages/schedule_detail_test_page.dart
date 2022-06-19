@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/schedule_detail/presentation/providers/schedule_detail_test_page_provider.dart';
+import 'package:mi_learning/app/schedule_detail/presentation/blocs/schedule_detail_test_page/schedule_detail_test_page_bloc.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/widgets/question_widget.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 
 class ScheduleDetailTestPage
-    extends PageLoadingStateless<ScheduleDetailTestPageProvider> {
+    extends PageLoadingStateless<ScheduleDetailTestPageBloc> {
+  ScheduleDetailTestPage({Key? key}) : super(key: key);
+
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   leading: const Icon(
-      //     Icons.arrow_back_ios,
-      //     color: Colors.black,
-      //   ),
-      // ),
+      appBar: AppBar(
+        leading: const Icon(
+          Icons.arrow_back_ios_new_outlined,
+        ),
+      ),
       body: Padding(
         padding:
             EdgeInsets.only(left: 10.w, right: 10.w, bottom: 10.h, top: 40.h),
@@ -84,5 +85,5 @@ class ScheduleDetailTestPage
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }

@@ -29,7 +29,7 @@ class CourseDetailAboutPage
                     Builder(
                       builder: (context) {
                         int lessons = 0;
-                        final sections = provider.course?.sections ?? [];
+                        final sections = bloc.course?.sections ?? [];
                         for (var section in sections) {
                           lessons += section.lessons.length;
                         }
@@ -68,7 +68,7 @@ class CourseDetailAboutPage
                 Column(
                   children: [
                     Text(
-                      ((provider.course?.length ?? 0) ~/ (60 * 60)).toString(),
+                      ((bloc.course?.length ?? 0) ~/ (60 * 60)).toString(),
                       style: context.textTheme.headlineSmall?.copyWith(
                         fontWeight: AppStyles.bold,
                       ),
@@ -90,12 +90,12 @@ class CourseDetailAboutPage
               children: [
                 CircleAvatar(
                   backgroundImage: NetworkImage(
-                    provider.course?.teacher.avatar ?? "",
+                    bloc.course?.teacher.avatar ?? "",
                   ),
                 ),
                 SizedBox(width: AppDimens.mediumWidthDimens),
                 Text(
-                  provider.course?.teacher.name ?? "",
+                  bloc.course?.teacher.name ?? "",
                   style: context.textTheme.titleMedium?.copyWith(
                     fontWeight: AppStyles.bold,
                   ),
@@ -137,7 +137,7 @@ class CourseDetailAboutPage
             ),
             SizedBox(height: AppDimens.mediumHeightDimens),
             ExpandableText(
-              provider.course?.description ?? "",
+              bloc.course?.description ?? "",
               expandText: 'Read more',
               style: context.textTheme.bodyMedium?.copyWith(),
               collapseText: 'Show less',
@@ -159,5 +159,5 @@ class CourseDetailAboutPage
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }

@@ -32,8 +32,8 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
             useRootNavigator: true,
             context: context,
             barrierColor: Colors.transparent,
-            builder: (_) => RouteUtil.createPageProvider(
-              provider: (_) => NoteEditorPageProvider(GetIt.I()),
+            builder: (_) => RouteUtil.createPageBloc(
+              bloc: (_) => NoteEditorPageProvider(GetIt.I()),
               child: Padding(
                 padding: EdgeInsets.only(top: safePadding),
                 child: NoteEditorPage(
@@ -81,7 +81,7 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
                 // print('lessionId:' + lessons.toString());
 
                 try {
-                  provider.notes = lessons
+                  bloc.notes = lessons
                       .firstWhere(
                         (lesson) {
                           return lesson.lessonId == lessionProvider.lesson?.id;
@@ -89,7 +89,7 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
                       )
                       .courseDetailMetaData
                       .notes;
-                  return provider.notes;
+                  return bloc.notes;
                 } catch (e) {
                   return [];
                 }
@@ -176,7 +176,7 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {
+  void beforeBuild(BuildContext context) {
     // provider.get().then((value) => showLoading(context, false));
   }
 }

@@ -46,7 +46,7 @@ class LessionQuestionAnswerPage
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }
 
 class Comment extends StatelessWidget {

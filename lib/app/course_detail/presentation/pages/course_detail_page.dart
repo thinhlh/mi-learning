@@ -66,12 +66,12 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
               )
                   ? const SizedBox.shrink()
                   : ElevatedButton(
-                      onPressed: provider.course == null
+                      onPressed: bloc.course == null
                           ? null
                           : () => navigator
                                   .pushNamed(
                                 Routes.orderDetail,
-                                arguments: provider.course!,
+                                arguments: bloc.course!,
                               )
                                   .then(
                                 (value) {
@@ -157,7 +157,7 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
       actions: [
         IconButton(
           onPressed: () async {
-            provider.toggleSaveCourse(id);
+            bloc.toggleSaveCourse(id);
           },
           icon: Icon(
             context.select<CourseDetailPageProvider, bool>(
@@ -173,14 +173,14 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {
+  void beforeBuild(BuildContext context) {
     id = context.getArgument<String>() ?? "";
   }
 
   @override
   void afterFirstBuild(BuildContext context) async {
     showLoading(context, true);
-    provider.getCourseDetail(id).then((v) => showLoading(context, false));
+    bloc.getCourseDetail(id).then((v) => showLoading(context, false));
   }
 }
 
@@ -277,5 +277,5 @@ class _CouseDetailTabState
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }

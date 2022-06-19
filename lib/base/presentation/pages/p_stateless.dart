@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mi_learning/base/presentation/pages/page_actions.dart';
-import 'package:provider/provider.dart';
-import 'package:mi_learning/base/presentation/providers/dialog_provider.dart';
-import 'package:mi_learning/utils/extensions/context_extension.dart';
 
-abstract class PageStateless<T extends DialogProvider> extends StatelessWidget
+abstract class PageStateless<T extends Bloc> extends StatelessWidget
     implements PageActions {
   PageStateless({Key? key}) : super(key: key);
 
-  bool _initialized = false;
   late final NavigatorState navigator;
-  late final T provider;
+  late final T bloc;
+
+  @override
+  @mustCallSuper
+  void afterFirstBuild(BuildContext context) {}
+
+  @override
+  void beforeBuild(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {
-    if (!_initialized) {
-      provider = Provider.of<T>(context, listen: false);
-      navigator = context.navigator;
-      initialization(context);
-      _initialized = true;
-    }
+    beforeBuild(context);
 
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       afterFirstBuild(context);
@@ -32,7 +31,4 @@ abstract class PageStateless<T extends DialogProvider> extends StatelessWidget
       ),
     );
   }
-
-  @override
-  void afterFirstBuild(BuildContext context) {}
 }

@@ -63,5 +63,5 @@ class CourseDetailDiscussPage
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }

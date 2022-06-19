@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
 import 'package:mi_learning/app/common/presentation/widgets/w_text_field.dart';
-import 'package:mi_learning/app/setting/presentation/providers/change_password_page_provider.dart';
+import 'package:mi_learning/app/setting/presentation/blocs/change_password_page/change_password_page_bloc.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
-class ChangePasswordPage
-    extends PageLoadingStateless<ChangePasswordPageProvider> {
+class ChangePasswordPage extends PageLoadingStateless<ChangePasswordPageBloc> {
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
@@ -53,53 +52,67 @@ class ChangePasswordPage
                   WTextField(
                     label: 'Current password',
                     icon: Icons.lock_open_rounded,
-                    controller: provider.currentPasswordController,
+                    controller: bloc.currentPasswordController,
                     obsercureText: true,
                   ),
                   SizedBox(height: AppDimens.extraLargeHeightDimens),
                   WTextField(
                     label: 'New password',
                     icon: Icons.lock_outline_rounded,
-                    controller: provider.passwordController,
+                    controller: bloc.passwordController,
                     obsercureText: true,
                   ),
                   SizedBox(height: AppDimens.extraLargeHeightDimens),
                   WTextField(
                     label: 'New password confirmation',
                     icon: Icons.password_rounded,
-                    controller: provider.confirmPasswordController,
+                    controller: bloc.confirmPasswordController,
                     obsercureText: true,
                   ),
                   SizedBox(height: AppDimens.largeHeightDimens),
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        showLoading(context, true);
-                        final result = await provider.changePassword();
-                        showLoading(context, false);
-                        String? message = result.fold(
-                          (failure) => failure.message,
-                          (value) => value
-                              ? null
-                              : 'Current password and new password does not match.',
-                        );
-
-                        showDialog(
-                          context: context,
-                          builder: (_) => WDialog(
-                            dialogType: message == null
-                                ? DialogType.success
-                                : DialogType.error,
-                            content: message ?? 'Reset password success.',
-                            onActions:
-                                message == null ? [() => navigator.pop()] : [],
+                    child: BlocConsumer<ChangePasswordPageBloc,
+                        ChangePasswordPageState>(
+                      listener: (context, state) {
+                        if (state is ChangePasswordPageLoadingState) {
+                          showLoading(context, true);
+                        } else {
+                          showLoading(context, false);
+                          if (state is ChangePasswordPageInitialState) {
+                          } else if (state is ChangePasswordPageSuccessState) {
+                            String message = 'Reset password success.';
+                            showDialog(
+                              context: context,
+                              builder: (_) => WDialog(
+                                dialogType: DialogType.success,
+                                content: message,
+                                onActions: [() => navigator.pop()],
+                              ),
+                            );
+                          } else if (state is ChangePasswordPageFailedState) {
+                            String message = state.message;
+                            showDialog(
+                              context: context,
+                              builder: (_) => WDialog(
+                                dialogType: DialogType.error,
+                                content: message,
+                                onActions: [() => navigator.pop()],
+                              ),
+                            );
+                          }
+                        }
+                      },
+                      builder: (context, state) {
+                        return ElevatedButton(
+                          onPressed: () async {
+                            bloc.changePassword();
+                          },
+                          child: const Text(
+                            'Change password',
                           ),
                         );
                       },
-                      child: const Text(
-                        'Change password',
-                      ),
                     ),
                   ),
                 ],
@@ -112,5 +125,5 @@ class ChangePasswordPage
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }

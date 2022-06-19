@@ -40,7 +40,7 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
         actions: [
           IconButton(
             onPressed: () {
-              provider.showDialog(
+              bloc.showDialog(
                 context,
                 WDialog(
                   dialogType: DialogType.info,
@@ -125,7 +125,7 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
               child: ElevatedButton(
                 onPressed: () async {
                   showLoading(context, true);
-                  await provider.postNote(
+                  await bloc.postNote(
                     _controller.plainTextEditingValue.text,
                     currentChosenLessonId,
                     second,
@@ -182,5 +182,5 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }

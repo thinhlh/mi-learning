@@ -1,49 +1,45 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mi_learning/app/article/presentation/blocs/article_viewer/article_viewer_bloc.dart';
 import 'package:mi_learning/app/article/presentation/pages/article_viewer_page.dart';
-import 'package:mi_learning/app/article/presentation/providers/article_viewer_page_provider.dart';
+import 'package:mi_learning/app/auth/presentation/blocs/auth/auth_page_bloc.dart';
+import 'package:mi_learning/app/auth/presentation/blocs/code_confirmation/code_confirmation_bloc.dart';
+import 'package:mi_learning/app/auth/presentation/blocs/forgot_password/forgot_password_page_bloc.dart';
 import 'package:mi_learning/app/auth/presentation/pages/auth_page.dart';
 import 'package:mi_learning/app/auth/presentation/pages/code_confirmation_page.dart';
 import 'package:mi_learning/app/auth/presentation/pages/forgot_password_page.dart';
-import 'package:mi_learning/app/auth/presentation/provider/auth_page_provider.dart';
-import 'package:mi_learning/app/auth/presentation/provider/code_confirmation_page_provider.dart';
-import 'package:mi_learning/app/auth/presentation/provider/forgot_password_page_provider.dart';
+import 'package:mi_learning/app/landing/presentation/bloc/landing_page_bloc.dart';
 import 'package:mi_learning/app/my_courses/presentation/pages/my_courses_page.dart';
 import 'package:mi_learning/app/my_courses/presentation/providers/my_courses_page_provider.dart';
+import 'package:mi_learning/app/notification/presentation/bloc/notification_page_bloc.dart';
+import 'package:mi_learning/app/order_detail/presentation/bloc/order_detail_page_bloc.dart';
+import 'package:mi_learning/app/payment/presentation/bloc/payment_page_bloc.dart';
 import 'package:mi_learning/app/saved_course/presentation/pages/saved_courses_page.dart';
 import 'package:mi_learning/app/saved_course/presentation/providers/saved_courses_page_provider.dart';
+import 'package:mi_learning/app/schedule_detail/presentation/blocs/schedule_detail_page/schedule_detail_page_bloc.dart';
+import 'package:mi_learning/app/schedule_detail/presentation/blocs/schedule_detail_test_page/schedule_detail_test_page_bloc.dart';
+import 'package:mi_learning/app/schedule_detail/presentation/blocs/timer_chosen_page/timer_chosen_page_bloc.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/pages/schedule_detail_page.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/pages/timer_chosen_page.dart';
-import 'package:mi_learning/app/schedule_detail/presentation/providers/schedule_detail_page_provider.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/course_detail_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
 import 'package:mi_learning/app/home/presentation/pages/home_page.dart';
 import 'package:mi_learning/app/home/presentation/providers/home_page_provider.dart';
 import 'package:mi_learning/app/landing/presentation/pages/landing_page.dart';
-import 'package:mi_learning/app/landing/presentation/providers/landing_page_provider.dart';
-import 'package:mi_learning/app/lessions/presentation/pages/note_editor_page.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/lession_page.dart';
-import 'package:mi_learning/app/lessions/presentation/providers/note_editor_page_provider.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/lession_page_provider.dart';
 import 'package:mi_learning/app/notification/presentation/pages/notification_page.dart';
-import 'package:mi_learning/app/notification/presentation/providers/notification_page_provider.dart';
 import 'package:mi_learning/app/order_detail/presentation/pages/order_detail_page.dart';
 import 'package:mi_learning/app/order_detail/presentation/providers/order_detail_page_provider.dart';
 import 'package:mi_learning/app/payment/presentation/pages/payment_page.dart';
-import 'package:mi_learning/app/payment/presentation/providers/payment_page_provider.dart';
-import 'package:mi_learning/app/schedule_detail/presentation/providers/schedule_detail_test_page_provider.dart';
-import 'package:mi_learning/app/schedule_detail/presentation/providers/timer_chosen_page_provider.dart';
+import 'package:mi_learning/app/setting/presentation/blocs/change_password_page/change_password_page_bloc.dart';
+import 'package:mi_learning/app/setting/presentation/blocs/setting_page/setting_page_bloc.dart';
 import 'package:mi_learning/app/setting/presentation/pages/change_password_page.dart';
 import 'package:mi_learning/app/setting/presentation/pages/setting_page.dart';
-import 'package:mi_learning/app/setting/presentation/providers/change_password_page_provider.dart';
-import 'package:mi_learning/app/setting/presentation/providers/setting_page_provider.dart';
-import 'package:mi_learning/app/test/presentation/provider/test_provider.dart';
 import 'package:mi_learning/utils/route_util.dart';
 
 import '../app/schedule_detail/presentation/pages/schedule_detail_test_page.dart';
-import '../app/test/presentation/pages/test_page.dart';
 
 class Routes {
   Routes._internal();
@@ -86,29 +82,29 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) => RouteUtil.createPageProvider<LandingPageProvider>(
-            provider: (_) => LandingPageProvider(),
+          builder: (_) => RouteUtil.createPageBloc<LandingPageBloc>(
+            bloc: (_) => LandingPageBloc(),
             child: LandingPage(),
           ),
         );
 
-      case Routes.test:
-        return CupertinoPageRoute(
-          fullscreenDialog: true,
-          settings: routeSettings,
-          builder: (_) => RouteUtil.createPageProvider<TestProvider>(
-            provider: (_) => TestProvider(GetIt.I()),
-            child: TestPage(),
-          ),
-        );
-      case Routes.about:
+      // case Routes.test:
+      //   return CupertinoPageRoute(
+      //     fullscreenDialog: true,
+      //     settings: routeSettings,
+      //     builder: (_) => RouteUtil.createPageBloc<TestProvider>(
+      //       bloc: (_) => TestProvider(GetIt.I()),
+      //       child: TestPage(),
+      //     ),
+      //   );
+      // case Routes.about:
 
       case Routes.auth:
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) => RouteUtil.createPageProvider<AuthPageProvider>(
-            provider: (_) => AuthPageProvider(GetIt.I(), GetIt.I()),
+          builder: (_) => RouteUtil.createPageBloc<AuthPageBloc>(
+            bloc: (_) => AuthPageBloc(GetIt.I(), GetIt.I()),
             child: const AuthPage(),
           ),
         );
@@ -117,9 +113,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) =>
-              RouteUtil.createPageProvider<ForgotPasswordPageProvider>(
-            provider: (_) => ForgotPasswordPageProvider(GetIt.I()),
+          builder: (_) => RouteUtil.createPageBloc<ForgotPasswordPageBloc>(
+            bloc: (_) => ForgotPasswordPageBloc(GetIt.I()),
             child: const ForgotPasswordPage(),
           ),
         );
@@ -128,9 +123,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) =>
-              RouteUtil.createPageProvider<CodeConfirmationPageProvider>(
-            provider: (_) => CodeConfirmationPageProvider(),
+          builder: (_) => RouteUtil.createPageBloc<CodeConfirmationBloc>(
+            bloc: (_) => CodeConfirmationBloc(),
             child: CodeConfirmationPage(),
           ),
         );
@@ -139,8 +133,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) => RouteUtil.createPageProvider<HomeProvider>(
-            provider: (_) => HomeProvider(),
+          builder: (_) => RouteUtil.createPageBloc<HomeProvider>(
+            bloc: (_) => HomeProvider(),
             child: HomePage(),
           ),
         );
@@ -149,9 +143,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) =>
-              RouteUtil.createPageProvider<CourseDetailPageProvider>(
-            provider: (_) => CourseDetailPageProvider(
+          builder: (_) => RouteUtil.createPageBloc<CourseDetailPageProvider>(
+            bloc: (_) => CourseDetailPageProvider(
               GetIt.I(),
               GetIt.I(),
             ),
@@ -163,8 +156,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) => RouteUtil.createPageProvider<LessionPageProvider>(
-            provider: (_) => LessionPageProvider(GetIt.I()),
+          builder: (_) => RouteUtil.createPageBloc<LessionPageProvider>(
+            bloc: (_) => LessionPageProvider(GetIt.I()),
             child: LessionPage(),
           ),
         );
@@ -183,8 +176,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) => RouteUtil.createPageProvider<SettingPageProvider>(
-            provider: (_) => SettingPageProvider(GetIt.I()),
+          builder: (_) => RouteUtil.createPageBloc<SettingPageBloc>(
+            bloc: (_) => SettingPageBloc(GetIt.I()),
             child: SettingPage(),
           ),
         );
@@ -193,9 +186,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) =>
-              RouteUtil.createPageProvider<ScheduleDetailPageProvider>(
-            provider: (_) => ScheduleDetailPageProvider(),
+          builder: (_) => RouteUtil.createPageBloc<ScheduleDetailPageBloc>(
+            bloc: (_) => ScheduleDetailPageBloc(),
             child: ScheduleDetailPage(),
           ),
         );
@@ -203,9 +195,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) =>
-              RouteUtil.createPageProvider<ScheduleDetailTestPageProvider>(
-            provider: (_) => ScheduleDetailTestPageProvider(),
+          builder: (_) => RouteUtil.createPageBloc<ScheduleDetailTestPageBloc>(
+            bloc: (_) => ScheduleDetailTestPageBloc(),
             child: ScheduleDetailTestPage(),
           ),
         );
@@ -214,8 +205,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) => RouteUtil.createPageProvider<TimerChosenPageProvider>(
-            provider: (_) => TimerChosenPageProvider(),
+          builder: (_) => RouteUtil.createPageBloc<TimerChosenPageBloc>(
+            bloc: (_) => TimerChosenPageBloc(),
             child: TimerChosenPage(),
           ),
         );
@@ -224,9 +215,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) =>
-              RouteUtil.createPageProvider<NotificationPageProvider>(
-            provider: (_) => NotificationPageProvider(),
+          builder: (_) => RouteUtil.createPageBloc<NotificationPageBloc>(
+            bloc: (_) => NotificationPageBloc(),
             child: NotificationPage(),
           ),
         );
@@ -235,8 +225,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) => RouteUtil.createPageProvider<OrderDetailPageProvider>(
-            provider: (_) => OrderDetailPageProvider(
+          builder: (_) => RouteUtil.createPageBloc<OrderDetailPageBloc>(
+            bloc: (_) => OrderDetailPageBloc(
               GetIt.I(),
               GetIt.I(),
             ),
@@ -248,8 +238,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) => RouteUtil.createPageProvider<PaymentPageProvider>(
-            provider: (_) => PaymentPageProvider(),
+          builder: (_) => RouteUtil.createPageBloc<PaymentPageBloc>(
+            bloc: (_) => PaymentPageBloc(),
             child: PaymentPage(),
           ),
         );
@@ -258,9 +248,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) =>
-              RouteUtil.createPageProvider<ArticleViewerPageProvider>(
-            provider: (_) => ArticleViewerPageProvider(),
+          builder: (_) => RouteUtil.createPageBloc<ArticleViewerBloc>(
+            bloc: (_) => ArticleViewerBloc(),
             child: ArticleViewerPage(),
           ),
         );
@@ -269,9 +258,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) =>
-              RouteUtil.createPageProvider<ChangePasswordPageProvider>(
-            provider: (_) => ChangePasswordPageProvider(GetIt.I()),
+          builder: (_) => RouteUtil.createPageBloc<ChangePasswordPageBloc>(
+            bloc: (_) => ChangePasswordPageBloc(GetIt.I()),
             child: ChangePasswordPage(),
           ),
         );
@@ -280,8 +268,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) => RouteUtil.createPageProvider<MyCoursesPageProvider>(
-            provider: (_) => MyCoursesPageProvider(),
+          builder: (_) => RouteUtil.createPageBloc<MyCoursesPageProvider>(
+            bloc: (_) => MyCoursesPageProvider(),
             child: MyCoursePage(),
           ),
         );
@@ -290,9 +278,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) =>
-              RouteUtil.createPageProvider<SavedCoursesPageProvider>(
-            provider: (_) => SavedCoursesPageProvider(GetIt.I()),
+          builder: (_) => RouteUtil.createPageBloc<SavedCoursesPageProvider>(
+            bloc: (_) => SavedCoursesPageProvider(GetIt.I()),
             child: SavedCoursesPage(),
           ),
         );

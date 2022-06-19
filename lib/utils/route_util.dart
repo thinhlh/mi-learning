@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RouteUtil {
   RouteUtil._internal();
 
-  static Widget createPageProvider<T extends ChangeNotifier>({
-    required T Function(BuildContext) provider,
+  static Widget createPageBloc<T extends Bloc>({
+    required T Function(BuildContext) bloc,
     required Widget child,
   }) {
-    return ChangeNotifierProvider<T>(
+    return BlocProvider<T>(
       child: child,
-      create: provider,
+      create: bloc,
       lazy: true,
     );
   }

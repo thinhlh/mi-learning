@@ -84,7 +84,7 @@ class _DashboardPageState
             GestureDetector(
               onTap: () => navigator.pushNamed(
                 Routes.setting,
-                arguments: provider.userInfo,
+                arguments: bloc.userInfo,
               ),
               child: SizedBox.square(
                 dimension: AppDimens.avatar,
@@ -171,7 +171,7 @@ class _DashboardPageState
             GestureDetector(
               onTap: () => navigator.pushNamed(
                 Routes.myCourses,
-                arguments: provider.myCourse,
+                arguments: bloc.myCourse,
               ),
               child: Text(
                 'Show all',
@@ -262,14 +262,14 @@ class _DashboardPageState
   }
 
   @override
-  void initialization(BuildContext context) {
+  void beforeBuild(BuildContext context) {
     fetchData();
   }
 
   void fetchData() {
-    provider.getBasicUserInfo();
-    provider.getMyCourses();
-    provider.getRecommendedCourses();
+    bloc.getBasicUserInfo();
+    bloc.getMyCourses();
+    bloc.getRecommendedCourses();
   }
 
   @override

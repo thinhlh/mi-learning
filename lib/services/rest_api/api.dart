@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
-import 'package:mi_learning/base/models/response_model.dart';
+import 'package:mi_learning/base/models/base_response.dart';
 import 'package:mi_learning/core/env/app_config.dart';
 import 'package:mi_learning/services/rest_api/interceptors/dio_logger.dart';
 import 'package:mi_learning/services/rest_api/interceptors/jwt_interceptor.dart';

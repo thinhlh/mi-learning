@@ -100,7 +100,7 @@ class CourseDetailLessionsPage
             navigator
                 .pushNamed(
               Routes.orderDetail,
-              arguments: provider.course!,
+              arguments: bloc.course!,
             )
                 .then(
               (value) {
@@ -135,5 +135,5 @@ class CourseDetailLessionsPage
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }

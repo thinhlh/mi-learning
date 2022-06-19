@@ -9,7 +9,17 @@ abstract class PageActions {
   ///
   /// In Stateful pages, it will be executed after initState.
   @mustCallSuper
-  void initialization(BuildContext context);
+  void beforeBuild(BuildContext context);
 
+  /// This method is called only after the first frame built. It will be scheduled with Callback
+  @mustCallSuper
   void afterFirstBuild(BuildContext context);
+
+  // /// This method will be called **ONCE** before built of a widget.
+  // ///
+  // /// In Stateless pages, it will be executed before build function
+  // ///
+  // /// In Statefull pages, it will be executed after initstate.
+  // @mustCallSuper
+  // void calledOnceBeforeBuild(BuildContext context);
 }

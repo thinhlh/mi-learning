@@ -67,7 +67,7 @@ class ExplorerPage extends PageLoadingStateless<ExplorerPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {
-    provider.getCourses();
+  void beforeBuild(BuildContext context) {
+    bloc.getCourses();
   }
 }

@@ -57,9 +57,9 @@ dependencies:
   agora_rtc_engine: ^5.2.0 # For livestreaming
 
   # Architecture libs
-  # flutter_bloc: ^8.0.1
+  flutter_bloc: ^8.0.1
   # bloc_concurrency: ^0.2.0
-  provider: ^6.0.2
+  # provider: ^6.0.2
   dartz: ^0.10.1
   equatable: ^2.0.3
   get_it: ^7.2.0

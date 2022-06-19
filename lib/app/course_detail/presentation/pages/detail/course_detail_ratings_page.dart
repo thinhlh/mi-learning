@@ -35,11 +35,11 @@ class CourseDetailRatingsPage
                       child: RatingWidget(
                         showValue: true,
                         showRatingAnimation: true,
-                        rating: provider.course?.courseRatings.average ?? 0.0,
+                        rating: bloc.course?.courseRatings.average ?? 0.0,
                         direction: Axis.vertical,
                         showSubTitle: true,
                         totalRating:
-                            provider.course?.courseRatings.ratings.length ?? 0,
+                            bloc.course?.courseRatings.ratings.length ?? 0,
                       ),
                     ),
                     SizedBox(width: AppDimens.extraLargeWidthDimens),
@@ -48,7 +48,7 @@ class CourseDetailRatingsPage
                       child: Builder(builder: (context) {
                         int index = 1;
                         return Column(
-                          children: (provider.course?.courseRatings
+                          children: (bloc.course?.courseRatings
                                       .ratingAverageByStar ??
                                   [])
                               .map<RatingBar>((e) {
@@ -84,9 +84,9 @@ class CourseDetailRatingsPage
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (_, index) => ReviewWidget(
-                rating: provider.course?.courseRatings.ratings[index],
+                rating: bloc.course?.courseRatings.ratings[index],
               ),
-              itemCount: provider.course?.courseRatings.ratings.length,
+              itemCount: bloc.course?.courseRatings.ratings.length,
             )
           ],
         ),
@@ -95,5 +95,5 @@ class CourseDetailRatingsPage
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mi_learning/app/article/domain/entities/article.dart';
-import 'package:mi_learning/app/article/presentation/providers/article_page_provider.dart';
+import 'package:mi_learning/app/article/presentation/blocs/article_page/article_page_bloc.dart';
 import 'package:mi_learning/app/article/presentation/widgets/article_category_widget.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
-import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ArticlePage extends PageLoadingStateless<ArticlePageProvider> {
+class ArticlePage extends PageLoadingStateless<ArticlePageBloc> {
+  ArticlePage({Key? key}) : super(key: key);
+
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
@@ -25,9 +27,18 @@ class ArticlePage extends PageLoadingStateless<ArticlePageProvider> {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(
-              Icons.create,
-              color: AppColors.neutral.shade900,
+            icon: BlocListener<ArticlePageBloc, ArticlePageState>(
+              listener: (context, state) {
+                if (state is ArticlePageLoadingState) {
+                  showLoading(context, true);
+                } else {
+                  showLoading(context, false);
+                }
+              },
+              child: Icon(
+                Icons.create,
+                color: AppColors.neutral.shade900,
+              ),
             ),
           ),
         ],
@@ -37,7 +48,7 @@ class ArticlePage extends PageLoadingStateless<ArticlePageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }
 
 class _ArticleTabBar extends StatefulWidget {
@@ -48,7 +59,7 @@ class _ArticleTabBar extends StatefulWidget {
 }
 
 class __ArticleTabBarState
-    extends PageLoadingStateful<ArticlePageProvider, _ArticleTabBar>
+    extends PageLoadingStateful<ArticlePageBloc, _ArticleTabBar>
     with TickerProviderStateMixin {
   final ItemScrollController listScrollController = ItemScrollController();
   final ItemPositionsListener listItemPositionsListener =
@@ -64,9 +75,11 @@ class __ArticleTabBarState
 
   @override
   Widget buildPage(BuildContext context) {
-    return Selector<ArticlePageProvider, Map<String, List<Article>>>(
-      selector: (_, provider) => provider.articles,
-      builder: (context, articles, child) {
+    return BlocSelector<ArticlePageBloc, ArticlePageState,
+        Map<String, List<Article>>>(
+      selector: (state) =>
+          (state is ArticlePageLoadedState) ? (state).articles : {},
+      builder: (context, articles) {
         _controller = TabController(
           length: articles.length,
           vsync: this,
@@ -135,7 +148,9 @@ class __ArticleTabBarState
   }
 
   @override
-  void initialization(BuildContext context) {
-    provider.getArticles().then((value) => showLoading(context, false));
+  void afterFirstBuild(BuildContext context) {
+    super.afterFirstBuild(context);
+
+    bloc.getArticles();
   }
 }

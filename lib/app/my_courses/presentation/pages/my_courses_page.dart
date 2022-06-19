@@ -31,7 +31,7 @@ class MyCoursePage extends PageLoadingStateless<MyCoursesPageProvider> {
           onPressed: () => navigator.pop(),
         ),
       ),
-      body: provider.myCourses.isEmpty
+      body: bloc.myCourses.isEmpty
           ? Center(
               child: Text(
                 'You have not joined any course!',
@@ -59,7 +59,7 @@ class MyCoursePage extends PageLoadingStateless<MyCoursesPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {
-    provider.myCourses = context.getArgument<List<MyCourse>>() ?? [];
+  void beforeBuild(BuildContext context) {
+    bloc.myCourses = context.getArgument<List<MyCourse>>() ?? [];
   }
 }

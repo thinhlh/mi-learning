@@ -164,5 +164,5 @@ class _ExplorerFreePage extends PageLoadingStateless<ExplorerFreePageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }

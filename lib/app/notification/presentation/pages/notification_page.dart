@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/notification/presentation/providers/notification_page_provider.dart';
+import 'package:mi_learning/app/notification/presentation/bloc/notification_page_bloc.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
-class NotificationPage extends PageLoadingStateless<NotificationPageProvider> {
+class NotificationPage extends PageLoadingStateless<NotificationPageBloc> {
+  NotificationPage({Key? key}) : super(key: key);
+
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
@@ -88,5 +88,5 @@ class NotificationPage extends PageLoadingStateless<NotificationPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }

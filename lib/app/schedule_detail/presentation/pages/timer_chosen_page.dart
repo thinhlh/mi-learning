@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mi_learning/app/schedule_detail/presentation/providers/timer_chosen_page_provider.dart';
+import 'package:mi_learning/app/schedule_detail/presentation/blocs/timer_chosen_page/timer_chosen_page_bloc.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
-class TimerChosenPage extends PageLoadingStateless<TimerChosenPageProvider> {
+class TimerChosenPage extends PageLoadingStateless<TimerChosenPageBloc> {
   late int timerMinutes;
 
   @override
@@ -54,7 +54,7 @@ class TimerChosenPage extends PageLoadingStateless<TimerChosenPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {
+  void beforeBuild(BuildContext context) {
     timerMinutes = context.getArgument();
   }
 }

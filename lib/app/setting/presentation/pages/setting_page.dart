@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/setting/domain/entities/setting.dart';
-import 'package:mi_learning/app/setting/presentation/providers/setting_page_provider.dart';
+import 'package:mi_learning/app/setting/presentation/blocs/setting_page/setting_page_bloc.dart';
 import 'package:mi_learning/app/user/domain/entities/basic_user_info.dart';
-import 'package:mi_learning/base/domain/usecase/base_usecase.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
@@ -12,7 +12,7 @@ import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:mi_learning/utils/extensions/string_extension.dart';
 
-class SettingPage extends PageLoadingStateless<SettingPageProvider> {
+class SettingPage extends PageLoadingStateless<SettingPageBloc> {
   late final BasicUserInfo? userInfo;
 
   Map<String, List<Setting>> getSettings(BuildContext context) => {
@@ -100,8 +100,9 @@ class SettingPage extends PageLoadingStateless<SettingPageProvider> {
             SizedBox(height: AppDimens.extraLargeHeightDimens),
             ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
-              separatorBuilder: (context, index) =>
-                  SizedBox(height: AppDimens.largeHeightDimens),
+              separatorBuilder: (context, index) => SizedBox(
+                height: AppDimens.largeHeightDimens,
+              ),
               shrinkWrap: true,
               itemBuilder: (_, parentIndex) => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,19 +162,25 @@ class SettingPage extends PageLoadingStateless<SettingPageProvider> {
             SizedBox(height: AppDimens.extraLargeHeightDimens),
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () async {
-                  final result = await provider.signOut();
-                  result.fold((l) => null, (result) {
-                    navigator.pushReplacementNamed(
-                      Routes.landing,
-                    );
-                  });
+              child: BlocListener<SettingPageBloc, SettingPageState>(
+                listener: (context, state) {
+                  if (state is SettingPageLoadingState) {
+                    showLoading(context, true);
+                  } else if (state is SettingPageLoggedOutState) {
+                    showLoading(context, false);
+
+                    navigator.pushReplacementNamed(Routes.landing);
+                  }
                 },
-                child: Text(
-                  'Sign Out',
-                  style: TextStyle(
-                    fontSize: 16.sp,
+                listenWhen: (previousState, currentState) =>
+                    previousState != currentState,
+                child: ElevatedButton(
+                  onPressed: () => bloc.signOut(),
+                  child: Text(
+                    'Sign Out',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                    ),
                   ),
                 ),
               ),
@@ -185,7 +192,7 @@ class SettingPage extends PageLoadingStateless<SettingPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {
+  void beforeBuild(BuildContext context) {
     userInfo = context.getArgument<BasicUserInfo>();
   }
 }

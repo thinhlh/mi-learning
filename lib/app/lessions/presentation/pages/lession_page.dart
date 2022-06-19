@@ -50,13 +50,13 @@ class LessionPage extends PageLoadingStateless<LessionPageProvider> {
           ),
           centerTitle: true,
         ),
-        WVideoPlayer(url: provider.lesson?.videoLesson?.videoUrl ?? ''),
+        WVideoPlayer(url: bloc.lesson?.videoLesson?.videoUrl ?? ''),
         SizedBox(height: AppDimens.largeHeightDimens),
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: AppDimens.mediumWidthDimens),
           child: Text(
-            provider.lesson?.title ?? '',
+            bloc.lesson?.title ?? '',
             style: context.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -101,10 +101,10 @@ class LessionPage extends PageLoadingStateless<LessionPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {
+  void beforeBuild(BuildContext context) {
     final arguments = context.getArgument<LessonPushDetailParams>();
-    provider.courseId = arguments?.courseId;
-    provider.lesson = arguments?.lesson;
-    provider.getCourseDetail();
+    bloc.courseId = arguments?.courseId;
+    bloc.lesson = arguments?.lesson;
+    bloc.getCourseDetail();
   }
 }

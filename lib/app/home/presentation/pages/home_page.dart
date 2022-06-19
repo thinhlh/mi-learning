@@ -19,13 +19,13 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return CupertinoTabScaffold(
-      controller: provider.tabController,
+      controller: bloc.tabController,
       resizeToAvoidBottomInset: false,
       tabBuilder: ((_, index) {
         switch (index) {
           case 0:
-            return RouteUtil.createPageProvider(
-              provider: (_) => DashboardPageProvider(
+            return RouteUtil.createPageBloc(
+              bloc: (_) => DashboardPageProvider(
                 GetIt.I(),
                 GetIt.I(),
                 GetIt.I(),
@@ -33,22 +33,22 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
               child: const DashboardPage(),
             );
           case 1:
-            return RouteUtil.createPageProvider(
-              provider: (_) => ExplorerPageProvider(GetIt.I()),
+            return RouteUtil.createPageBloc(
+              bloc: (_) => ExplorerPageProvider(GetIt.I()),
               child: ExplorerPage(),
             );
           case 2:
-            return RouteUtil.createPageProvider(
+            return RouteUtil.createPageBloc(
               child: SchedulePage(),
-              provider: (_) => SchedulePageProvider(
+              bloc: (_) => SchedulePageProvider(
                 GetIt.I(),
                 GetIt.I(),
               ),
             );
           case 3:
-            return RouteUtil.createPageProvider(
+            return RouteUtil.createPageBloc(
               child: ArticlePage(),
-              provider: (_) => ArticlePageProvider(GetIt.I()),
+              bloc: (_) => ArticlePageProvider(GetIt.I()),
             );
 
           default:
@@ -69,5 +69,5 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }

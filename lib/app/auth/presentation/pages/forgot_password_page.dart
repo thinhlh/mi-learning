@@ -1,7 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:mi_learning/app/auth/presentation/provider/forgot_password_page_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mi_learning/app/auth/presentation/blocs/forgot_password/forgot_password_page_bloc.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
 import 'package:mi_learning/app/common/presentation/widgets/w_back_button.dart';
@@ -13,7 +12,6 @@ import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/date_time_helper.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
-import 'package:provider/provider.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
@@ -22,8 +20,8 @@ class ForgotPasswordPage extends StatefulWidget {
   State<StatefulWidget> createState() => _ForgotPasswordPage();
 }
 
-class _ForgotPasswordPage extends PageLoadingStateful<
-    ForgotPasswordPageProvider, ForgotPasswordPage> {
+class _ForgotPasswordPage
+    extends PageLoadingStateful<ForgotPasswordPageBloc, ForgotPasswordPage> {
   final TextEditingController emailController = TextEditingController();
 
   @override
@@ -63,66 +61,72 @@ class _ForgotPasswordPage extends PageLoadingStateful<
           SizedBox(height: AppDimens.extraLargeHeightDimens),
           SizedBox(
             width: double.infinity,
-            child: Consumer<ForgotPasswordPageProvider>(
-              builder: (_, provider, child) => ElevatedButton(
-                onPressed: provider.countDownTimer?.isActive ?? false
-                    ? null
-                    : () async {
-                        if (emailController.text.isEmpty) {
-                          showDialog(
-                            context: context,
-                            builder: (_) => WDialog(
-                              dialogType: DialogType.error,
-                              content: 'Email must not be empty!',
-                              onActions: const [],
-                            ),
-                          );
-                        } else {
-                          final result = await provider
-                              .sendPasswordReset(emailController.text);
+            child: BlocBuilder<ForgotPasswordPageBloc, ForgotPasswordPageState>(
+              builder: (_, state) =>
+                  BlocConsumer<ForgotPasswordPageBloc, ForgotPasswordPageState>(
+                listener: (context, state) {
+                  if (state is ForgotPasswordPageInitialState) {
+                  } else if (state is ForgotPasswordPageTimerState) {
+                  } else if (state is ForgotPasswordPageSuccessState) {
+                    showDialog(
+                      context: context,
+                      builder: (_) => WDialog(
+                        dialogType: DialogType.success,
+                        content: 'Password reset email has been sent!',
+                        onActions: [
+                          () => navigator.pushNamed(Routes.auth),
+                        ],
+                      ),
+                    );
+                  } else if (state is ForgotPasswordPageFailedState) {
+                    showDialog(
+                      context: context,
+                      builder: (_) => WDialog(
+                        dialogType: DialogType.error,
+                        content: state.message,
+                        onActions: const [],
+                      ),
+                    );
+                  }
+                },
+                listenWhen: (previous, current) =>
+                    current is ForgotPasswordPageSuccessState ||
+                    current is ForgotPasswordPageFailedState,
+                buildWhen: (previous, current) =>
+                    current is ForgotPasswordPageInitialState ||
+                    current is ForgotPasswordPageTimerState,
+                builder: (context, state) {
+                  final isInitialState =
+                      state is ForgotPasswordPageInitialState;
 
-                          result.fold(
-                              (failure) => showDialog(
-                                    context: context,
-                                    builder: (_) => WDialog(
-                                      dialogType: DialogType.error,
-                                      content: failure.message,
-                                      onActions: const [],
-                                    ),
-                                  ), (r) {
-                            showDialog(
-                              context: context,
-                              builder: (_) => WDialog(
-                                dialogType: DialogType.success,
-                                content: 'Password reset email has been sent!',
-                                onActions: [
-                                  () => navigator.pushNamed(Routes.auth),
-                                ],
+                  return ElevatedButton(
+                    onPressed: !isInitialState
+                        ? null
+                        : () async =>
+                            bloc.sendPasswordReset(emailController.text),
+                    child: Text(
+                      isInitialState
+                          ? 'Send me code'
+                          : DateTimeHelper.formatDurationNoHout(
+                              Duration(
+                                seconds: const Duration(minutes: 2).inSeconds -
+                                    (state as ForgotPasswordPageTimerState)
+                                        .countDownTimer
+                                        .tick,
                               ),
-                            );
-                          });
-                        }
-                      },
-                child: Text(
-                  provider.countDownTimer?.isActive ?? false
-                      ? DateTimeHelper.formatDurationNoHout(
-                          Duration(
-                            seconds: const Duration(minutes: 2).inSeconds -
-                                (provider.countDownTimer?.tick ?? 0),
-                          ),
-                        )
-                      : 'Send me code',
-                  style: context.textTheme.titleMedium?.copyWith(
-                    color: AppColors.neutral.shade50,
-                    fontWeight: AppStyles.bold,
-                  ),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      provider.countDownTimer?.isActive ?? false
+                            ),
+                      style: context.textTheme.titleMedium?.copyWith(
+                        color: AppColors.neutral.shade50,
+                        fontWeight: AppStyles.bold,
+                      ),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(isInitialState
                           ? AppColors.neutral.shade400.withOpacity(0.7)
                           : AppColors.primarySwatch.shade500),
-                ),
+                    ),
+                  );
+                },
               ),
             ),
           ),
@@ -132,5 +136,5 @@ class _ForgotPasswordPage extends PageLoadingStateful<
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }

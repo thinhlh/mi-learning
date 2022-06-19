@@ -50,5 +50,5 @@ class _ExplorerPremiumPage
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }

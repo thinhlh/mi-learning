@@ -118,7 +118,7 @@ class _ExplorerForYouState
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 
   @override
   bool get wantKeepAlive => true;

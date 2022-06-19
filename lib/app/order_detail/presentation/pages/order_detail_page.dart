@@ -1,11 +1,13 @@
+import 'dart:html';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mi_learning/app/common/domain/entity/course.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
-import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
-import 'package:mi_learning/app/order_detail/presentation/providers/order_detail_page_provider.dart';
+import 'package:mi_learning/app/order_detail/presentation/bloc/order_detail_page_bloc.dart';
+import 'package:mi_learning/app/setting/presentation/blocs/setting_page/setting_page_bloc.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
@@ -13,10 +15,11 @@ import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:mi_learning/utils/extensions/string_extension.dart';
-import 'package:provider/provider.dart';
 
-class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
+class OrderDetailPage extends PageLoadingStateless<OrderDetailPageBloc> {
   late final Course course;
+
+  OrderDetailPage({Key? key}) : super(key: key);
 
   @override
   Widget buildPage(BuildContext context) {
@@ -50,18 +53,33 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
               style: context.textTheme.titleLarge,
             ),
             SizedBox(height: AppDimens.largeHeightDimens),
-            Text(
-              context.select<OrderDetailPageProvider, String>(
-                (provider) => provider.userInfo?.name ?? "",
-              ),
-              style: context.textTheme.bodyLarge,
+            BlocBuilder<OrderDetailPageBloc, OrderDetailPageState>(
+              builder: (context, state) {
+                return Text(
+                  state is OrderDetailPageLoadedState
+                      ? state.userInfo.name
+                      : "",
+                  style: context.textTheme.bodyLarge,
+                );
+              },
+              buildWhen: (previous, current) =>
+                  current is OrderDetailPageLoadedState ||
+                  current is OrderDetailPageInitialState,
             ),
             SizedBox(height: AppDimens.smallHeightDimens),
-            Text(
-              context.select<OrderDetailPageProvider, String>(
-                (provider) => (provider.userInfo?.role ?? "").toCamelCase(),
-              ),
-              style: context.textTheme.bodySmall,
+            BlocBuilder<OrderDetailPageBloc, OrderDetailPageState>(
+              buildWhen: (previous, current) =>
+                  current is OrderDetailPageLoadedState ||
+                  current is OrderDetailPageInitialState,
+              builder: (context, state) {
+                return Text(
+                  (state is OrderDetailPageLoadedState
+                          ? state.userInfo.role
+                          : "")
+                      .toCamelCase(),
+                  style: context.textTheme.bodySmall,
+                );
+              },
             ),
             SizedBox(height: AppDimens.smallHeightDimens),
             Row(
@@ -127,11 +145,8 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
             SizedBox(height: AppDimens.largeHeightDimens),
             InkWell(
               onTap: () => navigator.pushNamed(Routes.payment).then(
-                (value) {
-                  provider.paymentResult = value as int;
-                  provider.notifyListeners();
-                },
-              ),
+                    (value) => bloc.changePaymentMethos(value as int),
+                  ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -148,15 +163,21 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
               ),
             ),
             SizedBox(height: AppDimens.smallWidthDimens),
-            Selector<OrderDetailPageProvider, int?>(
-              selector: (_, provider) => provider.paymentResult,
-              builder: (_, index, child) => Visibility(
-                child: Text(
-                  'Payment with ${index == 0 ? 'Momo' : 'Credit'}',
-                  style: context.textTheme.titleSmall,
-                ),
-              ),
-            ),
+            BlocBuilder<OrderDetailPageBloc, OrderDetailPageState>(
+                buildWhen: (previous, current) =>
+                    current is OrderDetailPageInitialState ||
+                    current is OrderDetailPageLoadedState,
+                builder: (_, state) {
+                  final paymentMethod = (state is OrderDetailPageInitialState)
+                      ? state.paymentMethod
+                      : (state as OrderDetailPageLoadedState).paymentMethod;
+                  return Visibility(
+                    child: Text(
+                      'Payment with ${paymentMethod == 0 ? 'Momo' : 'Credit'}',
+                      style: context.textTheme.titleSmall,
+                    ),
+                  );
+                }),
             SizedBox(height: AppDimens.largeHeightDimens),
             Text(
               'Summary',
@@ -234,25 +255,11 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
             SizedBox(height: AppDimens.extraLargeHeightDimens),
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () async {
-                  showLoading(context, true);
-                  final result = await provider.checkout(course);
-                  await Future.delayed(const Duration(seconds: 3));
-                  showLoading(context, false);
-
-                  result.fold(
-                    (l) {
-                      showDialog(
-                        context: context,
-                        builder: (_) => WDialog(
-                          dialogType: DialogType.error,
-                          content: l.message,
-                          onActions: [],
-                        ),
-                      );
-                    },
-                    (r) => showDialog(
+              child: BlocListener<OrderDetailPageBloc, OrderDetailPageState>(
+                listener: (context, state) {
+                  if (state is OrderDetailPageSuccessState) {
+                    showLoading(context, false);
+                    showDialog(
                       context: context,
                       builder: (_) => WDialog(
                         dialogType: DialogType.success,
@@ -261,14 +268,34 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
                           () => navigator.pop(true),
                         ],
                       ),
-                    ),
-                  );
+                    );
+                  } else if (state is OrderDetailPageFailedState) {
+                    showLoading(context, false);
+                    showDialog(
+                      context: context,
+                      builder: (_) => WDialog(
+                        dialogType: DialogType.error,
+                        content: state.message,
+                        onActions: [],
+                      ),
+                    );
+                  } else if (state is SettingPageLoadingState) {
+                    showLoading(context, true);
+                  } else {
+                    showLoading(context, false);
+                  }
                 },
-                child: const Text(
-                  'CHECKOUT',
-                  style: TextStyle(
-                    fontWeight: AppStyles.bold,
-                    letterSpacing: 2,
+                listenWhen: (_, state) =>
+                    state is OrderDetailPageSuccessState ||
+                    state is OrderDetailPageFailedState,
+                child: ElevatedButton(
+                  onPressed: () => bloc.checkout(course),
+                  child: const Text(
+                    'CHECKOUT',
+                    style: TextStyle(
+                      fontWeight: AppStyles.bold,
+                      letterSpacing: 2,
+                    ),
                   ),
                 ),
               ),
@@ -280,8 +307,9 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {
+  void afterFirstBuild(BuildContext context) {
+    super.afterFirstBuild(context);
     course = context.getArgument<Course>()!;
-    provider.getBasicUserInfo();
+    bloc.getBasicUserInfo();
   }
 }

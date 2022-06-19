@@ -1,15 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:mi_learning/app/article/presentation/providers/article_viewer_page_provider.dart';
+import 'package:mi_learning/app/article/presentation/blocs/article_viewer/article_viewer_bloc.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class ArticleViewerPage
-    extends PageLoadingStateless<ArticleViewerPageProvider> {
+class ArticleViewerPage extends PageLoadingStateless<ArticleViewerBloc> {
   late final String url;
+
+  ArticleViewerPage({Key? key}) : super(key: key);
 
   @override
   Widget buildPage(BuildContext context) {
@@ -40,7 +41,7 @@ class ArticleViewerPage
   }
 
   @override
-  void initialization(BuildContext context) {
+  void beforeBuild(BuildContext context) {
     if (Platform.isAndroid) WebView.platform = AndroidWebView();
     url = context.getArgument<String>() ?? "https://flutter.dev";
   }

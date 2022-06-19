@@ -22,7 +22,7 @@ class _ExplorerCategoriesPageState extends PageLoadingStateful<
       selector: (_, provider) => provider.categories,
       builder: (_, categories, child) => RefreshIndicator(
         onRefresh: () async {
-          provider.getCategories();
+          bloc.getCategories();
         },
         child: GridView.builder(
           padding: EdgeInsets.symmetric(
@@ -46,8 +46,8 @@ class _ExplorerCategoriesPageState extends PageLoadingStateful<
   }
 
   @override
-  void initialization(BuildContext context) {
-    provider.getCategories();
+  void beforeBuild(BuildContext context) {
+    bloc.getCategories();
   }
 
   @override

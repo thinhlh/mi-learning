@@ -1,8 +1,9 @@
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mi_learning/app/landing/presentation/providers/landing_page_provider.dart';
+import 'package:mi_learning/app/landing/presentation/bloc/landing_page_bloc.dart';
 import 'package:mi_learning/app/landing/presentation/widgets/landing_page_position.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
@@ -12,52 +13,56 @@ import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 
-class LandingPage extends PageLoadingStateless<LandingPageProvider> {
+class LandingPage extends PageLoadingStateless<LandingPageBloc> {
   final PageController _pageController = PageController(keepPage: true);
   final Curve _paeTransitionCurves = Curves.linear;
+  late final Map<List<dartz.Tuple2<String, TextStyle?>>, String> landingPages;
+
+  LandingPage({Key? key}) : super(key: key);
 
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
-      // backgroundColor: AppColors.primarySwatch.shade200,
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          LandingPagePosition(
-            chosenIndex: context.select<LandingPageProvider, int>(
-              (provider) => provider.currentPage,
+          BlocSelector<LandingPageBloc, LandingPageState, int>(
+            selector: (state) => state.currentPage,
+            builder: (_, currentPages) => LandingPagePosition(
+              chosenIndex: currentPages,
+              length: currentPages,
             ),
-            length: provider.landingPages(context).length,
           ),
           Container(
             width: 0.8.sw,
             margin: EdgeInsets.symmetric(
               vertical: AppDimens.largeHeightDimens,
             ),
-            child: ElevatedButton(
-              onPressed: () {
-                if (provider.currentPage ==
-                    provider.landingPages(context).length - 1) {
-                  navigator.pushNamed(Routes.auth);
-                  return;
-                }
-
-                _pageController.nextPage(
-                  duration: const Duration(milliseconds: 200),
-                  curve: _paeTransitionCurves,
+            child: BlocSelector<LandingPageBloc, LandingPageState, int>(
+              selector: (state) {
+                return state.currentPage;
+              },
+              builder: (context, currentPage) {
+                return ElevatedButton(
+                  onPressed: () {
+                    if (currentPage == landingPages.length - 1) {
+                      navigator.pushNamed(Routes.auth);
+                    } else {
+                      _pageController.nextPage(
+                        duration: const Duration(milliseconds: 200),
+                        curve: _paeTransitionCurves,
+                      );
+                    }
+                  },
+                  child: Text(
+                    currentPage == 0
+                        ? 'Get Started'
+                        : currentPage != landingPages.length - 1
+                            ? 'Next'
+                            : 'Sign In',
+                  ),
                 );
               },
-              child: Selector<LandingPageProvider, int>(
-                selector: (_, provider) => provider.currentPage,
-                shouldRebuild: (oldValue, newValue) => oldValue != newValue,
-                builder: (_, currentPage, child) => Text(
-                  currentPage == 0
-                      ? 'Get Started'
-                      : currentPage != provider.landingPages(context).length - 1
-                          ? 'Next'
-                          : 'Sign In',
-                ),
-              ),
             ),
           ),
         ],
@@ -68,7 +73,7 @@ class LandingPage extends PageLoadingStateless<LandingPageProvider> {
           GestureDetector(
             onTap: () => _pageController
                 .animateToPage(
-                  provider.landingPages(context).length - 1,
+                  landingPages.length - 1,
                   duration: const Duration(milliseconds: 400),
                   curve: _paeTransitionCurves,
                 )
@@ -104,11 +109,12 @@ class LandingPage extends PageLoadingStateless<LandingPageProvider> {
               text: TextSpan(
                 style: context.textTheme.titleLarge?.copyWith(),
                 children: <TextSpan>[
-                  for (dartz.Tuple2 value in provider
-                      .landingPages(context)
-                      .keys
-                      .toList()[provider.currentPage])
-                    TextSpan(text: value.value1, style: value.value2),
+                  for (dartz.Tuple2 value
+                      in landingPages.keys.toList()[bloc.state.currentPage])
+                    TextSpan(
+                      text: value.value1,
+                      style: value.value2,
+                    ),
                 ],
               ),
             ),
@@ -120,7 +126,9 @@ class LandingPage extends PageLoadingStateless<LandingPageProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {
+    landingPages = bloc.state.landingPages(context);
+  }
 }
 
 class _LandingImages extends StatefulWidget {
@@ -143,20 +151,21 @@ class _LandingImagesState extends State<_LandingImages> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<LandingPageProvider>();
+    final bloc = context.read<LandingPageBloc>();
+    final landingPages = bloc.state.landingPages(context);
 
     return SizedBox(
       height: 0.5.sh,
       child: PageView.builder(
         controller: widget.pageController,
         onPageChanged: (index) {
-          provider.currentPage = index;
+          bloc.goToNextPage(index);
         },
         padEnds: true,
         physics: const BouncingScrollPhysics(),
-        itemCount: provider.landingPages(context).length,
+        itemCount: landingPages.length,
         itemBuilder: (_, index) => SvgPicture.asset(
-          provider.landingPages(context).values.toList()[index],
+          landingPages.values.toList()[index],
         ),
       ),
     );

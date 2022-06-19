@@ -46,21 +46,21 @@ class _ExplorerTabPageState extends State<_ExplorerTabPage>
           controller: _tabController,
           physics: const BouncingScrollPhysics(),
           children: [
-            RouteUtil.createPageProvider(
+            RouteUtil.createPageBloc(
               child: _ExplorerForYouPage(),
-              provider: (_) => ExplorerForYouPageProvider(),
+              bloc: (_) => ExplorerForYouPageProvider(),
             ),
-            RouteUtil.createPageProvider(
+            RouteUtil.createPageBloc(
               child: _ExplorerTopChartPage(),
-              provider: (_) => ExplorerTopChartPageProvider(),
+              bloc: (_) => ExplorerTopChartPageProvider(),
             ),
-            RouteUtil.createPageProvider(
+            RouteUtil.createPageBloc(
               child: _ExplorerCategoriesPage(),
-              provider: (_) => ExplorerCategoriesPageProvider(GetIt.I()),
+              bloc: (_) => ExplorerCategoriesPageProvider(GetIt.I()),
             ),
-            RouteUtil.createPageProvider(
+            RouteUtil.createPageBloc(
               child: _ExplorerEditorChoicePage(),
-              provider: (_) => ExplorerEditorChoicePageProvider(),
+              bloc: (_) => ExplorerEditorChoicePageProvider(),
             ),
             // RouteUtil.createPageProvider(
             //   child: _ExplorerPremiumPage(),

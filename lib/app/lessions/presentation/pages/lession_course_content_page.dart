@@ -34,7 +34,7 @@ class LessionCourseContentPage
           itemBuilder: (_, index) => ExpansionTile(
             subtitle: Builder(builder: (ctx) {
               final totalLessons = sections[index].lessons.length;
-              final currentLessonId = provider.courseDetail.currentLesson;
+              final currentLessonId = bloc.courseDetail.currentLesson;
               late int currentLesson;
               try {
                 currentLesson = sections
@@ -88,7 +88,7 @@ class LessionCourseContentPage
                               Routes.lessons,
                               arguments: LessonPushDetailParams(
                                 lesson: Lesson.fromCourseDetailLesson(lesson),
-                                courseId: provider.courseDetail.courseId,
+                                courseId: bloc.courseDetail.courseId,
                               ),
                             );
                           },
@@ -132,5 +132,5 @@ class LessionCourseContentPage
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }

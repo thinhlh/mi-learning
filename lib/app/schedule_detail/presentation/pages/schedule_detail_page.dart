@@ -1,8 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mi_learning/app/schedule/domain/entities/schedule.dart';
 import 'package:mi_learning/app/schedule/domain/entities/schedule_color.dart';
-import 'package:mi_learning/app/schedule_detail/presentation/providers/schedule_detail_page_provider.dart';
+import 'package:mi_learning/app/schedule_detail/presentation/blocs/schedule_detail_page/schedule_detail_page_bloc.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
@@ -11,11 +12,11 @@ import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/date_time_helper.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:mi_learning/app/schedule/domain/entities/schedule_status.dart';
-import 'package:provider/provider.dart';
 
-class ScheduleDetailPage
-    extends PageLoadingStateless<ScheduleDetailPageProvider> {
+class ScheduleDetailPage extends PageLoadingStateless<ScheduleDetailPageBloc> {
   late final Schedule schedule;
+
+  ScheduleDetailPage({Key? key}) : super(key: key);
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
@@ -122,16 +123,12 @@ class ScheduleDetailPage
                             Routes.timerChosen,
                             arguments: 15,
                           )
-                          .then(
-                            (value) =>
-                                provider.currentChosenTimer = value as int,
-                          ),
+                          .then((value) => bloc.updateTimer(value as int)),
                       leading: const Icon(Icons.av_timer_outlined),
-                      title: Selector<ScheduleDetailPageProvider, int>(
-                        selector: (_, provider) => provider.currentChosenTimer,
-                        shouldRebuild: (oldValue, newValue) =>
-                            oldValue != newValue,
-                        builder: (_, timer, child) {
+                      title: BlocSelector<ScheduleDetailPageBloc,
+                          ScheduleDetailPageState, int>(
+                        selector: (state) => state.currentChosenTimer,
+                        builder: (_, timer) {
                           return Text(
                             'Notify me before | ${timer == 0 ? 'Never' : '$timer minutes'}',
                           );
@@ -170,7 +167,7 @@ class ScheduleDetailPage
   }
 
   @override
-  void initialization(BuildContext context) {
+  void beforeBuild(BuildContext context) {
     schedule = context.getArgument();
   }
 }

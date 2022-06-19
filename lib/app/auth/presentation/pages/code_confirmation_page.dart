@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mi_learning/app/auth/presentation/provider/code_confirmation_page_provider.dart';
-import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
-import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
+import 'package:mi_learning/app/auth/presentation/blocs/code_confirmation/code_confirmation_bloc.dart';
 import 'package:mi_learning/app/common/presentation/widgets/w_back_button.dart';
 import 'package:mi_learning/app/forgot_password/presentation/widgets/w_code_field.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
@@ -11,8 +9,7 @@ import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
-class CodeConfirmationPage
-    extends PageLoadingStateless<CodeConfirmationPageProvider> {
+class CodeConfirmationPage extends PageLoadingStateless<CodeConfirmationBloc> {
   CodeConfirmationPage({Key? key}) : super(key: key);
   @override
   Widget buildPage(BuildContext context) {
@@ -40,7 +37,7 @@ class CodeConfirmationPage
           WCodeField(
             length: 4,
             numberOnly: true,
-            onCodeEntered: (value) => provider.code = value,
+            onCodeEntered: (value) => bloc.codeEntered(value),
           ),
           SizedBox(height: AppDimens.extraLargeHeightDimens),
           SizedBox(
@@ -109,7 +106,7 @@ class CodeConfirmationPage
   }
 
   @override
-  void initialization(BuildContext context) {
+  void beforeBuild(BuildContext context) {
     final email = context.getArgument<String>();
   }
 }

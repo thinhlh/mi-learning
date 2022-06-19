@@ -11,7 +11,7 @@ class TestPage extends PageLoadingStateless<TestProvider> {
     return GestureDetector(
       onTap: () async {
         showLoading(context, true);
-        await provider.checkConnection();
+        await bloc.checkConnection();
         showLoading(context, false);
       },
       child: Center(
@@ -27,5 +27,5 @@ class TestPage extends PageLoadingStateless<TestProvider> {
   }
 
   @override
-  void initialization(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 }
