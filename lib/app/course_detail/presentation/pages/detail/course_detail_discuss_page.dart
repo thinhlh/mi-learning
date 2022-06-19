@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
+import 'package:mi_learning/app/course_detail/presentation/bloc/course_detail_page_bloc.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 
 class CourseDetailDiscussPage
-    extends PageLoadingStateless<CourseDetailPageProvider> {
+    extends PageLoadingStateless<CourseDetailPageBloc> {
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
@@ -61,7 +61,4 @@ class CourseDetailDiscussPage
       ),
     );
   }
-
-  @override
-  void beforeBuild(BuildContext context) {}
 }

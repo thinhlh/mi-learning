@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/common/domain/entity/course.dart';
+import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
+import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
+import 'package:mi_learning/app/course_detail/presentation/bloc/course_detail_page_bloc.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_about_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_discuss_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_lessions_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_ratings_page.dart';
-import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
@@ -13,9 +15,8 @@ import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
-import 'package:provider/provider.dart';
 
-class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
+class CourseDetailPage extends PageLoadingStateless<CourseDetailPageBloc> {
   late final String id;
   CourseDetailPage({Key? key}) : super(key: key);
   @override
@@ -37,23 +38,37 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
             SizedBox(height: AppDimens.largeHeightDimens),
             Align(
               alignment: Alignment.centerLeft,
-              child: Text(
-                context.select<CourseDetailPageProvider, String>(
-                  (provider) => provider.course?.title ?? "",
-                ),
-                style: context.textTheme.titleLarge?.copyWith(
-                  fontWeight: AppStyles.extraBold,
-                ),
+              child: BlocSelector<CourseDetailPageBloc, CourseDetailPageState,
+                  String>(
+                selector: (state) => (state is CourseDetailPageLoadedState)
+                    ? state.course.title
+                    : "",
+                builder: (context, title) {
+                  return Text(
+                    title,
+                    style: context.textTheme.titleLarge?.copyWith(
+                      fontWeight: AppStyles.extraBold,
+                    ),
+                  );
+                },
               ),
             ),
             SizedBox(height: AppDimens.largeHeightDimens),
             Align(
               alignment: Alignment.centerLeft,
-              child: Text(
-                'by ${context.select<CourseDetailPageProvider, String>((provider) => provider.course?.teacher.name ?? "")}',
-                style: context.textTheme.caption?.copyWith(
-                  fontSize: context.textTheme.subtitle2?.fontSize,
-                ),
+              child: BlocSelector<CourseDetailPageBloc, CourseDetailPageState,
+                  String>(
+                selector: (state) => (state is CourseDetailPageLoadedState)
+                    ? state.course.teacher.name
+                    : "",
+                builder: (context, teacherName) {
+                  return Text(
+                    'by $teacherName}',
+                    style: context.textTheme.caption?.copyWith(
+                      fontSize: context.textTheme.subtitle2?.fontSize,
+                    ),
+                  );
+                },
               ),
             ),
             Container(
@@ -61,49 +76,59 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
                 vertical: AppDimens.largeHeightDimens,
               ),
               width: double.infinity,
-              child: context.select<CourseDetailPageProvider, bool>(
-                (provider) => provider.course?.enrolled ?? false,
-              )
-                  ? const SizedBox.shrink()
-                  : ElevatedButton(
-                      onPressed: bloc.course == null
-                          ? null
-                          : () => navigator
-                                  .pushNamed(
-                                Routes.orderDetail,
-                                arguments: bloc.course!,
-                              )
-                                  .then(
-                                (value) {
-                                  if (value == true) {
-                                    navigator.pop();
-                                  }
-                                },
-                              ),
-                      child: const Text(
-                        'ENROLL',
-                        style: TextStyle(
-                          letterSpacing: 1,
-                        ),
-                      ),
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                              AppDimens.mediumRadius,
+              child: BlocBuilder<CourseDetailPageBloc, CourseDetailPageState>(
+                buildWhen: (previous, current) =>
+                    current is CourseDetailPageLoadedState ||
+                    current is CourseDetailPageInitialState,
+                builder: (context, state) {
+                  final course = (state is CourseDetailPageLoadedState)
+                      ? state.course
+                      : null;
+                  return (course?.enrolled ?? false)
+                      ? const SizedBox.shrink()
+                      : ElevatedButton(
+                          onPressed: course == null
+                              ? null
+                              : () => navigator
+                                      .pushNamed(
+                                    Routes.orderDetail,
+                                    arguments: course,
+                                  )
+                                      .then(
+                                    (value) {
+                                      if (value == true) {
+                                        bloc.reloadCourse(
+                                            course.copyWith(enrolled: true));
+                                        navigator.pop();
+                                      }
+                                    },
+                                  ),
+                          child: const Text(
+                            'ENROLL',
+                            style: TextStyle(
+                              letterSpacing: 1,
                             ),
                           ),
-                        ),
-                        elevation: MaterialStateProperty.all(
-                          AppDimens.mediumElevation,
-                        ),
-                        padding: MaterialStateProperty.all(
-                          EdgeInsets.symmetric(
-                            vertical: 12.h,
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  AppDimens.mediumRadius,
+                                ),
+                              ),
+                            ),
+                            elevation: MaterialStateProperty.all(
+                              AppDimens.mediumElevation,
+                            ),
+                            padding: MaterialStateProperty.all(
+                              EdgeInsets.symmetric(
+                                vertical: 12.h,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
+                        );
+                },
+              ),
             ),
             AspectRatio(
               aspectRatio: 16 / 9,
@@ -111,18 +136,26 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppDimens.largeRadius),
                 ),
-                child: Image.network(
-                  context.select<CourseDetailPageProvider, String>(
-                    (provider) => provider.course?.background ?? "",
-                  ),
-                  errorBuilder: (context, error, stackTrace) => Center(
-                    child: Text(
-                      'Unable to load image!',
-                      style: context.textTheme.titleLarge,
-                    ),
-                  ),
-                  fit: BoxFit.cover,
-                  alignment: Alignment.center,
+                child: BlocSelector<CourseDetailPageBloc, CourseDetailPageState,
+                    String>(
+                  selector: (state) {
+                    return (state is CourseDetailPageLoadedState)
+                        ? state.course.background
+                        : "";
+                  },
+                  builder: (context, background) {
+                    return Image.network(
+                      background,
+                      errorBuilder: (context, error, stackTrace) => Center(
+                        child: Text(
+                          'Unable to load image!',
+                          style: context.textTheme.titleLarge,
+                        ),
+                      ),
+                      fit: BoxFit.cover,
+                      alignment: Alignment.center,
+                    );
+                  },
                 ),
                 elevation: AppDimens.largeElevation,
                 clipBehavior: Clip.hardEdge,
@@ -140,7 +173,6 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
     return AppBar(
       backgroundColor: AppColors.primarySwatch.shade100,
       centerTitle: true,
-      // elevation: AppDimens.smallElevation,
       leading: IconButton(
         icon: Icon(
           Icons.arrow_back_ios_rounded,
@@ -159,13 +191,38 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
           onPressed: () async {
             bloc.toggleSaveCourse(id);
           },
-          icon: Icon(
-            context.select<CourseDetailPageProvider, bool>(
-              (provider) => provider.course?.saved ?? false,
-            )
-                ? Icons.bookmark_rounded
-                : Icons.bookmark_border_rounded,
-            color: AppColors.neutral.shade900,
+          icon: BlocConsumer<CourseDetailPageBloc, CourseDetailPageState>(
+            listener: (context, state) {
+              if (state is CourseDetailPageInitialState) {
+              } else if (state is CourseDetailPageLoadingState) {
+                showLoading(context, true);
+              } else if (state is CourseDetailPageLoadedState) {
+                showLoading(context, false);
+              } else if (state is CourseDetailPageFailedState) {
+                showLoading(context, false);
+                showDialog(
+                  context: context,
+                  builder: (_) => WDialog(
+                    dialogType: DialogType.error,
+                    content: state.message,
+                    onActions: const [],
+                  ),
+                );
+              }
+            },
+            buildWhen: (previous, current) =>
+                current is CourseDetailPageLoadedState ||
+                current is CourseDetailPageInitialState,
+            builder: (context, state) {
+              return Icon(
+                ((state is CourseDetailPageLoadedState)
+                        ? state.course.saved
+                        : false)
+                    ? Icons.bookmark_rounded
+                    : Icons.bookmark_border_rounded,
+                color: AppColors.neutral.shade900,
+              );
+            },
           ),
         ),
       ],
@@ -179,8 +236,8 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
 
   @override
   void afterFirstBuild(BuildContext context) async {
-    showLoading(context, true);
-    bloc.getCourseDetail(id).then((v) => showLoading(context, false));
+    super.afterFirstBuild(context);
+    bloc.getCourseDetail(id);
   }
 }
 
@@ -192,7 +249,7 @@ class _CouseDetailTab extends StatefulWidget {
 }
 
 class _CouseDetailTabState
-    extends PageLoadingStateful<CourseDetailPageProvider, _CouseDetailTab>
+    extends PageLoadingStateful<CourseDetailPageBloc, _CouseDetailTab>
     with TickerProviderStateMixin {
   late final TabController tabController;
   late final AnimationController lessionAnimationController;
@@ -259,9 +316,11 @@ class _CouseDetailTabState
             controller: tabController,
           ),
         ),
-        body: Selector<CourseDetailPageProvider, Course?>(
-          selector: (_, provider) => provider.course,
-          builder: (_, course, child) => TabBarView(
+        body: BlocBuilder<CourseDetailPageBloc, CourseDetailPageState>(
+          buildWhen: (previous, current) =>
+              current is CourseDetailPageLoadedState ||
+              current is CourseDetailPageInitialState,
+          builder: (_, state) => TabBarView(
             physics: const BouncingScrollPhysics(),
             controller: tabController,
             children: [
@@ -275,7 +334,4 @@ class _CouseDetailTabState
       ),
     );
   }
-
-  @override
-  void beforeBuild(BuildContext context) {}
 }

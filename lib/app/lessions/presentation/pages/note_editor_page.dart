@@ -10,7 +10,6 @@ import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
-import 'package:provider/provider.dart';
 
 class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
   final editor.QuillController _controller;
@@ -25,7 +24,6 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
 
   @override
   Widget buildPage(BuildContext context) {
-    print('Rebuilt');
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -180,7 +178,4 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
       ),
     );
   }
-
-  @override
-  void beforeBuild(BuildContext context) {}
 }

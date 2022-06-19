@@ -1,31 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:mi_learning/app/test/presentation/provider/test_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
+import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
+import 'package:mi_learning/app/test/presentation/bloc/test_page_bloc.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 
-class TestPage extends PageLoadingStateless<TestProvider> {
+class TestPage extends PageLoadingStateless<TestPageBloc> {
   TestPage({Key? key}) : super(key: key);
 
   @override
   Widget buildPage(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        showLoading(context, true);
-        await bloc.checkConnection();
-        showLoading(context, false);
+        bloc.checkConnection();
       },
       child: Center(
-        child: Selector<TestProvider, String>(
-          selector: (_, provider) => provider.title,
-          builder: (_, value, child) => Text(
-            value,
+        child: BlocConsumer<TestPageBloc, TestPageState>(
+          listener: (_, state) {
+            if (state is TestPageLoadingState) {
+              showLoading(context, true);
+            } else if (state is TestPageLoadedState) {
+              showLoading(context, false);
+            } else if (state is TestPageFailedState) {
+              showLoading(context, false);
+              showDialog(
+                context: context,
+                builder: (_) => WDialog(
+                  dialogType: DialogType.error,
+                  content: state.message,
+                  onActions: const [],
+                ),
+              );
+            }
+          },
+          buildWhen: (previous, current) =>
+              current is TestPageInitialState || current is TestPageLoadedState,
+          builder: (_, state) => Text(
+            (state is TestPageLoadedState)
+                ? state.message
+                : 'Thinh Flutter Template',
             style: const TextStyle(fontSize: 24),
           ),
         ),
       ),
     );
   }
-
-  @override
-  void beforeBuild(BuildContext context) {}
 }

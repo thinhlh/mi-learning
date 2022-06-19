@@ -1,7 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mi_learning/app/course_detail/presentation/bloc/course_detail_page_bloc.dart';
 import 'package:mi_learning/app/course_detail/presentation/widgets/expandable_text.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
@@ -9,8 +10,9 @@ import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
-class CourseDetailAboutPage
-    extends PageLoadingStateless<CourseDetailPageProvider> {
+class CourseDetailAboutPage extends PageLoadingStateless<CourseDetailPageBloc> {
+  CourseDetailAboutPage({Key? key}) : super(key: key);
+
   @override
   Widget buildPage(BuildContext context) {
     return Container(
@@ -26,10 +28,16 @@ class CourseDetailAboutPage
               children: [
                 Column(
                   children: [
-                    Builder(
-                      builder: (context) {
+                    BlocBuilder<CourseDetailPageBloc, CourseDetailPageState>(
+                      buildWhen: (previous, current) =>
+                          current is CourseDetailPageInitialState ||
+                          current is CourseDetailPageLoadedState,
+                      builder: (context, state) {
+                        final course = (state is CourseDetailPageLoadedState)
+                            ? state.course
+                            : null;
                         int lessons = 0;
-                        final sections = bloc.course?.sections ?? [];
+                        final sections = course?.sections ?? [];
                         for (var section in sections) {
                           lessons += section.lessons.length;
                         }
@@ -67,11 +75,21 @@ class CourseDetailAboutPage
                 ),
                 Column(
                   children: [
-                    Text(
-                      ((bloc.course?.length ?? 0) ~/ (60 * 60)).toString(),
-                      style: context.textTheme.headlineSmall?.copyWith(
-                        fontWeight: AppStyles.bold,
-                      ),
+                    BlocSelector<CourseDetailPageBloc, CourseDetailPageState,
+                        int>(
+                      selector: (state) =>
+                          ((state is CourseDetailPageLoadedState)
+                              ? state.course.length
+                              : 0) ~/
+                          (60 * 60),
+                      builder: (context, courseLengthHour) {
+                        return Text(
+                          courseLengthHour.toString(),
+                          style: context.textTheme.headlineSmall?.copyWith(
+                            fontWeight: AppStyles.bold,
+                          ),
+                        );
+                      },
                     ),
                     SizedBox(height: AppDimens.smallHeightDimens),
                     Text(
@@ -88,17 +106,37 @@ class CourseDetailAboutPage
             ),
             Row(
               children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(
-                    bloc.course?.teacher.avatar ?? "",
-                  ),
+                BlocSelector<CourseDetailPageBloc, CourseDetailPageState,
+                    String>(
+                  selector: (state) {
+                    return (state is CourseDetailPageLoadedState)
+                        ? state.course.teacher.avatar
+                        : "";
+                  },
+                  builder: (context, teacherAvatar) {
+                    return CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        teacherAvatar,
+                      ),
+                    );
+                  },
                 ),
                 SizedBox(width: AppDimens.mediumWidthDimens),
-                Text(
-                  bloc.course?.teacher.name ?? "",
-                  style: context.textTheme.titleMedium?.copyWith(
-                    fontWeight: AppStyles.bold,
-                  ),
+                BlocSelector<CourseDetailPageBloc, CourseDetailPageState,
+                    String>(
+                  selector: (state) {
+                    return (state is CourseDetailPageLoadedState)
+                        ? state.course.teacher.name
+                        : "";
+                  },
+                  builder: (context, name) {
+                    return Text(
+                      name,
+                      style: context.textTheme.titleMedium?.copyWith(
+                        fontWeight: AppStyles.bold,
+                      ),
+                    );
+                  },
                 ),
                 const Spacer(),
                 StatefulBuilder(builder: (context, setState) {
@@ -136,22 +174,22 @@ class CourseDetailAboutPage
               ],
             ),
             SizedBox(height: AppDimens.mediumHeightDimens),
-            ExpandableText(
-              bloc.course?.description ?? "",
-              expandText: 'Read more',
-              style: context.textTheme.bodyMedium?.copyWith(),
-              collapseText: 'Show less',
-              maxLines: 6,
+            BlocSelector<CourseDetailPageBloc, CourseDetailPageState, String>(
+              selector: (state) {
+                return (state is CourseDetailPageLoadedState)
+                    ? state.course.description
+                    : "";
+              },
+              builder: (context, description) {
+                return ExpandableText(
+                  description,
+                  expandText: 'Read more',
+                  style: context.textTheme.bodyMedium?.copyWith(),
+                  collapseText: 'Show less',
+                  maxLines: 6,
+                );
+              },
             )
-            // ExpandableText(
-            //   text: provider.course?.description ?? "",
-            //   maxLines: 6,
-            //   textStyle: context.textTheme.bodyMedium,
-            //   showTextStyle: context.textTheme.caption?.copyWith(
-            //     fontWeight: AppStyles.extraBold,
-            //     color: AppColors.primarySwatch.shade500,
-            //   ),
-            // ),
           ],
         ),
       ),

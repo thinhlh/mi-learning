@@ -6,7 +6,7 @@ class _ExplorerForYouPage extends StatefulWidget {
 }
 
 class _ExplorerForYouState
-    extends PageLoadingStateful<ExplorerForYouPageProvider, _ExplorerForYouPage>
+    extends PageLoadingStateful<ExplorerForYouPageBloc, _ExplorerForYouPage>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget buildPage(BuildContext context) {
@@ -36,9 +36,12 @@ class _ExplorerForYouState
           SizedBox(height: AppDimens.mediumHeightDimens),
           SizedBox(
             height: 0.35.sh,
-            child: Selector<ExplorerPageProvider, List<Course>>(
-              selector: (_, provider) => provider.courses,
-              builder: (_, courses, child) => courses.isNotEmpty
+            child:
+                BlocSelector<ExplorerPageBloc, ExplorerPageState, List<Course>>(
+              selector: (state) => (state is ExplorerPageLoadedState)
+                  ? state.courses
+                  : <Course>[],
+              builder: (_, courses) => courses.isNotEmpty
                   ? _FeatureCourses(
                       courses: courses,
                     )
@@ -63,9 +66,11 @@ class _ExplorerForYouState
                 ),
               ),
               SizedBox(height: AppDimens.largeHeightDimens),
-              Selector<ExplorerPageProvider, List<Course>>(
-                selector: (_, provider) => provider.courses,
-                builder: (_, courses, child) => courses.isEmpty
+              BlocSelector<ExplorerPageBloc, ExplorerPageState, List<Course>>(
+                selector: (state) => (state is ExplorerPageLoadedState)
+                    ? state.courses
+                    : <Course>[],
+                builder: (_, courses) => courses.isEmpty
                     ? Shimmer.fromColors(
                         enabled: true,
                         child: SizedBox(
@@ -99,9 +104,12 @@ class _ExplorerForYouState
           SizedBox(height: AppDimens.mediumHeightDimens),
           SizedBox(
             height: 0.25.sh,
-            child: Selector<ExplorerPageProvider, List<Course>>(
-              selector: (_, provider) => provider.courses,
-              builder: (_, courses, child) => ListView.builder(
+            child:
+                BlocSelector<ExplorerPageBloc, ExplorerPageState, List<Course>>(
+              selector: (state) => (state is ExplorerPageLoadedState)
+                  ? state.courses
+                  : <Course>[],
+              builder: (_, courses) => ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,

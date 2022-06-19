@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:mi_learning/app/common/domain/entity/lessons/lesson.dart';
-import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
 import 'package:mi_learning/app/lessions/domain/entities/lesson_push_detail_params.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/date_time_helper.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
-import 'package:provider/provider.dart';
 
 class CourseDetailLessonWidget extends StatelessWidget {
   final Lesson lesson;
   final int order;
+  final String courseId;
   const CourseDetailLessonWidget({
     Key? key,
     required this.lesson,
     required this.order,
+    required this.courseId,
   }) : super(key: key);
 
   @override
@@ -25,7 +25,7 @@ class CourseDetailLessonWidget extends StatelessWidget {
         Routes.lessons,
         arguments: LessonPushDetailParams(
           lesson: lesson,
-          courseId: context.read<CourseDetailPageProvider>().course?.id ?? "",
+          courseId: courseId,
         ),
       ),
       leading: Column(

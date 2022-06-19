@@ -14,6 +14,7 @@ abstract class PageStateless<T extends Bloc> extends StatelessWidget
   void afterFirstBuild(BuildContext context) {}
 
   @override
+  @mustCallSuper
   void beforeBuild(BuildContext context) {}
 
   @override

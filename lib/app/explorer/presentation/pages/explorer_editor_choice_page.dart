@@ -1,7 +1,7 @@
 part of 'explorer_page.dart';
 
 class _ExplorerEditorChoicePage
-    extends PageLoadingStateless<ExplorerEditorChoicePageProvider> {
+    extends PageLoadingStateless<ExplorerEditorChoicePageBloc> {
   @override
   Widget buildPage(BuildContext context) {
     return Padding(
@@ -86,9 +86,12 @@ class _ExplorerEditorChoicePage
           SizedBox(height: AppDimens.largeHeightDimens),
           SizedBox(
             height: 0.35.sh,
-            child: Selector<ExplorerPageProvider, List<Course>>(
-              selector: (_, provider) => provider.courses,
-              builder: (_, courses, child) => ListView.builder(
+            child:
+                BlocSelector<ExplorerPageBloc, ExplorerPageState, List<Course>>(
+              selector: (state) => (state is ExplorerPageLoadedState)
+                  ? state.courses
+                  : <Course>[],
+              builder: (_, courses) => ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,

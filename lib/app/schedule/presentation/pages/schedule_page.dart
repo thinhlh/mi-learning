@@ -1,28 +1,21 @@
-import 'dart:math';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/schedule/domain/entities/schedule.dart';
-import 'package:mi_learning/app/schedule/domain/entities/schedule_color.dart';
-import 'package:mi_learning/app/schedule/presentation/providers/schedule_page_provider.dart';
+import 'package:mi_learning/app/schedule/presentation/bloc/schedule_page_bloc.dart';
 import 'package:mi_learning/app/schedule/presentation/widgets/schedule_widget.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
-import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
-import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class SchedulePage extends PageLoadingStateless<SchedulePageProvider> {
+class SchedulePage extends PageLoadingStateless<SchedulePageBloc> {
   @override
   Widget buildPage(BuildContext context) {
     PageController _scheduleController = PageController();
-
-    bloc.getDatesHasSchedules();
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -34,15 +27,16 @@ class SchedulePage extends PageLoadingStateless<SchedulePageProvider> {
       ),
       body: Column(
         children: [
-          Consumer<SchedulePageProvider>(
-            builder: (context, provider, child) {
+          BlocBuilder<SchedulePageBloc, SchedulePageState>(
+            builder: (context, state) {
               return TableCalendar(
                 onCalendarCreated: ((pageController) {
                   _scheduleController = pageController;
-                  provider.getSchedulesOfDate();
+                  bloc.getSchedulesOfDate();
+                  bloc.getDatesHasSchedule();
                 }),
-                focusedDay: provider.selectedDate,
-                currentDay: provider.selectedDate,
+                focusedDay: state.selectedDate,
+                currentDay: state.selectedDate,
                 firstDay: DateTime.fromMicrosecondsSinceEpoch(0),
                 lastDay: DateTime(2100),
                 calendarFormat: CalendarFormat.month,
@@ -92,7 +86,7 @@ class SchedulePage extends PageLoadingStateless<SchedulePageProvider> {
                   ),
                 ),
                 holidayPredicate: (date) {
-                  return provider.datesHasSchedule
+                  return state.datesHasSchedule
                       .where((element) => date.difference(element).inDays == 0)
                       .isNotEmpty;
                 },
@@ -116,8 +110,7 @@ class SchedulePage extends PageLoadingStateless<SchedulePageProvider> {
                   ),
                 ),
                 onDaySelected: (selectedDate, focusedDate) {
-                  provider.focusedDate = focusedDate;
-                  provider.selectedDate = selectedDate;
+                  bloc.changeSelectedAndFocusedDate(selectedDate, focusedDate);
                 },
                 rangeSelectionMode: RangeSelectionMode.disabled,
                 // selectedDayPredicate: (_) => true,
@@ -125,9 +118,10 @@ class SchedulePage extends PageLoadingStateless<SchedulePageProvider> {
             },
           ),
           Expanded(
-            child: Selector<SchedulePageProvider, List<Schedule>>(
-              selector: (_, provider) => provider.scheduleOfSelectedDate,
-              builder: (_, schedules, child) {
+            child: BlocSelector<SchedulePageBloc, SchedulePageState,
+                List<Schedule>>(
+              selector: (state) => state.scheduleOfSelectedDate,
+              builder: (_, schedules) {
                 return schedules.isEmpty
                     ? Center(
                         child: Text(
@@ -149,7 +143,4 @@ class SchedulePage extends PageLoadingStateless<SchedulePageProvider> {
       ),
     );
   }
-
-  @override
-  void beforeBuild(BuildContext context) {}
 }

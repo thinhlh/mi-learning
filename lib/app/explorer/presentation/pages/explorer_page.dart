@@ -1,11 +1,17 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mi_learning/app/common/domain/entity/category.dart';
 import 'package:mi_learning/app/common/domain/entity/course.dart';
-import 'package:mi_learning/app/explorer/presentation/providers/explorer_page_provider.dart';
+import 'package:mi_learning/app/explorer/presentation/blocs/explorer_editor_choice_page/explorer_editor_choice_page_bloc.dart';
+import 'package:mi_learning/app/explorer/presentation/blocs/explorer_for_you_page/explorer_for_you_page_bloc.dart';
+import 'package:mi_learning/app/explorer/presentation/blocs/explorer_free_page/explorer_free_page_bloc.dart';
+import 'package:mi_learning/app/explorer/presentation/blocs/explorer_page/explorer_page_bloc.dart';
+import 'package:mi_learning/app/explorer/presentation/blocs/explorer_premium_page/explorer_premium_page_bloc.dart';
+import 'package:mi_learning/app/explorer/presentation/blocs/explorer_top_chart_page/explorer_top_chart_page_bloc.dart';
 import 'package:mi_learning/app/explorer/presentation/widgets/course_category_widget.dart';
 import 'package:mi_learning/app/explorer/presentation/widgets/course_large_widget.dart';
 import 'package:mi_learning/app/explorer/presentation/widgets/course_medium_widget.dart';
@@ -30,7 +36,9 @@ part 'explorer_editor_choice_page.dart';
 part 'explorer_premium_page.dart';
 part 'explorer_free_page.dart';
 
-class ExplorerPage extends PageLoadingStateless<ExplorerPageProvider> {
+class ExplorerPage extends PageLoadingStateless<ExplorerPageBloc> {
+  ExplorerPage({Key? key}) : super(key: key);
+
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
@@ -67,7 +75,8 @@ class ExplorerPage extends PageLoadingStateless<ExplorerPageProvider> {
   }
 
   @override
-  void beforeBuild(BuildContext context) {
-    bloc.getCourses();
+  void afterFirstBuild(BuildContext context) {
+    super.afterFirstBuild(context);
+    bloc.getExplorerCourses();
   }
 }

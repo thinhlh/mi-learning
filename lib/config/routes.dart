@@ -9,29 +9,28 @@ import 'package:mi_learning/app/auth/presentation/blocs/forgot_password/forgot_p
 import 'package:mi_learning/app/auth/presentation/pages/auth_page.dart';
 import 'package:mi_learning/app/auth/presentation/pages/code_confirmation_page.dart';
 import 'package:mi_learning/app/auth/presentation/pages/forgot_password_page.dart';
+import 'package:mi_learning/app/course_detail/presentation/bloc/course_detail_page_bloc.dart';
+import 'package:mi_learning/app/home/presentation/bloc/home_page_bloc.dart';
 import 'package:mi_learning/app/landing/presentation/bloc/landing_page_bloc.dart';
+import 'package:mi_learning/app/my_courses/presentation/bloc/my_course_page_bloc.dart';
 import 'package:mi_learning/app/my_courses/presentation/pages/my_courses_page.dart';
-import 'package:mi_learning/app/my_courses/presentation/providers/my_courses_page_provider.dart';
 import 'package:mi_learning/app/notification/presentation/bloc/notification_page_bloc.dart';
 import 'package:mi_learning/app/order_detail/presentation/bloc/order_detail_page_bloc.dart';
 import 'package:mi_learning/app/payment/presentation/bloc/payment_page_bloc.dart';
+import 'package:mi_learning/app/saved_course/presentation/bloc/saved_course_page_bloc.dart';
 import 'package:mi_learning/app/saved_course/presentation/pages/saved_courses_page.dart';
-import 'package:mi_learning/app/saved_course/presentation/providers/saved_courses_page_provider.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/blocs/schedule_detail_page/schedule_detail_page_bloc.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/blocs/schedule_detail_test_page/schedule_detail_test_page_bloc.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/blocs/timer_chosen_page/timer_chosen_page_bloc.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/pages/schedule_detail_page.dart';
 import 'package:mi_learning/app/schedule_detail/presentation/pages/timer_chosen_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/course_detail_page.dart';
-import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
 import 'package:mi_learning/app/home/presentation/pages/home_page.dart';
-import 'package:mi_learning/app/home/presentation/providers/home_page_provider.dart';
 import 'package:mi_learning/app/landing/presentation/pages/landing_page.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/lession_page.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/lession_page_provider.dart';
 import 'package:mi_learning/app/notification/presentation/pages/notification_page.dart';
 import 'package:mi_learning/app/order_detail/presentation/pages/order_detail_page.dart';
-import 'package:mi_learning/app/order_detail/presentation/providers/order_detail_page_provider.dart';
 import 'package:mi_learning/app/payment/presentation/pages/payment_page.dart';
 import 'package:mi_learning/app/setting/presentation/blocs/change_password_page/change_password_page_bloc.dart';
 import 'package:mi_learning/app/setting/presentation/blocs/setting_page/setting_page_bloc.dart';
@@ -133,8 +132,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) => RouteUtil.createPageBloc<HomeProvider>(
-            bloc: (_) => HomeProvider(),
+          builder: (_) => RouteUtil.createPageBloc<HomePageBloc>(
+            bloc: (_) => HomePageBloc(),
             child: HomePage(),
           ),
         );
@@ -143,8 +142,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) => RouteUtil.createPageBloc<CourseDetailPageProvider>(
-            bloc: (_) => CourseDetailPageProvider(
+          builder: (_) => RouteUtil.createPageBloc<CourseDetailPageBloc>(
+            bloc: (_) => CourseDetailPageBloc(
               GetIt.I(),
               GetIt.I(),
             ),
@@ -268,8 +267,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) => RouteUtil.createPageBloc<MyCoursesPageProvider>(
-            bloc: (_) => MyCoursesPageProvider(),
+          builder: (_) => RouteUtil.createPageBloc<MyCoursePageBloc>(
+            bloc: (_) => MyCoursePageBloc(),
             child: MyCoursePage(),
           ),
         );
@@ -278,8 +277,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) => RouteUtil.createPageBloc<SavedCoursesPageProvider>(
-            bloc: (_) => SavedCoursesPageProvider(GetIt.I()),
+          builder: (_) => RouteUtil.createPageBloc<SavedCoursePageBloc>(
+            bloc: (_) => SavedCoursePageBloc(GetIt.I()),
             child: SavedCoursesPage(),
           ),
         );

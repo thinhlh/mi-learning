@@ -48,19 +48,19 @@ class _ExplorerTabPageState extends State<_ExplorerTabPage>
           children: [
             RouteUtil.createPageBloc(
               child: _ExplorerForYouPage(),
-              bloc: (_) => ExplorerForYouPageProvider(),
+              bloc: (_) => ExplorerForYouPageBloc(),
             ),
             RouteUtil.createPageBloc(
               child: _ExplorerTopChartPage(),
-              bloc: (_) => ExplorerTopChartPageProvider(),
+              bloc: (_) => ExplorerTopChartPageBloc(),
             ),
             RouteUtil.createPageBloc(
               child: _ExplorerCategoriesPage(),
-              bloc: (_) => ExplorerCategoriesPageProvider(GetIt.I()),
+              bloc: (_) => ExplorerCategoriesPageBloc(GetIt.I()),
             ),
             RouteUtil.createPageBloc(
               child: _ExplorerEditorChoicePage(),
-              bloc: (_) => ExplorerEditorChoicePageProvider(),
+              bloc: (_) => ExplorerEditorChoicePageBloc(),
             ),
             // RouteUtil.createPageProvider(
             //   child: _ExplorerPremiumPage(),

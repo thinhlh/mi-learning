@@ -2,14 +2,16 @@ import 'dart:math';
 
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/dashboard/domain/entities/my_course.dart';
 import 'package:mi_learning/app/dashboard/domain/entities/recommended_course.dart';
-import 'package:mi_learning/app/dashboard/presentation/providers/dashboard_page_provider.dart';
+import 'package:mi_learning/app/dashboard/presentation/bloc/dashboard_page_bloc.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/recommended_course_widget.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/live_event_card.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/my_course_widget.dart';
-import 'package:mi_learning/app/home/presentation/providers/home_page_provider.dart';
+import 'package:mi_learning/app/home/presentation/bloc/home_page_bloc.dart';
+import 'package:mi_learning/app/user/domain/entities/basic_user_info.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
@@ -17,7 +19,6 @@ import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:mi_learning/utils/extensions/string_extension.dart';
-import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -28,7 +29,7 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState
-    extends PageLoadingStateful<DashboardPageProvider, DashboardPage>
+    extends PageLoadingStateful<DashboardPageBloc, DashboardPage>
     with AutomaticKeepAliveClientMixin {
   _DashboardPageState() : super();
 
@@ -41,7 +42,7 @@ class _DashboardPageState
   @override
   Widget buildPage(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () async => fetchData(),
+      onRefresh: () async => bloc.loadData(),
       child: Scaffold(
         appBar: _buildAppBar(context),
         body: Padding(
@@ -81,25 +82,36 @@ class _DashboardPageState
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            GestureDetector(
-              onTap: () => navigator.pushNamed(
-                Routes.setting,
-                arguments: bloc.userInfo,
-              ),
-              child: SizedBox.square(
-                dimension: AppDimens.avatar,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: CircleAvatar(
-                    radius: 50.r,
-                    backgroundImage: NetworkImage(
-                      context.select<DashboardPageProvider, String>(
-                        (provider) => provider.userInfo?.avatar ?? "",
+            BlocSelector<DashboardPageBloc, DashboardPageState, BasicUserInfo?>(
+              selector: (state) =>
+                  (state is DashboardPageLoadedState) ? state.userInfo : null,
+              builder: (context, userInfo) {
+                return GestureDetector(
+                  onTap: () => navigator.pushNamed(
+                    Routes.setting,
+                    arguments: userInfo,
+                  ),
+                  child: SizedBox.square(
+                    dimension: AppDimens.avatar,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: CircleAvatar(
+                        radius: 50.r,
+                        backgroundImage: NetworkImage(
+                          context.select<DashboardPageBloc, String>(
+                            (bloc) => (bloc.state is DashboardPageLoadedState)
+                                ? (bloc.state as DashboardPageLoadedState)
+                                        .userInfo
+                                        .avatar ??
+                                    ""
+                                : "",
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
             SizedBox(width: AppDimens.largeWidthDimens),
             Column(
@@ -107,8 +119,10 @@ class _DashboardPageState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  context.select<DashboardPageProvider, String>(
-                    ((provider) => provider.userInfo?.name ?? ""),
+                  context.select<DashboardPageBloc, String>(
+                    (bloc) => (bloc.state is DashboardPageLoadedState)
+                        ? (bloc.state as DashboardPageLoadedState).userInfo.name
+                        : "",
                   ),
                   style: context.textTheme.titleLarge?.copyWith(
                     fontSize: 20.sp,
@@ -117,9 +131,13 @@ class _DashboardPageState
                 ),
                 SizedBox(height: AppDimens.smallHeightDimens),
                 Text(
-                  context.select<DashboardPageProvider, String>(
-                    (provider) =>
-                        (provider.userInfo?.occupation ?? "").toCamelCase(),
+                  context.select<DashboardPageBloc, String>(
+                    (bloc) => ((bloc.state is DashboardPageLoadedState)
+                            ? (bloc.state as DashboardPageLoadedState)
+                                .userInfo
+                                .occupation
+                            : "")
+                        .toCamelCase(),
                   ),
                   style: context.textTheme.bodySmall?.copyWith(
                     fontSize: 16.sp,
@@ -168,30 +186,37 @@ class _DashboardPageState
                 fontWeight: AppStyles.bold,
               ),
             ),
-            GestureDetector(
-              onTap: () => navigator.pushNamed(
-                Routes.myCourses,
-                arguments: bloc.myCourse,
-              ),
-              child: Text(
-                'Show all',
-                style: context.textTheme.subtitle2?.copyWith(
-                  color: AppColors.tetiary,
-                ),
-              ),
+            BlocSelector<DashboardPageBloc, DashboardPageState, List<MyCourse>>(
+              selector: (state) =>
+                  (state is DashboardPageLoadedState) ? state.myCourses : [],
+              builder: (context, myCourses) {
+                return GestureDetector(
+                  onTap: () => navigator.pushNamed(
+                    Routes.myCourses,
+                    arguments: myCourses,
+                  ),
+                  child: Text(
+                    'Show all',
+                    style: context.textTheme.subtitle2?.copyWith(
+                      color: AppColors.tetiary,
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),
-        Selector<DashboardPageProvider, List<MyCourse>?>(
-          selector: (_, provider) => provider.myCourse,
-          builder: (_, myCourses, child) => myCourses == null
+        BlocBuilder<DashboardPageBloc, DashboardPageState>(
+          builder: (_, state) => state is DashboardPageLoadingState
               ? Shimmer.fromColors(
                   enabled: true,
                   baseColor: AppColors.baseShimmerColor,
                   highlightColor: AppColors.highlightShimmerColor,
-                  child: _buildMyLearningListView(myCourses),
+                  child: _buildMyLearningListView([]),
                 )
-              : _buildMyLearningListView(myCourses),
+              : _buildMyLearningListView(
+                  (state is DashboardPageLoadedState) ? state.myCourses : [],
+                ),
         )
       ],
     );
@@ -203,7 +228,7 @@ class _DashboardPageState
       margin: EdgeInsets.only(top: AppDimens.mediumHeightDimens),
       child: myCourses?.isEmpty ?? true
           ? GestureDetector(
-              onTap: () => context.read<HomeProvider>().tabController.index = 1,
+              onTap: () => context.read<HomePageBloc>().tabController.index = 1,
               child: Center(
                 child: Text(
                   'You have not enrolled any courses, try out now!',
@@ -238,23 +263,25 @@ class _DashboardPageState
         Container(
           height: 0.42.sh,
           margin: EdgeInsets.only(top: AppDimens.mediumHeightDimens),
-          child: Selector<DashboardPageProvider, List<RecommendedCourse>?>(
-            selector: (_, provider) => provider.recommendedCourse,
-            builder: (_, recommendedCourse, child) =>
-                (recommendedCourse?.isEmpty == true)
-                    ? Text(
-                        'You have no courses to learn yet.',
-                        style: context.textTheme.titleLarge,
-                      )
-                    : ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        itemBuilder: (_, index) => RecommendedCourseWidget(
-                          course: recommendedCourse?[index],
-                        ),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: recommendedCourse?.length ?? 10,
-                        shrinkWrap: true,
-                      ),
+          child: BlocSelector<DashboardPageBloc, DashboardPageState,
+              List<RecommendedCourse>>(
+            selector: (state) => (state is DashboardPageLoadedState)
+                ? state.recommendationCourses
+                : [],
+            builder: (_, recommendedCourse) => recommendedCourse.isEmpty
+                ? Text(
+                    'You have no courses to learn yet.',
+                    style: context.textTheme.titleLarge,
+                  )
+                : ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (_, index) => RecommendedCourseWidget(
+                      course: recommendedCourse?[index],
+                    ),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: recommendedCourse?.length ?? 10,
+                    shrinkWrap: true,
+                  ),
           ),
         )
       ],
@@ -262,14 +289,9 @@ class _DashboardPageState
   }
 
   @override
-  void beforeBuild(BuildContext context) {
-    fetchData();
-  }
-
-  void fetchData() {
-    bloc.getBasicUserInfo();
-    bloc.getMyCourses();
-    bloc.getRecommendedCourses();
+  void afterFirstBuild(BuildContext context) {
+    super.afterFirstBuild(context);
+    bloc.loadData();
   }
 
   @override
