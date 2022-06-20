@@ -27,7 +27,6 @@ class __LessionTabPageState extends State<_LessionTabPage>
 
   @override
   Widget build(BuildContext context) {
-    print('safePadding ' + widget.safePadding.toString());
     return DefaultTabController(
       initialIndex: currentTabIndex,
       length: 3,
@@ -45,7 +44,7 @@ class __LessionTabPageState extends State<_LessionTabPage>
                 showBarModalBottomSheet(
                   context: context,
                   builder: (_) => RouteUtil.createPageBloc(
-                    bloc: (_) => LessionQuestionAnswerPageProvider(),
+                    bloc: (_) => LessonQuestionAnswerPageBloc(),
                     child: WillPopScope(
                       onWillPop: () async {
                         _tabController.animateTo(currentTabIndex);
@@ -79,19 +78,19 @@ class __LessionTabPageState extends State<_LessionTabPage>
               child: _LessionNotePage(
                 safePadding: widget.safePadding,
               ),
-              bloc: (_) => LessionNotePageProvider(
+              bloc: (_) => LessonNotePageBloc(
                 courseDetail: widget.courseDetail,
               ),
             ),
             RouteUtil.createPageBloc(
               child: LessionCourseContentPage(),
-              bloc: (_) => LessionCourseContentPageProvider(
-                course: widget.courseDetail,
+              bloc: (_) => LessonCourseContentPageBloc(
+                courseDetail: widget.courseDetail,
               ),
             ),
             RouteUtil.createPageBloc(
               child: LessionQuestionAnswerPage(),
-              bloc: (_) => LessionQuestionAnswerPageProvider(),
+              bloc: (_) => LessonQuestionAnswerPageBloc(),
             ),
           ],
         ),

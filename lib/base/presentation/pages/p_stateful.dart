@@ -10,8 +10,6 @@ abstract class PageStateful<T extends Bloc, P extends StatefulWidget>
 
   @override
   void initState() {
-    bloc = BlocProvider.of<T>(context, listen: false);
-    navigator = context.navigator;
     super.initState();
 
     beforeBuild(context);
@@ -42,5 +40,8 @@ abstract class PageStateful<T extends Bloc, P extends StatefulWidget>
   void afterFirstBuild(BuildContext context) {}
 
   @override
-  void beforeBuild(BuildContext context) {}
+  void beforeBuild(BuildContext context) {
+    bloc = BlocProvider.of<T>(context, listen: false);
+    navigator = context.navigator;
+  }
 }

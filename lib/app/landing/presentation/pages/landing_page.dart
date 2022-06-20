@@ -11,7 +11,6 @@ import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
-import 'package:provider/provider.dart';
 
 class LandingPage extends PageLoadingStateless<LandingPageBloc> {
   final PageController _pageController = PageController(keepPage: true);
@@ -28,9 +27,9 @@ class LandingPage extends PageLoadingStateless<LandingPageBloc> {
         children: [
           BlocSelector<LandingPageBloc, LandingPageState, int>(
             selector: (state) => state.currentPage,
-            builder: (_, currentPages) => LandingPagePosition(
-              chosenIndex: currentPages,
-              length: currentPages,
+            builder: (_, currentPage) => LandingPagePosition(
+              chosenIndex: currentPage,
+              length: landingPages.length,
             ),
           ),
           Container(
@@ -127,6 +126,7 @@ class LandingPage extends PageLoadingStateless<LandingPageBloc> {
 
   @override
   void beforeBuild(BuildContext context) {
+    super.beforeBuild(context);
     landingPages = bloc.state.landingPages(context);
   }
 }
@@ -145,11 +145,6 @@ class _LandingImages extends StatefulWidget {
 
 class _LandingImagesState extends State<_LandingImages> {
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final bloc = context.read<LandingPageBloc>();
     final landingPages = bloc.state.landingPages(context);
@@ -159,7 +154,7 @@ class _LandingImagesState extends State<_LandingImages> {
       child: PageView.builder(
         controller: widget.pageController,
         onPageChanged: (index) {
-          bloc.goToNextPage(index);
+          bloc.goToPage(index);
         },
         padEnds: true,
         physics: const BouncingScrollPhysics(),

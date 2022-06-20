@@ -67,7 +67,4 @@ class HomePage extends PageLoadingStateless<HomePageBloc> {
       ),
     );
   }
-
-  @override
-  void beforeBuild(BuildContext context) {}
 }

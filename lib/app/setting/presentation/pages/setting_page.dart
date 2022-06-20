@@ -174,12 +174,25 @@ class SettingPage extends PageLoadingStateless<SettingPageBloc> {
                 },
                 listenWhen: (previousState, currentState) =>
                     previousState != currentState,
-                child: ElevatedButton(
-                  onPressed: () => bloc.signOut(),
-                  child: Text(
-                    'Sign Out',
-                    style: TextStyle(
-                      fontSize: 16.sp,
+                child: BlocListener<SettingPageBloc, SettingPageState>(
+                  listenWhen: (previous, current) =>
+                      current is SettingPageLoggedOutState ||
+                      current is SettingPageLoadingState,
+                  listener: (context, state) {
+                    if (state is SettingPageLoadingState) {
+                      showLoading(context, true);
+                    } else {
+                      showLoading(context, false);
+                      navigator.pushReplacementNamed(Routes.landing);
+                    }
+                  },
+                  child: ElevatedButton(
+                    onPressed: () => bloc.signOut(),
+                    child: Text(
+                      'Sign Out',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                      ),
                     ),
                   ),
                 ),
@@ -193,6 +206,7 @@ class SettingPage extends PageLoadingStateless<SettingPageBloc> {
 
   @override
   void beforeBuild(BuildContext context) {
+    super.beforeBuild(context);
     userInfo = context.getArgument<BasicUserInfo>();
   }
 }

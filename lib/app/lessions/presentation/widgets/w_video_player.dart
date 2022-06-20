@@ -2,7 +2,7 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/lessions/presentation/providers/lession_page_provider.dart';
+import 'package:mi_learning/app/lessions/presentation/blocs/lesson_page/lesson_page_bloc.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
@@ -97,8 +97,8 @@ class _WVideoPlayerState extends State<WVideoPlayer> {
   void initState() {
     _initializePlayer();
     _controller.addListener(() {
-      context.read<LessionPageProvider>().second =
-          _controller.value.position.inSeconds;
+      // context.read<LessonPageBloc>().second =
+      //     _controller.value.position.inSeconds;
     });
     super.initState();
   }

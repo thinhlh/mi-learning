@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:get_it/get_it.dart';
 import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
 import 'package:mi_learning/app/lessions/domain/entities/lesson_push_detail_params.dart';
+import 'package:mi_learning/app/lessions/presentation/blocs/lesson_course_content_page/lesson_course_content_page_bloc.dart';
+import 'package:mi_learning/app/lessions/presentation/blocs/lesson_note_page/lesson_note_page_bloc.dart';
+import 'package:mi_learning/app/lessions/presentation/blocs/lesson_page/lesson_page_bloc.dart';
+import 'package:mi_learning/app/lessions/presentation/blocs/lesson_question_answer_page/lesson_question_answer_page_bloc.dart';
+import 'package:mi_learning/app/lessions/presentation/blocs/note_editor_page/note_editor_page_bloc.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/lession_question_answer_page.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/note_editor_page.dart';
-import 'package:mi_learning/app/lessions/presentation/providers/lession_course_content_page_provider.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/lession_course_content_page.dart';
-import 'package:mi_learning/app/lessions/presentation/providers/lession_note_page_provider.dart';
-import 'package:mi_learning/app/lessions/presentation/providers/lession_page_provider.dart';
-import 'package:mi_learning/app/lessions/presentation/providers/lession_question_answer_page_provider.dart';
-import 'package:mi_learning/app/lessions/presentation/providers/note_editor_page_provider.dart';
 import 'package:mi_learning/app/lessions/presentation/widgets/w_video_player.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
@@ -27,7 +28,7 @@ import 'package:shimmer/shimmer.dart';
 part 'lession_tab_page.dart';
 part 'lession_note_page.dart';
 
-class LessionPage extends PageLoadingStateless<LessionPageProvider> {
+class LessionPage extends PageLoadingStateless<LessonPageBloc> {
   LessionPage({Key? key}) : super(key: key);
 
   @override
@@ -72,22 +73,28 @@ class LessionPage extends PageLoadingStateless<LessionPageProvider> {
                   ),
                 ),
                 Expanded(
-                  child: Selector<LessionPageProvider, CourseDetail>(
-                    selector: (_, provider) => provider.courseDetail,
-                    builder: (_, courseDetail, child) {
-                      return courseDetail.sections.isNotEmpty
-                          ? _LessionTabPage(
-                              courseDetail: courseDetail,
-                              safePadding: safePadding,
-                            )
-                          : Shimmer.fromColors(
-                              child: _LessionTabPage(
-                                courseDetail: courseDetail,
-                                safePadding: safePadding,
-                              ),
-                              baseColor: AppColors.baseShimmerColor,
-                              highlightColor: AppColors.highlightShimmerColor,
-                            );
+                  child: BlocBuilder<LessonPageBloc, LessonPageState>(
+                    builder: (_, state) {
+                      if (state is LessonPageLoadedState) {
+                        return _LessionTabPage(
+                          courseDetail: state.courseDetail,
+                          safePadding: safePadding,
+                        );
+                      } else {
+                        return Shimmer.fromColors(
+                          child: _LessionTabPage(
+                            courseDetail: CourseDetail(
+                              courseId: "",
+                              length: 0,
+                              currentLesson: "",
+                              sections: [],
+                            ),
+                            safePadding: safePadding,
+                          ),
+                          baseColor: AppColors.baseShimmerColor,
+                          highlightColor: AppColors.highlightShimmerColor,
+                        );
+                      }
                     },
                   ),
                 ),
@@ -101,9 +108,15 @@ class LessionPage extends PageLoadingStateless<LessionPageProvider> {
 
   @override
   void beforeBuild(BuildContext context) {
+    super.beforeBuild(context);
     final arguments = context.getArgument<LessonPushDetailParams>();
-    bloc.courseId = arguments?.courseId;
+    bloc.courseId = arguments?.courseId ?? "";
     bloc.lesson = arguments?.lesson;
+  }
+
+  @override
+  void afterFirstBuild(BuildContext context) {
+    super.afterFirstBuild(context);
     bloc.getCourseDetail();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mi_learning/base/presentation/pages/page_actions.dart';
+import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 abstract class PageStateless<T extends Bloc> extends StatelessWidget
     implements PageActions {
@@ -15,7 +16,10 @@ abstract class PageStateless<T extends Bloc> extends StatelessWidget
 
   @override
   @mustCallSuper
-  void beforeBuild(BuildContext context) {}
+  void beforeBuild(BuildContext context) {
+    bloc = context.read<T>();
+    navigator = context.navigator;
+  }
 
   @override
   Widget build(BuildContext context) {

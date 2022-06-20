@@ -12,6 +12,7 @@ import 'package:mi_learning/app/auth/presentation/pages/forgot_password_page.dar
 import 'package:mi_learning/app/course_detail/presentation/bloc/course_detail_page_bloc.dart';
 import 'package:mi_learning/app/home/presentation/bloc/home_page_bloc.dart';
 import 'package:mi_learning/app/landing/presentation/bloc/landing_page_bloc.dart';
+import 'package:mi_learning/app/lessions/presentation/blocs/lesson_page/lesson_page_bloc.dart';
 import 'package:mi_learning/app/my_courses/presentation/bloc/my_course_page_bloc.dart';
 import 'package:mi_learning/app/my_courses/presentation/pages/my_courses_page.dart';
 import 'package:mi_learning/app/notification/presentation/bloc/notification_page_bloc.dart';
@@ -28,7 +29,6 @@ import 'package:mi_learning/app/course_detail/presentation/pages/course_detail_p
 import 'package:mi_learning/app/home/presentation/pages/home_page.dart';
 import 'package:mi_learning/app/landing/presentation/pages/landing_page.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/lession_page.dart';
-import 'package:mi_learning/app/lessions/presentation/providers/lession_page_provider.dart';
 import 'package:mi_learning/app/notification/presentation/pages/notification_page.dart';
 import 'package:mi_learning/app/order_detail/presentation/pages/order_detail_page.dart';
 import 'package:mi_learning/app/payment/presentation/pages/payment_page.dart';
@@ -155,8 +155,8 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) => RouteUtil.createPageBloc<LessionPageProvider>(
-            bloc: (_) => LessionPageProvider(GetIt.I()),
+          builder: (_) => RouteUtil.createPageBloc<LessonPageBloc>(
+            bloc: (_) => LessonPageBloc(GetIt.I()),
             child: LessionPage(),
           ),
         );

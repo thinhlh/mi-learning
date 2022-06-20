@@ -1,6 +1,6 @@
 part of 'lession_page.dart';
 
-class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
+class _LessionNotePage extends PageLoadingStateless<LessonNotePageBloc> {
   //   var json = jsonEncode('_controller.document'.toDelta().toJson());
 
 // var myJSON = jsonEncode('{message: hello}');
@@ -11,13 +11,10 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
   _LessionNotePage({
     required this.safePadding,
   });
-  final _controller = editor.QuillController.basic();
-
   @override
   Widget buildPage(BuildContext context) {
     final controller = editor.QuillController.basic();
-    final currentChosenLessonId =
-        context.read<LessionPageProvider>().lesson?.id;
+    final currentChosenLessonId = context.read<LessonPageBloc>().lesson?.id;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
@@ -33,14 +30,16 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
             context: context,
             barrierColor: Colors.transparent,
             builder: (_) => RouteUtil.createPageBloc(
-              bloc: (_) => NoteEditorPageProvider(GetIt.I()),
+              bloc: (_) => NoteEditorPageBloc(GetIt.I()),
               child: Padding(
                 padding: EdgeInsets.only(top: safePadding),
                 child: NoteEditorPage(
-                    controller,
-                    currentChosenLessonId!,
-                    context.read<LessionPageProvider>().second,
-                    context.read<LessionNotePageProvider>().notes),
+                  controller,
+                  currentChosenLessonId!,
+                  0,
+                  const [],
+                  // context.read<LessonNotePageBloc>().notes,
+                ),
               ),
             ),
           );
@@ -63,38 +62,34 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
             ),
           ),
           Expanded(
-            child: Selector<LessionPageProvider, List<CourseDetailNote>>(
-              selector: (_, lessionProvider) {
-                final currentChosenLessonId =
-                    context.read<LessionPageProvider>().lesson?.id;
-                // log('lessionId:' + currentChosenLessonId.toString());
-                // log('content: ' +
-                //     provider.courseDetail!.sections[0].lessons[0]
-                //         .courseDetailMetaData.notes[0].content);
-                final lessons = lessionProvider.courseDetail.sections
-                    .fold<List<CourseDetailLesson>>(
-                  [],
-                  (prev, secion) => prev..addAll(secion.lessons),
-                );
+            child: BlocSelector<LessonPageBloc, LessonPageState,
+                List<CourseDetailNote>>(
+              selector: (state) {
+                // final currentChosenLessonId =
+                //     context.read<LessionPageProvider>().lesson?.id;
+                // final lessons = lessionProvider.courseDetail.sections
+                //     .fold<List<CourseDetailLesson>>(
+                //   [],
+                //   (prev, secion) => prev..addAll(secion.lessons),
+                // );
 
-                // lessons.forEach((e) => print('lessionId: ' + e.lessonId));
-                // print('lessionId:' + lessons.toString());
+                // try {
+                //   bloc.notes = lessons
+                //       .firstWhere(
+                //         (lesson) {
+                //           return lesson.lessonId == lessionProvider.lesson?.id;
+                //         },
+                //       )
+                //       .courseDetailMetaData
+                //       .notes;
+                //   return bloc.notes;
+                // } catch (e) {
+                //   return [];
+                // }
 
-                try {
-                  bloc.notes = lessons
-                      .firstWhere(
-                        (lesson) {
-                          return lesson.lessonId == lessionProvider.lesson?.id;
-                        },
-                      )
-                      .courseDetailMetaData
-                      .notes;
-                  return bloc.notes;
-                } catch (e) {
-                  return [];
-                }
+                return [];
               },
-              builder: (_, notes, child) => notes.isEmpty
+              builder: (_, notes) => notes.isEmpty
                   ? Center(
                       child: Text(
                         'You don\'t have any note',
@@ -173,10 +168,5 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
         ],
       ),
     );
-  }
-
-  @override
-  void beforeBuild(BuildContext context) {
-    // provider.get().then((value) => showLoading(context, false));
   }
 }

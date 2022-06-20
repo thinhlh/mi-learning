@@ -1,27 +1,30 @@
 part of 'auth_page_bloc.dart';
 
-abstract class AuthPageState extends Equatable {
+abstract class AuthPageState {
   const AuthPageState();
-
-  @override
-  List<Object> get props => [];
 }
 
-class AuthPageStateInitial extends AuthPageState {
+class AuthPageInitialState extends AuthPageState {
   final bool isLogin;
   final Role? role;
+  final ScreenStatus screenStatus;
 
-  AuthPageStateInitial({
+  AuthPageInitialState({
     required this.isLogin,
     required this.role,
+    required this.screenStatus,
   });
 
-  @override
-  List<Object> get props => [isLogin, role ?? Role.student];
-
-  AuthPageStateInitial copyWith({bool? isLogin, Role? role}) =>
-      AuthPageStateInitial(
+  AuthPageInitialState copyWith({
+    bool? isLogin,
+    Role? role,
+    ScreenStatus? screenStatus,
+  }) =>
+      AuthPageInitialState(
         isLogin: isLogin ?? this.isLogin,
         role: role ?? this.role,
+        screenStatus: screenStatus ?? this.screenStatus,
       );
 }
+
+class AuthPageSuccessState extends AuthPageState {}

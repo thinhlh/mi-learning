@@ -4,6 +4,8 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
+import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
 import 'package:mi_learning/app/dashboard/domain/entities/my_course.dart';
 import 'package:mi_learning/app/dashboard/domain/entities/recommended_course.dart';
 import 'package:mi_learning/app/dashboard/presentation/bloc/dashboard_page_bloc.dart';
@@ -17,6 +19,7 @@ import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
+import 'package:mi_learning/services/dialogs/app_dialog.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:mi_learning/utils/extensions/string_extension.dart';
 import 'package:shimmer/shimmer.dart';
@@ -41,29 +44,57 @@ class _DashboardPageState
 
   @override
   Widget buildPage(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () async => bloc.loadData(),
-      child: Scaffold(
-        appBar: _buildAppBar(context),
-        body: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppDimens.largeWidthDimens,
-            vertical: AppDimens.largeHeightDimens,
-          ),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: AppDimens.largeHeightDimens),
-                const LiveEventCard(),
-                SizedBox(height: AppDimens.largeHeightDimens),
-                _buildMyLearning(context),
-                SizedBox(height: AppDimens.largeHeightDimens),
-                _buildRecommendation(context),
-                SizedBox(height: AppDimens.largeHeightDimens),
-              ],
+    return BlocListener<DashboardPageBloc, DashboardPageState>(
+      listener: (context, state) {
+        if (state is DashboardPageLoadingState) {
+          showLoading(context, true);
+        } else {
+          showLoading(context, false);
+          if (state is DashboardPageFailedState) {
+            AppDialog.showAppDialog(
+              context,
+              WDialog(
+                dialogType: DialogType.error,
+                content: state.message,
+                onActions: [],
+              ),
+            );
+          } else if (state is DashboardPageLoadedState) {
+            AppDialog.showAppDialog(
+              context,
+              WDialog(
+                dialogType: DialogType.success,
+                content: 'Loaded success',
+                onActions: [],
+              ),
+            );
+          }
+        }
+      },
+      child: RefreshIndicator(
+        onRefresh: () async => bloc.loadData(),
+        child: Scaffold(
+          appBar: _buildAppBar(context),
+          body: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppDimens.largeWidthDimens,
+              vertical: AppDimens.largeHeightDimens,
+            ),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: AppDimens.largeHeightDimens),
+                  const LiveEventCard(),
+                  SizedBox(height: AppDimens.largeHeightDimens),
+                  _buildMyLearning(context),
+                  SizedBox(height: AppDimens.largeHeightDimens),
+                  _buildRecommendation(context),
+                  SizedBox(height: AppDimens.largeHeightDimens),
+                ],
+              ),
             ),
           ),
         ),
@@ -276,10 +307,10 @@ class _DashboardPageState
                 : ListView.builder(
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (_, index) => RecommendedCourseWidget(
-                      course: recommendedCourse?[index],
+                      course: recommendedCourse[index],
                     ),
                     scrollDirection: Axis.horizontal,
-                    itemCount: recommendedCourse?.length ?? 10,
+                    itemCount: recommendedCourse.length,
                     shrinkWrap: true,
                   ),
           ),

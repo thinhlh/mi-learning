@@ -72,7 +72,7 @@ class _AuthPageHeader extends StatelessWidget {
               child: InkWell(
                 onTap: () => bloc.goToSignIn(),
                 child: BlocSelector<AuthPageBloc, AuthPageState, bool>(
-                  selector: (state) => (state as AuthPageStateInitial).isLogin,
+                  selector: (state) => (state as AuthPageInitialState).isLogin,
                   builder: (_, isLogin) => Container(
                     padding: EdgeInsets.symmetric(
                       vertical: isLogin ? 10.h : 0.0,
@@ -100,7 +100,7 @@ class _AuthPageHeader extends StatelessWidget {
               child: InkWell(
                 onTap: () => bloc.goToSignUp(),
                 child: BlocSelector<AuthPageBloc, AuthPageState, bool>(
-                  selector: (state) => (state as AuthPageStateInitial).isLogin,
+                  selector: (state) => (state as AuthPageInitialState).isLogin,
                   builder: (_, isLogin) => Container(
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(
@@ -140,7 +140,7 @@ class _AuthPageForm extends StatelessWidget {
     final bloc = context.read<AuthPageBloc>();
 
     return BlocSelector<AuthPageBloc, AuthPageState, bool>(
-        selector: (state) => (state as AuthPageStateInitial).isLogin,
+        selector: (state) => (state as AuthPageInitialState).isLogin,
         builder: (_, isLogin) {
           const child = _AuthPageEmailPasswordTextFields();
           return Column(
@@ -190,61 +190,62 @@ class _AuthPageForm extends StatelessWidget {
               SizedBox(height: AppDimens.extraLargeHeightDimens),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    AppLoading.showLoading(context);
-                    final result =
-                        await (isLogin ? bloc.signIn() : bloc.signUp());
-                    AppLoading.dismissLoading(context);
-                    result.fold(
-                      (failure) => showDialog(
-                        context: context,
-                        builder: (context) => WDialog(
-                          dialogType: DialogType.error,
-                          content: failure.message,
-                          onActions: const [],
-                        ),
-                      ),
-                      (emailVerified) {
-                        if (isLogin) {
-                          // if (emailVerified) {
-                          context.navigator.pushNamed(Routes.home);
-                          // } else {
-                          //   showDialog(
-                          //     context: context,
-                          //     builder: (context) => WDialog(
-                          //       dialogType: DialogType.info,
-                          //       content:
-                          //           'Please verify your email address before login!',
-                          //       onActions: [],
-                          //     ),
-                          //   );
-                          // }
-                        } else {
+                child: BlocListener<AuthPageBloc, AuthPageState>(
+                  listener: (context, state) {
+                    if (state is AuthPageInitialState) {
+                      if (state.screenStatus.isLoading) {
+                        AppLoading.showLoading(context);
+                      } else {
+                        AppLoading.dismissLoading(context);
+                        if (state.screenStatus.isError) {
                           showDialog(
                             context: context,
                             builder: (context) => WDialog(
-                              dialogType: DialogType.success,
-                              content: 'Register success!',
+                              dialogType: DialogType.error,
+                              content: state.screenStatus.errorMessage ?? "",
                               onActions: const [],
                             ),
                           );
-
-                          bloc.goToSignIn();
                         }
-                      },
-                    );
+                      }
+                    } else {
+                      AppLoading.dismissLoading(context);
+
+                      if (isLogin) {
+                        context.navigator.pushReplacementNamed(Routes.home);
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) => WDialog(
+                            dialogType: DialogType.success,
+                            content: 'Register success!',
+                            onActions: const [],
+                          ),
+                        );
+
+                        bloc.goToSignIn();
+                      }
+                    }
                   },
-                  style: ButtonStyle(
-                    padding: MaterialStateProperty.all(
-                      const EdgeInsets.symmetric(vertical: 24),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (isLogin) {
+                        bloc.signIn();
+                      } else {
+                        bloc.signUp();
+                      }
+                    },
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all(
+                        const EdgeInsets.symmetric(vertical: 24),
+                      ),
                     ),
-                  ),
-                  child: Text(
-                    isLogin ? 'Sign In' : 'Sign Up',
-                    style: context.textTheme.titleMedium?.copyWith(
-                      color: AppColors.neutral.shade50,
-                      fontWeight: AppStyles.bold,
+                    child: Text(
+                      isLogin ? 'Sign In' : 'Sign Up',
+                      style: context.textTheme.titleMedium?.copyWith(
+                        color: AppColors.neutral.shade50,
+                        fontWeight: AppStyles.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -312,7 +313,7 @@ class _AuthPageSignUpForm extends StatelessWidget {
             vertical: AppDimens.mediumHeightDimens,
           ),
           child: BlocSelector<AuthPageBloc, AuthPageState, Role?>(
-            selector: (state) => (state as AuthPageStateInitial).role,
+            selector: (state) => (state as AuthPageInitialState).role,
             builder: (_, roleValue) => DropdownButton<Role>(
               underline: const SizedBox(),
               value: roleValue,

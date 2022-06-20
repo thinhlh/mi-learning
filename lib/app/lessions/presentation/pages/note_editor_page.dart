@@ -4,23 +4,27 @@ import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
 import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
-import 'package:mi_learning/app/lessions/presentation/providers/note_editor_page_provider.dart';
+import 'package:mi_learning/app/lessions/presentation/blocs/note_editor_page/note_editor_page_bloc.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
+import 'package:mi_learning/services/dialogs/app_dialog.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
-class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
+class NoteEditorPage extends PageLoadingStateless<NoteEditorPageBloc> {
   final editor.QuillController _controller;
   final String currentChosenLessonId;
-  final int second;
+  final int createdAt;
   final List<CourseDetailNote> notes;
 
   NoteEditorPage(
-      this._controller, this.currentChosenLessonId, this.second, this.notes,
-      {Key? key})
-      : super(key: key);
+    this._controller,
+    this.currentChosenLessonId,
+    this.createdAt,
+    this.notes, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget buildPage(BuildContext context) {
@@ -38,7 +42,7 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
         actions: [
           IconButton(
             onPressed: () {
-              bloc.showDialog(
+              AppDialog.showAppDialog(
                 context,
                 WDialog(
                   dialogType: DialogType.info,
@@ -122,21 +126,19 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () async {
-                  showLoading(context, true);
-                  await bloc.postNote(
-                    _controller.plainTextEditingValue.text,
-                    currentChosenLessonId,
-                    second,
+                  bloc.createNote(
+                    content: _controller.plainTextEditingValue.text,
+                    lessonId: currentChosenLessonId,
+                    createdAt: createdAt,
                   );
 
-                  notes.add(
-                    CourseDetailNote(
-                      content: _controller.plainTextEditingValue.text,
-                      createdAt: second,
-                      id: currentChosenLessonId,
-                    ),
-                  );
-                  showLoading(context, false);
+                  // notes.add(
+                  //   CourseDetailNote(
+                  //     content: _controller.plainTextEditingValue.text,
+                  //     createdAt: createdAt,
+                  //     id: currentChosenLessonId,
+                  //   ),
+                  // );
                   showDialog(
                     context: context,
                     builder: (_) => WDialog(

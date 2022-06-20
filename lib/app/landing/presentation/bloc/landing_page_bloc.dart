@@ -16,12 +16,12 @@ class LandingPageBloc extends Bloc<LandingPageEvent, LandingPageState> {
   LandingPageBloc() : super(const LandingPageState(currentPage: 0)) {
     on<LandingPageEvent>((event, emit) {
       if (event is LandingPageChangePageEvent) {
-        emit(LandingPageState(currentPage: state.currentPage + 1));
+        emit(LandingPageState(currentPage: event.currentPage));
       }
     });
   }
 
-  void goToNextPage(int page) {
+  void goToPage(int page) {
     add(LandingPageChangePageEvent(currentPage: page));
   }
 }
