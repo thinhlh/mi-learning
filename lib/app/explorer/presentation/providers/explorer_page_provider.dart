@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:mi_learning/app/common/domain/entity/category.dart';
-import 'package:mi_learning/app/common/domain/entity/course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/app/explorer/domain/usecases/get_categories_use_case.dart';
 import 'package:mi_learning/app/explorer/domain/usecases/get_explorer_courses_use_case.dart';
 import 'package:mi_learning/base/domain/usecase/params.dart';

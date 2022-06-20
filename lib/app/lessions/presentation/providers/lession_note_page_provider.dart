@@ -1,14 +1,15 @@
-import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/note.dart';
 import 'package:mi_learning/base/presentation/providers/loading_provider.dart';
 
 class LessionNotePageProvider extends LoadingProvider {
-  final CourseDetail? courseDetail;
+  final Course? courseDetail;
   LessionNotePageProvider({required this.courseDetail});
-  List<CourseDetailNote> _notes = [];
+  List<Note> _notes = [];
 
-  List<CourseDetailNote> get notes => _notes;
+  List<Note> get notes => _notes;
 
-  set notes(List<CourseDetailNote> value) {
+  set notes(List<Note> value) {
     _notes = value;
     notifyListeners();
   }

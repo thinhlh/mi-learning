@@ -1,22 +1,21 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
+import 'package:mi_learning/app/common/domain/entity/course_entities/note.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
-import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/note_editor_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
-import 'package:provider/provider.dart';
 
 class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
   final editor.QuillController _controller;
   final String currentChosenLessonId;
   final int second;
-  final List<CourseDetailNote> notes;
+  final List<Note> notes;
 
   NoteEditorPage(
       this._controller, this.currentChosenLessonId, this.second, this.notes,
@@ -25,7 +24,6 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
 
   @override
   Widget buildPage(BuildContext context) {
-    print('Rebuilt');
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -132,7 +130,7 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
                   );
 
                   notes.add(
-                    CourseDetailNote(
+                    Note(
                       content: _controller.plainTextEditingValue.text,
                       createdAt: second,
                       id: currentChosenLessonId,

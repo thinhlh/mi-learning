@@ -1,11 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:mi_learning/app/common/domain/entity/category.dart';
-import 'package:mi_learning/app/common/domain/entity/course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
+import 'package:mi_learning/app/common/domain/entity/get_course_type.dart';
 import 'package:mi_learning/base/failure.dart';
 import 'package:mi_learning/services/rest_api/models/base_api.dart';
 
 mixin _Endpoint {
-  String explorerCourses = '/courses/explorer';
+  String explorerCourses = '/courses';
   String categories = '/categories';
 }
 
@@ -18,7 +19,9 @@ class ExplorerRemoteDataSourceImpl extends ExplorerRemoteDataSource {
   @override
   Future<Either<Failure, List<Course>>> getExplorerCourses() async {
     try {
-      final result = await get(explorerCourses);
+      final result = await get(explorerCourses, query: {
+        "type": GetCourseType.ALL.name,
+      });
 
       return Right(
         (result.data as List<dynamic>)

@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/common/domain/entity/course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
@@ -22,7 +22,7 @@ class CourseTopChartWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => context.navigator.pushNamed(
         Routes.courseDetail,
-        arguments: course.id,
+        arguments: course,
       ),
       child: Container(
         padding: EdgeInsets.only(top: AppDimens.extraLargeHeightDimens),

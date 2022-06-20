@@ -1,29 +1,30 @@
 import 'package:dartz/dartz.dart';
-import 'package:mi_learning/app/dashboard/domain/entities/my_course.dart';
-import 'package:mi_learning/app/dashboard/domain/entities/recommended_course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
+import 'package:mi_learning/app/common/domain/entity/get_course_type.dart';
 import 'package:mi_learning/base/failure.dart';
 import 'package:mi_learning/services/rest_api/models/base_api.dart';
 
 mixin _Endpoint {
-  static const String myCourses = '/courses/me';
-  static const String recommendedCourses = '/courses/recommend';
+  static const String getCourses = '/courses';
 }
 
 abstract class DashboardRemoteDataSource extends BaseApi {
-  Future<Either<Failure, List<MyCourse>>> getMyCourses();
-  Future<Either<Failure, List<RecommendedCourse>>> getRecommendedCourses();
+  Future<Either<Failure, List<Course>>> getMyCourses();
+  Future<Either<Failure, List<Course>>> getRecommendedCourses();
 }
 
 class DashboardRemoteDataSourceImpl extends DashboardRemoteDataSource {
   @override
-  Future<Either<Failure, List<MyCourse>>> getMyCourses() async {
+  Future<Either<Failure, List<Course>>> getMyCourses() async {
     try {
-      final result = await get(_Endpoint.myCourses);
+      final result = await get(_Endpoint.getCourses, query: {
+        "type": GetCourseType.ME.name,
+      });
 
       return Right(
         (result.data as List<dynamic>)
-            .map<MyCourse>(
-              (rawMyCourse) => MyCourse.fromMap(rawMyCourse),
+            .map<Course>(
+              (rawCourse) => Course.fromMap(rawCourse),
             )
             .toList(),
       );
@@ -33,16 +34,17 @@ class DashboardRemoteDataSourceImpl extends DashboardRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, List<RecommendedCourse>>>
-      getRecommendedCourses() async {
+  Future<Either<Failure, List<Course>>> getRecommendedCourses() async {
     try {
-      final result = await get(_Endpoint.recommendedCourses);
+      final result = await get(
+        _Endpoint.getCourses,
+        query: {"type": GetCourseType.FOR_YOU.name},
+      );
 
       return Right(
         (result.data as List<dynamic>)
-            .map<RecommendedCourse>(
-              (rawRecommendedCourse) =>
-                  RecommendedCourse.fromMap(rawRecommendedCourse),
+            .map<Course>(
+              (rawRecommendedCourse) => Course.fromMap(rawRecommendedCourse),
             )
             .toList(),
       );

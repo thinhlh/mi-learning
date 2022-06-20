@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:mi_learning/app/dashboard/domain/entities/my_course.dart';
-import 'package:mi_learning/app/dashboard/domain/entities/recommended_course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/app/dashboard/domain/usecases/get_my_courses_use_case.dart';
 import 'package:mi_learning/app/dashboard/domain/usecases/get_recommended_courses_use_case.dart';
 import 'package:mi_learning/app/user/domain/entities/basic_user_info.dart';
@@ -21,19 +20,19 @@ class DashboardPageProvider extends LoadingProvider {
   final GetRecommendedCourseUseCase _getRecommendedCourseUseCase;
 
   BasicUserInfo? userInfo;
-  List<MyCourse>? _myCourses;
-  List<RecommendedCourse>? _recommendedCourses;
+  List<Course>? _myCourses;
+  List<Course>? _recommendedCourses;
 
-  List<MyCourse>? get myCourse => _myCourses;
+  List<Course>? get myCourse => _myCourses;
 
-  set myCourses(List<MyCourse> value) {
+  set myCourses(List<Course> value) {
     _myCourses = value;
     notifyListeners();
   }
 
-  List<RecommendedCourse>? get recommendedCourse => _recommendedCourses;
+  List<Course>? get recommendedCourse => _recommendedCourses;
 
-  set recommendedCourses(List<RecommendedCourse> value) {
+  set recommendedCourses(List<Course> value) {
     _recommendedCourses = value;
     notifyListeners();
   }
@@ -48,7 +47,7 @@ class DashboardPageProvider extends LoadingProvider {
     });
   }
 
-  Future<Either<Failure, List<MyCourse>?>> getMyCourses() async {
+  Future<Either<Failure, List<Course>?>> getMyCourses() async {
     final result = await _getMyCoursesUseCase(NoParams());
 
     return result.fold((l) => Left(l), (value) {
@@ -57,8 +56,7 @@ class DashboardPageProvider extends LoadingProvider {
     });
   }
 
-  Future<Either<Failure, List<RecommendedCourse>?>>
-      getRecommendedCourses() async {
+  Future<Either<Failure, List<Course>?>> getRecommendedCourses() async {
     final result = await _getRecommendedCourseUseCase(NoParams());
 
     return result.fold((l) => Left(l), (value) {

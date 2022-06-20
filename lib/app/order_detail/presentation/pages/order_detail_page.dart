@@ -1,10 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mi_learning/app/common/domain/entity/course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
-import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
 import 'package:mi_learning/app/order_detail/presentation/providers/order_detail_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
@@ -129,7 +127,6 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
               onTap: () => navigator.pushNamed(Routes.payment).then(
                 (value) {
                   provider.paymentResult = value as int;
-                  provider.notifyListeners();
                 },
               ),
               child: Row(

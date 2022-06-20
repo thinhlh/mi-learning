@@ -1,11 +1,12 @@
-import 'package:mi_learning/app/common/domain/entity/lessons/lesson.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/lessons/lesson.dart';
 
 class LessonPushDetailParams {
   final Lesson lesson;
-  final String courseId;
+  final Course course;
 
   LessonPushDetailParams({
     required this.lesson,
-    required this.courseId,
+    required this.course,
   });
 }

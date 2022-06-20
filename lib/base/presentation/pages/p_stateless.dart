@@ -8,18 +8,16 @@ abstract class PageStateless<T extends DialogProvider> extends StatelessWidget
     implements PageActions {
   PageStateless({Key? key}) : super(key: key);
 
-  // bool _initialized = false;
+  bool _initialized = false;
   late final NavigatorState navigator;
   late final T provider;
 
   @override
   Widget build(BuildContext context) {
-    // if (!_initialized) {
-    provider = Provider.of<T>(context, listen: false);
-    navigator = context.navigator;
-    beforeBuild(context);
-    // _initialized = true;
-    // }
+    if (!_initialized) {
+      beforeBuild(context);
+      _initialized = true;
+    }
 
     WidgetsBinding.instance?.addPostFrameCallback(
       (_) => afterFirstBuild(context),
@@ -35,7 +33,10 @@ abstract class PageStateless<T extends DialogProvider> extends StatelessWidget
 
   @override
   @mustCallSuper
-  void beforeBuild(BuildContext context) {}
+  void beforeBuild(BuildContext context) {
+    provider = Provider.of<T>(context, listen: false);
+    navigator = context.navigator;
+  }
 
   @override
   @mustCallSuper

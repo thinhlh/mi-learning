@@ -9,9 +9,4 @@ abstract class PageLoadingStateful<T extends LoadingProvider,
   void showLoading(BuildContext context, bool show) {
     show ? AppLoading.showLoading(context) : AppLoading.dismissLoading(context);
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return super.build(context);
-  }
 }

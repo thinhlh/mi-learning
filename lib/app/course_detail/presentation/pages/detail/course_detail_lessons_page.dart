@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mi_learning/app/common/domain/entity/lessons/lesson.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/lessons/lesson.dart';
 import 'package:mi_learning/app/common/presentation/widgets/w_blur.dart';
 import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
 import 'package:mi_learning/app/course_detail/presentation/widgets/course_detail_lesson_widget.dart';
-import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
+import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
@@ -11,14 +11,49 @@ import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 
-class CourseDetailLessionsPage
-    extends PageLoadingStateless<CourseDetailPageProvider> {
-  final Animation<double> lessionAnimation;
+class CourseDetailLessonsPage extends StatefulWidget {
+  const CourseDetailLessonsPage({Key? key}) : super(key: key);
 
-  CourseDetailLessionsPage({
-    Key? key,
-    required this.lessionAnimation,
-  }) : super(key: key);
+  @override
+  State<StatefulWidget> createState() => _CourseDetailLessonsPageState();
+}
+
+class _CourseDetailLessonsPageState extends PageLoadingStateful<
+    CourseDetailPageProvider,
+    CourseDetailLessonsPage> with SingleTickerProviderStateMixin {
+  late final AnimationController lessionAnimationController;
+  late final Animation<double> lessionAnimation;
+
+  @override
+  void beforeBuild(BuildContext context) {
+    super.beforeBuild(context);
+
+    lessionAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2000),
+    )..addListener(() {
+        setState(() {});
+      });
+
+    lessionAnimation = CurveTween(curve: Curves.linear).animate(
+      Tween<double>(
+        begin: 0,
+        end: context
+                .read<CourseDetailPageProvider>()
+                .course
+                .finishedLessonOrder /
+            context.read<CourseDetailPageProvider>().course.totalLesson,
+      ).animate(lessionAnimationController),
+    );
+
+    lessionAnimationController.forward();
+  }
+
+  @override
+  void dispose() {
+    lessionAnimationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget buildPage(BuildContext context) {
@@ -27,33 +62,26 @@ class CourseDetailLessionsPage
       padding: EdgeInsets.only(top: AppDimens.largeHeightDimens),
       child: Column(
         children: [
-          // AnimatedContainer(
-          //   duration: Duration.zero,
-          //   child: CircularProgressIndicator(
-          //     value: lessionAnimation.value,
-          //     strokeWidth: 6,
-          //     backgroundColor: AppColors.neutral.shade400,
-          //     valueColor: AlwaysStoppedAnimation<Color>(
-          //       AppColors.primarySwatch.shade300,
-          //     ),
-          //   ),
-          // ),
-          // SizedBox(height: AppDimens.mediumHeightDimens),
-          // Text(
-          //   '80/100 lessions',
-          //   style: context.textTheme.titleLarge,
-          // ),
+          CircularProgressIndicator(
+            value: lessionAnimation.value,
+            strokeWidth: 6,
+            backgroundColor: AppColors.neutral.shade400,
+            valueColor: AlwaysStoppedAnimation<Color>(
+              AppColors.primarySwatch.shade300,
+            ),
+          ),
+          SizedBox(height: AppDimens.mediumHeightDimens),
+          Text(
+            '${provider.course.finishedLessonOrder.toString() + "/" + provider.course.totalLesson.toString()} lessons',
+            style: context.textTheme.titleLarge,
+          ),
           Selector<CourseDetailPageProvider, List<Lesson>>(
-            selector: (_, provider) {
-              final sections = provider.course?.sections ?? [];
-              final lessons = <Lesson>[];
-
-              for (var element in sections) {
-                lessons.addAll(element.lessons);
-              }
-
-              return lessons;
-            },
+            selector: (_, provider) =>
+                provider.course.sections.fold<List<Lesson>>(
+              [],
+              (previousValue, element) =>
+                  previousValue..addAll(element.lessons),
+            ),
             builder: (_, lessons, child) => ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.only(top: AppDimens.largeHeightDimens),
@@ -72,7 +100,7 @@ class CourseDetailLessionsPage
     return Container(
       color: AppColors.neutral.shade50,
       child: Selector<CourseDetailPageProvider, bool>(
-        selector: (_, provider) => provider.course?.enrolled ?? false,
+        selector: (_, provider) => provider.course.enrolled,
         builder: (_, enrolled, child) {
           return enrolled
               ? lessons
@@ -100,7 +128,7 @@ class CourseDetailLessionsPage
             navigator
                 .pushNamed(
               Routes.orderDetail,
-              arguments: provider.course!,
+              arguments: provider.course,
             )
                 .then(
               (value) {

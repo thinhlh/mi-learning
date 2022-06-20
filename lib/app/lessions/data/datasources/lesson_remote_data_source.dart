@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/app/lessions/domain/usecases/get_course_detail_use_case.dart';
 import 'package:mi_learning/base/failure.dart';
 import 'package:mi_learning/services/rest_api/models/base_api.dart';
@@ -10,7 +10,7 @@ mixin _Endpoint {
 }
 
 abstract class LessonRemoteDataSource extends BaseApi with _Endpoint {
-  Future<Either<Failure, CourseDetail>> getCourseDetail(
+  Future<Either<Failure, Course>> getCourseDetail(
       LessonGetCourseDetailParams params);
 
   Future<Either<Failure, bool>> postNote(
@@ -19,7 +19,7 @@ abstract class LessonRemoteDataSource extends BaseApi with _Endpoint {
 
 class LessonRemoteDataSourceImpl extends LessonRemoteDataSource {
   @override
-  Future<Either<Failure, CourseDetail>> getCourseDetail(
+  Future<Either<Failure, Course>> getCourseDetail(
       LessonGetCourseDetailParams params) async {
     try {
       final result = await get(
@@ -29,7 +29,7 @@ class LessonRemoteDataSourceImpl extends LessonRemoteDataSource {
         },
       );
 
-      return Right(CourseDetail.fromMap(result.data));
+      return Right(Course.fromMap(result.data));
     } catch (e) {
       return Left(mapExceptionToFailure(e));
     }

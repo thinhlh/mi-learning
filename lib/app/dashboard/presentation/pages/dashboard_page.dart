@@ -3,8 +3,7 @@ import 'dart:math';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/dashboard/domain/entities/my_course.dart';
-import 'package:mi_learning/app/dashboard/domain/entities/recommended_course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/app/dashboard/presentation/providers/dashboard_page_provider.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/recommended_course_widget.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/live_event_card.dart';
@@ -182,14 +181,14 @@ class _DashboardPageState
             ),
           ],
         ),
-        Selector<DashboardPageProvider, List<MyCourse>?>(
+        Selector<DashboardPageProvider, List<Course>?>(
           selector: (_, provider) => provider.myCourse,
           builder: (_, myCourses, child) => myCourses == null
               ? Shimmer.fromColors(
                   enabled: true,
                   baseColor: AppColors.baseShimmerColor,
                   highlightColor: AppColors.highlightShimmerColor,
-                  child: _buildMyLearningListView(myCourses),
+                  child: _buildMyLearningListView(const []),
                 )
               : _buildMyLearningListView(myCourses),
         )
@@ -197,7 +196,7 @@ class _DashboardPageState
     );
   }
 
-  Widget _buildMyLearningListView(List<MyCourse>? myCourses) {
+  Widget _buildMyLearningListView(List<Course>? myCourses) {
     return Container(
       height: 0.16.sh,
       margin: EdgeInsets.only(top: AppDimens.mediumHeightDimens),
@@ -217,10 +216,13 @@ class _DashboardPageState
               ),
               physics: const BouncingScrollPhysics(),
               itemBuilder: (_, index) => MyCourseWidget(
-                myCourse: myCourses?[index],
+                myCourse: myCourses![index],
               ),
               scrollDirection: Axis.horizontal,
-              itemCount: min(myCourses?.length ?? 3, 3),
+              itemCount: min(
+                myCourses?.length ?? 3,
+                3,
+              ),
             ),
     );
   }
@@ -238,7 +240,7 @@ class _DashboardPageState
         Container(
           height: 0.42.sh,
           margin: EdgeInsets.only(top: AppDimens.mediumHeightDimens),
-          child: Selector<DashboardPageProvider, List<RecommendedCourse>?>(
+          child: Selector<DashboardPageProvider, List<Course>?>(
             selector: (_, provider) => provider.recommendedCourse,
             builder: (_, recommendedCourse, child) =>
                 (recommendedCourse?.isEmpty == true)

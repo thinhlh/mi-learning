@@ -22,7 +22,7 @@ import 'package:mi_learning/app/home/presentation/pages/home_page.dart';
 import 'package:mi_learning/app/home/presentation/providers/home_page_provider.dart';
 import 'package:mi_learning/app/landing/presentation/pages/landing_page.dart';
 import 'package:mi_learning/app/landing/presentation/providers/landing_page_provider.dart';
-import 'package:mi_learning/app/lessions/presentation/pages/lession_page.dart';
+import 'package:mi_learning/app/lessions/presentation/pages/lesson_page.dart';
 import 'package:mi_learning/app/lessions/presentation/providers/lession_page_provider.dart';
 import 'package:mi_learning/app/notification/presentation/pages/notification_page.dart';
 import 'package:mi_learning/app/notification/presentation/providers/notification_page_provider.dart';
@@ -160,9 +160,9 @@ class Routes {
         return CupertinoPageRoute(
           fullscreenDialog: true,
           settings: routeSettings,
-          builder: (_) => RouteUtil.createPageProvider<LessionPageProvider>(
-            provider: (_) => LessionPageProvider(GetIt.I()),
-            child: LessionPage(),
+          builder: (_) => RouteUtil.createPageProvider<LessonPageProvider>(
+            provider: (_) => LessonPageProvider(GetIt.I()),
+            child: LessonPage(),
           ),
         );
 

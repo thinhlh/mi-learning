@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:mi_learning/app/common/domain/entity/rating.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/rating.dart';
 
 class CourseRating {
   final double average;

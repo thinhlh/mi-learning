@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/common/domain/entity/course.dart';
-import 'package:mi_learning/app/dashboard/domain/entities/my_course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/my_course_widget.dart';
 import 'package:mi_learning/app/my_courses/presentation/providers/my_courses_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
@@ -38,7 +35,7 @@ class MyCoursePage extends PageLoadingStateless<MyCoursesPageProvider> {
                 style: context.textTheme.titleLarge,
               ),
             )
-          : Selector<MyCoursesPageProvider, List<MyCourse>>(
+          : Selector<MyCoursesPageProvider, List<Course>>(
               selector: (_, provider) => provider.myCourses,
               builder: (_, myCourses, child) => ListView.separated(
                 padding: EdgeInsets.symmetric(
@@ -61,6 +58,7 @@ class MyCoursePage extends PageLoadingStateless<MyCoursesPageProvider> {
   @override
   void beforeBuild(BuildContext context) {
     super.beforeBuild(context);
-    provider.myCourses = context.getArgument<List<MyCourse>>() ?? [];
+    provider.setMyCourseWithoutNotifyListener(
+        context.getArgument<List<Course>>() ?? []);
   }
 }

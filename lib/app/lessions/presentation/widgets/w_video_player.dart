@@ -97,7 +97,7 @@ class _WVideoPlayerState extends State<WVideoPlayer> {
   void initState() {
     _initializePlayer();
     _controller.addListener(() {
-      context.read<LessionPageProvider>().second =
+      context.read<LessonPageProvider>().second =
           _controller.value.position.inSeconds;
     });
     super.initState();

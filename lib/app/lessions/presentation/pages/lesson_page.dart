@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:get_it/get_it.dart';
-import 'package:mi_learning/app/common/domain/entity/course.dart';
-import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/lessons/lesson.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/note.dart';
 import 'package:mi_learning/app/lessions/domain/entities/lesson_push_detail_params.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/lession_question_answer_page.dart';
 import 'package:mi_learning/app/lessions/presentation/pages/note_editor_page.dart';
@@ -28,8 +29,8 @@ import 'package:shimmer/shimmer.dart';
 part 'lession_tab_page.dart';
 part 'lession_note_page.dart';
 
-class LessionPage extends PageLoadingStateless<LessionPageProvider> {
-  LessionPage({Key? key}) : super(key: key);
+class LessonPage extends PageLoadingStateless<LessonPageProvider> {
+  LessonPage({Key? key}) : super(key: key);
 
   @override
   Widget buildPage(BuildContext context) {
@@ -73,17 +74,17 @@ class LessionPage extends PageLoadingStateless<LessionPageProvider> {
                   ),
                 ),
                 Expanded(
-                  child: Selector<LessionPageProvider, CourseDetail>(
-                    selector: (_, provider) => provider.courseDetail,
-                    builder: (_, courseDetail, child) {
-                      return courseDetail.sections.isNotEmpty
+                  child: Selector<LessonPageProvider, Course?>(
+                    selector: (_, provider) => provider.course,
+                    builder: (_, course, child) {
+                      return course!.sections.isNotEmpty
                           ? _LessionTabPage(
-                              courseDetail: courseDetail,
+                              course: course,
                               safePadding: safePadding,
                             )
                           : Shimmer.fromColors(
                               child: _LessionTabPage(
-                                courseDetail: courseDetail,
+                                course: course,
                                 safePadding: safePadding,
                               ),
                               baseColor: AppColors.baseShimmerColor,
@@ -104,13 +105,13 @@ class LessionPage extends PageLoadingStateless<LessionPageProvider> {
   void beforeBuild(BuildContext context) {
     super.beforeBuild(context);
     final arguments = context.getArgument<LessonPushDetailParams>();
-    provider.courseId = arguments?.courseId;
+    provider.course = arguments?.course;
     provider.lesson = arguments?.lesson;
   }
 
   @override
   void afterFirstBuild(BuildContext context) {
     super.afterFirstBuild(context);
-    provider.getCourseDetail();
+    // provider.getCourseDetail();
   }
 }

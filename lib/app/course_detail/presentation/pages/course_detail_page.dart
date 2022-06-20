@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/common/domain/entity/course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_about_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_discuss_page.dart';
-import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_lessions_page.dart';
+import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_lessons_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/pages/detail/course_detail_ratings_page.dart';
 import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
@@ -16,8 +16,6 @@ import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 
 class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
-  late final String id;
-  CourseDetailPage({Key? key}) : super(key: key);
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
@@ -39,7 +37,7 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
               alignment: Alignment.centerLeft,
               child: Text(
                 context.select<CourseDetailPageProvider, String>(
-                  (provider) => provider.course?.title ?? "",
+                  (provider) => provider.course.title,
                 ),
                 style: context.textTheme.titleLarge?.copyWith(
                   fontWeight: AppStyles.extraBold,
@@ -50,7 +48,7 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'by ${context.select<CourseDetailPageProvider, String>((provider) => provider.course?.teacher.name ?? "")}',
+                'by ${context.select<CourseDetailPageProvider, String>((provider) => provider.course.teacher.name)}',
                 style: context.textTheme.caption?.copyWith(
                   fontSize: context.textTheme.subtitle2?.fontSize,
                 ),
@@ -62,24 +60,23 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
               ),
               width: double.infinity,
               child: context.select<CourseDetailPageProvider, bool>(
-                (provider) => provider.course?.enrolled ?? false,
+                (provider) => provider.course.enrolled,
               )
                   ? const SizedBox.shrink()
                   : ElevatedButton(
-                      onPressed: provider.course == null
-                          ? null
-                          : () => navigator
-                                  .pushNamed(
-                                Routes.orderDetail,
-                                arguments: provider.course!,
-                              )
-                                  .then(
-                                (value) {
-                                  if (value == true) {
-                                    navigator.pop();
-                                  }
-                                },
-                              ),
+                      onPressed: () => navigator
+                          .pushNamed(
+                        Routes.orderDetail,
+                        arguments: provider.course,
+                      )
+                          .then(
+                        (value) {
+                          if (value == true) {
+                            provider.course =
+                                provider.course.copyWith(enrolled: true);
+                          }
+                        },
+                      ),
                       child: const Text(
                         'ENROLL',
                         style: TextStyle(
@@ -113,7 +110,7 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
                 ),
                 child: Image.network(
                   context.select<CourseDetailPageProvider, String>(
-                    (provider) => provider.course?.background ?? "",
+                    (provider) => provider.course.background,
                   ),
                   errorBuilder: (context, error, stackTrace) => Center(
                     child: Text(
@@ -157,11 +154,11 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
       actions: [
         IconButton(
           onPressed: () async {
-            provider.toggleSaveCourse(id);
+            provider.toggleSaveCourse();
           },
           icon: Icon(
             context.select<CourseDetailPageProvider, bool>(
-              (provider) => provider.course?.saved ?? false,
+              (provider) => provider.course.saved,
             )
                 ? Icons.bookmark_rounded
                 : Icons.bookmark_border_rounded,
@@ -175,16 +172,7 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
   @override
   void beforeBuild(BuildContext context) {
     super.beforeBuild(context);
-    id = context.getArgument<String>() ?? "";
-  }
-
-  @override
-  void afterFirstBuild(BuildContext context) async {
-    super.afterFirstBuild(context);
-    // showLoading(context, true);
-    await provider.getCourseDetail(id);
-    print('CALLED AFTER FIRST BUILD');
-    // showLoading(context, false);
+    provider.setCourseWithOutNotify(context.getArgument<Course>()!);
   }
 }
 
@@ -199,39 +187,16 @@ class _CouseDetailTabState
     extends PageLoadingStateful<CourseDetailPageProvider, _CouseDetailTab>
     with TickerProviderStateMixin {
   late final TabController tabController;
-  late final AnimationController lessionAnimationController;
-  late final Animation<double> lessionAnimation;
 
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 4, vsync: this)
-      ..addListener(() {
-        if (!tabController.indexIsChanging) {
-          if (tabController.index == 1) {
-            lessionAnimationController.forward();
-          } else {
-            lessionAnimationController.reset();
-          }
-        }
-      });
-
-    lessionAnimationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 2000),
-    )..addListener(() {
-        setState(() {});
-      });
-
-    lessionAnimation = CurveTween(curve: Curves.easeInOutCubic).animate(
-      Tween<double>(begin: 0, end: 0.8).animate(lessionAnimationController),
-    );
+    tabController = TabController(length: 4, vsync: this);
   }
 
   @override
   void dispose() {
     tabController.dispose();
-    lessionAnimationController.dispose();
     super.dispose();
   }
 
@@ -241,7 +206,7 @@ class _CouseDetailTabState
       length: 3,
       initialIndex: 0,
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.neutral.shade50,
         appBar: AppBar(
           backgroundColor: AppColors.neutral.shade50,
           toolbarHeight: 0,
@@ -256,25 +221,22 @@ class _CouseDetailTabState
             labelPadding: EdgeInsets.zero,
             tabs: const [
               Tab(text: 'About'),
-              Tab(text: 'Lession'),
+              Tab(text: 'Lesson'),
               Tab(text: 'Discuss'),
               Tab(text: 'Ratings'),
             ],
             controller: tabController,
           ),
         ),
-        body: Selector<CourseDetailPageProvider, Course?>(
-          selector: (_, provider) => provider.course,
-          builder: (_, course, child) => TabBarView(
-            physics: const BouncingScrollPhysics(),
-            controller: tabController,
-            children: [
-              CourseDetailAboutPage(),
-              CourseDetailLessionsPage(lessionAnimation: lessionAnimation),
-              CourseDetailDiscussPage(),
-              CourseDetailRatingsPage(),
-            ],
-          ),
+        body: TabBarView(
+          physics: const BouncingScrollPhysics(),
+          controller: tabController,
+          children: [
+            CourseDetailAboutPage(),
+            const CourseDetailLessonsPage(),
+            CourseDetailDiscussPage(),
+            CourseDetailRatingsPage(),
+          ],
         ),
       ),
     );

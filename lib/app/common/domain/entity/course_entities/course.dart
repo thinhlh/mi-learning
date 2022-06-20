@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mi_learning/app/common/domain/entity/course_rating.dart';
 
-import 'package:mi_learning/app/common/domain/entity/section.dart';
-import 'package:mi_learning/app/common/domain/entity/teacher.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course_rating.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/lessons/lesson.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/section.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/teacher.dart';
 
 class Course {
   final String id;
@@ -16,11 +18,11 @@ class Course {
   final double price;
   final String category;
   final bool enrolled;
-  final String? currentLesson;
-  final List<Section> sections;
   final bool saved;
   final Teacher teacher;
   final CourseRating courseRatings;
+  final String? currentLesson;
+  final List<Section> sections;
   Course({
     required this.id,
     required this.title,
@@ -28,14 +30,14 @@ class Course {
     required this.length,
     required this.background,
     this.icon,
-    this.currentLesson,
     required this.price,
     required this.category,
     required this.enrolled,
-    required this.sections,
-    required this.teacher,
     required this.saved,
+    required this.teacher,
     required this.courseRatings,
+    this.currentLesson,
+    required this.sections,
   });
 
   Course copyWith({
@@ -48,11 +50,11 @@ class Course {
     double? price,
     String? category,
     bool? enrolled,
-    String? currentLesson,
     bool? saved,
-    List<Section>? sections,
     Teacher? teacher,
-    CourseRating? courseRating,
+    CourseRating? courseRatings,
+    String? currentLesson,
+    List<Section>? sections,
   }) {
     return Course(
       id: id ?? this.id,
@@ -64,11 +66,11 @@ class Course {
       price: price ?? this.price,
       category: category ?? this.category,
       enrolled: enrolled ?? this.enrolled,
-      sections: sections ?? this.sections,
-      teacher: teacher ?? this.teacher,
-      courseRatings: courseRating ?? this.courseRatings,
       saved: saved ?? this.saved,
+      teacher: teacher ?? this.teacher,
+      courseRatings: courseRatings ?? this.courseRatings,
       currentLesson: currentLesson ?? this.currentLesson,
+      sections: sections ?? this.sections,
     );
   }
 
@@ -83,11 +85,11 @@ class Course {
       'price': price,
       'category': category,
       'enrolled': enrolled,
-      'sections': sections.map((x) => x.toMap()).toList(),
-      'teacher': teacher.toMap(),
-      'courseRating': courseRatings.toMap(),
       'saved': saved,
+      'teacher': teacher.toMap(),
+      'courseRatings': courseRatings.toMap(),
       'currentLesson': currentLesson,
+      'sections': sections.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -102,12 +104,12 @@ class Course {
       price: map['price']?.toDouble() ?? 0.0,
       category: map['category'] ?? '',
       enrolled: map['enrolled'] ?? false,
-      currentLesson: map['currentLesson'],
       saved: map['saved'] ?? false,
-      sections:
-          List<Section>.from(map['sections']?.map((x) => Section.fromMap(x))),
       teacher: Teacher.fromMap(map['teacher']),
       courseRatings: CourseRating.fromMap(map['courseRatings']),
+      currentLesson: map['currentLesson'],
+      sections:
+          List<Section>.from(map['sections']?.map((x) => Section.fromMap(x))),
     );
   }
 
@@ -117,7 +119,7 @@ class Course {
 
   @override
   String toString() {
-    return 'Course(id: $id, title: $title, description: $description, length: $length, background: $background, saved: $saved, icon: $icon, price: $price, category: $category, enrolled: $enrolled, currentLesson: $currentLesson, sections: $sections, teacher: $teacher, courseRating: $courseRatings)';
+    return 'Course(id: $id, title: $title, description: $description, length: $length, background: $background, icon: $icon, price: $price, category: $category, enrolled: $enrolled, saved: $saved, teacher: $teacher, courseRatings: $courseRatings, currentLesson: $currentLesson, sections: $sections)';
   }
 
   @override
@@ -134,11 +136,11 @@ class Course {
         other.price == price &&
         other.category == category &&
         other.enrolled == enrolled &&
-        other.currentLesson == currentLesson &&
         other.saved == saved &&
-        listEquals(other.sections, sections) &&
         other.teacher == teacher &&
-        other.courseRatings == courseRatings;
+        other.courseRatings == courseRatings &&
+        other.currentLesson == currentLesson &&
+        listEquals(other.sections, sections);
   }
 
   @override
@@ -152,10 +154,53 @@ class Course {
         price.hashCode ^
         category.hashCode ^
         enrolled.hashCode ^
-        currentLesson.hashCode ^
         saved.hashCode ^
-        sections.hashCode ^
         teacher.hashCode ^
-        courseRatings.hashCode;
+        courseRatings.hashCode ^
+        currentLesson.hashCode ^
+        sections.hashCode;
+  }
+
+  int get finishedLessonOrder {
+    int finishedLessonOrder;
+    try {
+      finishedLessonOrder = sections
+          .fold<List<Lesson>>(
+            [],
+            (previous, section) => previous..addAll(section.lessons),
+          )
+          .firstWhere(
+            (lesson) => lesson.id == currentLesson,
+          )
+          .lessonOrder;
+    } catch (e) {
+      finishedLessonOrder = 0;
+    }
+    return finishedLessonOrder;
+  }
+
+  int get totalLesson {
+    return sections.fold<List<Lesson>>(
+      [],
+      (previous, section) => previous..addAll(section.lessons),
+    ).length;
+  }
+
+  String? get currentLessonTitle {
+    String? result;
+    try {
+      result = sections
+          .fold<List<Lesson>>(
+            [],
+            (previous, section) => previous..addAll(section.lessons),
+          )
+          .firstWhere(
+            (lesson) => lesson.id == currentLesson,
+          )
+          .title;
+      return result;
+    } catch (e) {
+      return result;
+    }
   }
 }

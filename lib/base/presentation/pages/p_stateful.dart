@@ -8,19 +8,26 @@ abstract class PageStateful<T extends DialogProvider, P extends StatefulWidget>
     extends State<P> implements PageActions {
   late final NavigatorState navigator;
   late final T provider;
+  bool isInitialized = false;
 
   @override
   void initState() {
-    provider = Provider.of<T>(context, listen: false);
-    navigator = context.navigator;
-    beforeBuild(context);
     super.initState();
-
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       if (mounted) {
         afterFirstBuild(context);
       }
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!isInitialized) {
+      beforeBuild(context);
+      isInitialized = true;
+      ;
+    }
   }
 
   @override
@@ -34,7 +41,10 @@ abstract class PageStateful<T extends DialogProvider, P extends StatefulWidget>
 
   @override
   @mustCallSuper
-  void beforeBuild(BuildContext context) {}
+  void beforeBuild(BuildContext context) {
+    provider = Provider.of<T>(context, listen: false);
+    navigator = context.navigator;
+  }
 
   @override
   @mustCallSuper

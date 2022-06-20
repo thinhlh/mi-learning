@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:mi_learning/app/common/domain/entity/course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
+import 'package:mi_learning/app/common/domain/entity/get_course_type.dart';
 import 'package:mi_learning/app/course_detail/domain/usecases/toggle_save_course_use_case.dart';
 import 'package:mi_learning/base/failure.dart';
 import 'package:mi_learning/services/rest_api/models/base_api.dart';
@@ -7,7 +8,7 @@ import 'package:mi_learning/services/rest_api/models/base_api.dart';
 mixin _Endpoint {
   static const String courseDetail = "/course";
   static const String toggleSaveCourse = '/course/save';
-  static const String savedCourses = '/courses/saved';
+  static const String savedCourses = '/courses';
   static const String purchase = "/purchase";
 }
 
@@ -52,7 +53,9 @@ class CourseDetailRemoteDataSourceImpl extends CourseDetailRemoteDataSource {
   @override
   Future<Either<Failure, List<Course>>> getSavedCourses() async {
     try {
-      final result = await get(_Endpoint.savedCourses);
+      final result = await get(_Endpoint.savedCourses, query: {
+        "type": GetCourseType.SAVED.name,
+      });
 
       return Right((result.data as List<dynamic>)
           .map((r) => Course.fromMap(r))

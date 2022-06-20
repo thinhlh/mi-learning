@@ -1,23 +1,15 @@
-part of 'lession_page.dart';
+part of 'lesson_page.dart';
 
 class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
-  //   var json = jsonEncode('_controller.document'.toDelta().toJson());
-
-// var myJSON = jsonEncode('{message: hello}');
-//   final _controller = editor.QuillController(
-//       document: editor.Document.fromJson(jsonDecode('{message: hello}')),
-//       selection: TextSelection.collapsed(offset: 0));
   final double safePadding;
   _LessionNotePage({
     required this.safePadding,
   });
-  final _controller = editor.QuillController.basic();
 
   @override
   Widget buildPage(BuildContext context) {
     final controller = editor.QuillController.basic();
-    final currentChosenLessonId =
-        context.read<LessionPageProvider>().lesson?.id;
+    final currentChosenLessonId = context.read<LessonPageProvider>().lesson?.id;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
@@ -37,10 +29,11 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
               child: Padding(
                 padding: EdgeInsets.only(top: safePadding),
                 child: NoteEditorPage(
-                    controller,
-                    currentChosenLessonId!,
-                    context.read<LessionPageProvider>().second,
-                    context.read<LessionNotePageProvider>().notes),
+                  controller,
+                  currentChosenLessonId!,
+                  context.read<LessonPageProvider>().second,
+                  context.read<LessionNotePageProvider>().notes,
+                ),
               ),
             ),
           );
@@ -63,31 +56,26 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
             ),
           ),
           Expanded(
-            child: Selector<LessionPageProvider, List<CourseDetailNote>>(
+            child: Selector<LessonPageProvider, List<Note>>(
               selector: (_, lessionProvider) {
                 final currentChosenLessonId =
-                    context.read<LessionPageProvider>().lesson?.id;
-                // log('lessionId:' + currentChosenLessonId.toString());
-                // log('content: ' +
+                    context.read<LessonPageProvider>().lesson?.id;
                 //     provider.courseDetail!.sections[0].lessons[0]
                 //         .courseDetailMetaData.notes[0].content);
-                final lessons = lessionProvider.courseDetail.sections
-                    .fold<List<CourseDetailLesson>>(
-                  [],
+                final lessons =
+                    (lessionProvider.course?.sections ?? []).fold<List<Lesson>>(
+                  <Lesson>[],
                   (prev, secion) => prev..addAll(secion.lessons),
                 );
-
-                // lessons.forEach((e) => print('lessionId: ' + e.lessonId));
-                // print('lessionId:' + lessons.toString());
 
                 try {
                   provider.notes = lessons
                       .firstWhere(
                         (lesson) {
-                          return lesson.lessonId == lessionProvider.lesson?.id;
+                          return lesson == lessionProvider.lesson?.id;
                         },
                       )
-                      .courseDetailMetaData
+                      .metadata
                       .notes;
                   return provider.notes;
                 } catch (e) {

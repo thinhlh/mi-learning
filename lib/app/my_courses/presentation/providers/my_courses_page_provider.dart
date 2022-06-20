@@ -1,13 +1,17 @@
-import 'package:mi_learning/app/dashboard/domain/entities/my_course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/base/presentation/providers/loading_provider.dart';
 
 class MyCoursesPageProvider extends LoadingProvider {
-  List<MyCourse> _myCourses = [];
+  List<Course> _myCourses = [];
 
-  List<MyCourse> get myCourses => _myCourses;
+  List<Course> get myCourses => _myCourses;
 
-  set myCourses(List<MyCourse> value) {
+  set myCourses(List<Course> value) {
     _myCourses = value;
     notifyListeners();
+  }
+
+  void setMyCourseWithoutNotifyListener(List<Course> course) {
+    _myCourses = course;
   }
 }

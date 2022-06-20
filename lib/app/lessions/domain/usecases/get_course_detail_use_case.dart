@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/app/lessions/domain/repositories/lesson_repository.dart';
 import 'package:mi_learning/base/domain/usecase/base_usecase.dart';
 import 'package:mi_learning/base/domain/usecase/params.dart';
@@ -12,13 +12,13 @@ class LessonGetCourseDetailParams implements Params {
 }
 
 class LessonGetCourseDetailUseCase
-    implements BaseUseCase<LessonGetCourseDetailParams, CourseDetail> {
+    implements BaseUseCase<LessonGetCourseDetailParams, Course> {
   final LessonRepository _lessonRepository;
 
   LessonGetCourseDetailUseCase(this._lessonRepository);
 
   @override
-  Future<Either<Failure, CourseDetail>> call(
+  Future<Either<Failure, Course>> call(
     LessonGetCourseDetailParams params,
   ) {
     return _lessonRepository.getCourseDetail(params);

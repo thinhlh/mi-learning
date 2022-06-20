@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mi_learning/app/common/domain/entity/rating.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/rating.dart';
 import 'package:mi_learning/app/course_detail/presentation/widgets/expandable_text.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/rating_widget.dart';
 import 'package:mi_learning/config/dimens.dart';

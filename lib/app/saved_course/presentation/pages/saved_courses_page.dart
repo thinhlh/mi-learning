@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:mi_learning/app/common/domain/entity/course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/app/explorer/presentation/widgets/course_medium_widget.dart';
 import 'package:mi_learning/app/saved_course/presentation/providers/saved_courses_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
@@ -53,6 +52,7 @@ class SavedCoursesPage extends PageLoadingStateless<SavedCoursesPageProvider> {
   @override
   void afterFirstBuild(BuildContext context) {
     super.afterFirstBuild(context);
-    provider.getSavedCourses();
+    showLoading(context, true);
+    provider.getSavedCourses().then((value) => showLoading(context, false));
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/dashboard/domain/entities/recommended_course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/rating_widget.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
@@ -10,7 +10,7 @@ import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:shimmer/shimmer.dart';
 
 class RecommendedCourseWidget extends StatelessWidget {
-  final RecommendedCourse? course;
+  final Course? course;
   const RecommendedCourseWidget({
     Key? key,
     required this.course,
@@ -31,7 +31,7 @@ class RecommendedCourseWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => context.navigator.pushNamed(
         Routes.courseDetail,
-        arguments: course?.id ?? "",
+        arguments: course!,
       ),
       child: SizedBox(
         width: 0.8.sw,
@@ -79,7 +79,7 @@ class RecommendedCourseWidget extends StatelessWidget {
                       ),
                       SizedBox(height: AppDimens.smallHeightDimens),
                       Text(
-                        course?.teacherName ?? "",
+                        course?.teacher.name ?? "",
                         style: context.textTheme.subtitle1,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -95,7 +95,8 @@ class RecommendedCourseWidget extends StatelessWidget {
                           const Spacer(),
                           Align(
                             alignment: Alignment.centerRight,
-                            child: RatingWidget(rating: course?.rating ?? 0.0),
+                            child: RatingWidget(
+                                rating: course?.courseRatings.average ?? 0.0),
                           ),
                         ],
                       ),

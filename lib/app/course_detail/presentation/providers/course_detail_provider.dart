@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:mi_learning/app/common/domain/entity/course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/app/course_detail/domain/usecases/get_course_detail_use_case.dart';
 import 'package:mi_learning/app/course_detail/domain/usecases/toggle_save_course_use_case.dart';
 import 'package:mi_learning/base/failure.dart';
@@ -13,13 +13,17 @@ class CourseDetailPageProvider extends LoadingProvider {
   final GetCourseDetailUseCase _getCourseDetailUseCase;
   final ToggleSaveCourseUseCase _toggleSaveCourseUseCase;
 
-  Course? _course;
+  late Course _course;
 
-  Course? get course => _course;
+  Course get course => _course;
 
-  set course(Course? course) {
+  set course(Course course) {
     _course = course;
     notifyListeners();
+  }
+
+  void setCourseWithOutNotify(Course course) {
+    _course = course;
   }
 
   Future<Either<Failure, Course>> getCourseDetail(String courseId) async {
@@ -37,16 +41,16 @@ class CourseDetailPageProvider extends LoadingProvider {
     );
   }
 
-  Future<Either<Failure, bool>> toggleSaveCourse(String courseId) async {
+  Future<Either<Failure, bool>> toggleSaveCourse() async {
     final result = await _toggleSaveCourseUseCase(
       ToggleSaveCourseParams(
-        courseId: courseId,
-        saved: !(course?.saved ?? false),
+        courseId: course.id,
+        saved: !course.saved,
       ),
     );
 
     return result.fold((l) => Left(l), (value) {
-      course = course?.copyWith(saved: value);
+      course = course.copyWith(saved: value);
       notifyListeners();
       return Right(value);
     });

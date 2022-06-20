@@ -1,14 +1,13 @@
-import 'package:mi_learning/app/common/domain/entity/course.dart';
-import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
-import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/section.dart';
 import 'package:mi_learning/base/presentation/providers/loading_provider.dart';
 
 class LessionCourseContentPageProvider extends LoadingProvider {
-  late CourseDetail _courseDetail;
-  CourseDetail get courseDetail => _courseDetail;
-  LessionCourseContentPageProvider({required CourseDetail course}) {
-    _courseDetail = course;
+  late Course _course;
+  Course get course => _course;
+  LessionCourseContentPageProvider({required Course course}) {
+    _course = course;
   }
 
-  List<CourseDetailSection> get courseDetailSection => _courseDetail.sections;
+  List<Section> get sections => _course.sections;
 }

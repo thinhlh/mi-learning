@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:mi_learning/app/common/domain/entity/course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/app/saved_course/domain/get_saved_courses_use_case.dart';
 import 'package:mi_learning/base/domain/usecase/params.dart';
 import 'package:mi_learning/base/failure.dart';

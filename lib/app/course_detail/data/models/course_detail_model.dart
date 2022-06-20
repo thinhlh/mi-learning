@@ -1,7 +1,7 @@
-import 'package:mi_learning/app/common/domain/entity/course.dart';
-import 'package:mi_learning/app/common/domain/entity/course_rating.dart';
-import 'package:mi_learning/app/common/domain/entity/section.dart';
-import 'package:mi_learning/app/common/domain/entity/teacher.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course_rating.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/section.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/teacher.dart';
 
 class CourseDetailModel extends Course {
   CourseDetailModel({

@@ -1,10 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:mi_learning/app/common/domain/entity/course.dart';
-import 'package:mi_learning/app/common/domain/entity/lessons/lesson.dart';
-import 'package:mi_learning/app/common/domain/entity/section.dart';
-import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/lessons/lesson.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/section.dart';
 import 'package:mi_learning/app/lessions/domain/entities/lesson_push_detail_params.dart';
 
 import 'package:mi_learning/app/lessions/presentation/providers/lession_course_content_page_provider.dart';
@@ -23,10 +19,9 @@ class LessionCourseContentPage
   Widget buildPage(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: AppDimens.largeHeightDimens),
-      child:
-          Selector<LessionCourseContentPageProvider, List<CourseDetailSection>>(
+      child: Selector<LessionCourseContentPageProvider, List<Section>>(
         selector: (_, provider) {
-          final section = provider.courseDetailSection;
+          final section = provider.sections;
           return section;
         },
         builder: (_, sections, child) => ListView.builder(
@@ -34,16 +29,16 @@ class LessionCourseContentPage
           itemBuilder: (_, index) => ExpansionTile(
             subtitle: Builder(builder: (ctx) {
               final totalLessons = sections[index].lessons.length;
-              final currentLessonId = provider.courseDetail.currentLesson;
+              final currentLessonId = provider.course.currentLesson;
               late int currentLesson;
               try {
                 currentLesson = sections
-                    .fold<List<CourseDetailLesson>>(
+                    .fold<List<Lesson>>(
                       [],
                       (previousList, currentSection) =>
                           previousList..addAll(currentSection.lessons),
                     )
-                    .firstWhere((lesson) => lesson.lessonId == currentLessonId)
+                    .firstWhere((lesson) => lesson.id == currentLessonId)
                     .lessonOrder;
               } catch (e) {
                 currentLesson = 0;
@@ -79,29 +74,29 @@ class LessionCourseContentPage
                 itemBuilder: (_, lessonIndex) {
                   final lesson = sections[index].lessons[lessonIndex];
                   final currentViewingLesson =
-                      context.read<LessionPageProvider>().lesson;
+                      context.read<LessonPageProvider>().lesson;
                   return ListTile(
-                    onTap: lesson.lessonId == currentViewingLesson?.id
+                    onTap: lesson.id == currentViewingLesson?.id
                         ? null
                         : () {
                             navigator.pushReplacementNamed(
                               Routes.lessons,
                               arguments: LessonPushDetailParams(
-                                lesson: Lesson.fromCourseDetailLesson(lesson),
-                                courseId: provider.courseDetail.courseId,
+                                lesson: lesson,
+                                course: provider.course,
                               ),
                             );
                           },
                     contentPadding: EdgeInsets.zero,
                     leading: Checkbox(
-                      value: lesson.courseDetailMetaData.finished,
+                      value: lesson.metadata.finished,
                       onChanged: (value) {},
                     ),
                     title: Text(
                       '${lessonIndex + 1}. ${lesson.title}',
                       style: context.textTheme.bodyMedium,
                     ),
-                    selected: lesson.lessonId == currentViewingLesson?.id,
+                    selected: lesson.id == currentViewingLesson?.id,
                     selectedTileColor: AppColors.neutral.shade400,
                     subtitle: Padding(
                       padding:

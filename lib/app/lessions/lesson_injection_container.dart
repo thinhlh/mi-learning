@@ -1,4 +1,3 @@
-import 'package:mi_learning/app/common/domain/entity/lessons/lesson.dart';
 import 'package:mi_learning/app/lessions/data/datasources/lesson_remote_data_source.dart';
 import 'package:mi_learning/app/lessions/data/repositories/lesson_repository_impl.dart';
 import 'package:mi_learning/app/lessions/domain/repositories/lesson_repository.dart';

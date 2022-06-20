@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:mi_learning/app/common/domain/entity/lessons/test_lesson.dart';
-import 'package:mi_learning/app/common/domain/entity/lessons/video_lesson.dart';
-import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/lesson_meta_data.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/lessons/test_lesson.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/lessons/video_lesson.dart';
 
 class Lesson {
   final String id;
@@ -10,12 +10,14 @@ class Lesson {
   final String title;
   final VideoLesson? videoLesson;
   final TestLesson? testLesson;
+  final LessonMetaData metadata;
   Lesson({
     required this.id,
     required this.lessonOrder,
     required this.title,
     this.videoLesson,
     this.testLesson,
+    required this.metadata,
   });
 
   Lesson copyWith({
@@ -24,6 +26,7 @@ class Lesson {
     String? title,
     VideoLesson? videoLesson,
     TestLesson? testLesson,
+    LessonMetaData? metadata,
   }) {
     return Lesson(
       id: id ?? this.id,
@@ -31,6 +34,7 @@ class Lesson {
       title: title ?? this.title,
       videoLesson: videoLesson ?? this.videoLesson,
       testLesson: testLesson ?? this.testLesson,
+      metadata: metadata ?? this.metadata,
     );
   }
 
@@ -41,13 +45,14 @@ class Lesson {
       'title': title,
       'videoLesson': videoLesson?.toMap(),
       'testLesson': testLesson?.toMap(),
+      'metadata': metadata.toMap(),
     };
   }
 
   factory Lesson.fromMap(Map<String, dynamic> map) {
     return Lesson(
       id: map['id'] ?? '',
-      lessonOrder: map['lessonOrder']?.toInt(),
+      lessonOrder: map['lessonOrder']?.toInt() ?? 0,
       title: map['title'] ?? '',
       videoLesson: map['videoLesson'] != null
           ? VideoLesson.fromMap(map['videoLesson'])
@@ -55,11 +60,8 @@ class Lesson {
       testLesson: map['testLesson'] != null
           ? TestLesson.fromMap(map['testLesson'])
           : null,
+      metadata: LessonMetaData.fromMap(map['metadata']),
     );
-  }
-
-  factory Lesson.fromCourseDetailLesson(CourseDetailLesson lesson) {
-    return Lesson.fromMap(lesson.toMap());
   }
 
   String toJson() => json.encode(toMap());
@@ -68,7 +70,7 @@ class Lesson {
 
   @override
   String toString() {
-    return 'Lesson(id: $id, lessonOrder: $lessonOrder, title: $title, videoLesson: $videoLesson, testLesson: $testLesson)';
+    return 'Lesson(id: $id, lessonOrder: $lessonOrder, title: $title, videoLesson: $videoLesson, testLesson: $testLesson, metadata: $metadata)';
   }
 
   @override
@@ -80,7 +82,8 @@ class Lesson {
         other.lessonOrder == lessonOrder &&
         other.title == title &&
         other.videoLesson == videoLesson &&
-        other.testLesson == testLesson;
+        other.testLesson == testLesson &&
+        other.metadata == metadata;
   }
 
   @override
@@ -89,6 +92,7 @@ class Lesson {
         lessonOrder.hashCode ^
         title.hashCode ^
         videoLesson.hashCode ^
-        testLesson.hashCode;
+        testLesson.hashCode ^
+        metadata.hashCode;
   }
 }

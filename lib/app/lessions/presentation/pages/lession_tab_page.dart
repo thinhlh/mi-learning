@@ -1,11 +1,11 @@
-part of 'lession_page.dart';
+part of 'lesson_page.dart';
 
 class _LessionTabPage extends StatefulWidget {
-  final CourseDetail courseDetail;
+  final Course course;
   final double safePadding;
   const _LessionTabPage({
     Key? key,
-    required this.courseDetail,
+    required this.course,
     required this.safePadding,
   }) : super(key: key);
 
@@ -27,7 +27,6 @@ class __LessionTabPageState extends State<_LessionTabPage>
 
   @override
   Widget build(BuildContext context) {
-    print('safePadding ' + widget.safePadding.toString());
     return DefaultTabController(
       initialIndex: currentTabIndex,
       length: 3,
@@ -80,13 +79,13 @@ class __LessionTabPageState extends State<_LessionTabPage>
                 safePadding: widget.safePadding,
               ),
               provider: (_) => LessionNotePageProvider(
-                courseDetail: widget.courseDetail,
+                courseDetail: widget.course,
               ),
             ),
             RouteUtil.createPageProvider(
               child: LessionCourseContentPage(),
               provider: (_) => LessionCourseContentPageProvider(
-                course: widget.courseDetail,
+                course: widget.course,
               ),
             ),
             RouteUtil.createPageProvider(

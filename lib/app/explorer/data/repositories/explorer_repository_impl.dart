@@ -1,5 +1,5 @@
 import 'package:mi_learning/app/common/domain/entity/category.dart';
-import 'package:mi_learning/app/common/domain/entity/course.dart';
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mi_learning/app/explorer/data/datasources/explorer_remote_data_source.dart';
 import 'package:mi_learning/app/explorer/domain/repositories/explorer_repository.dart';

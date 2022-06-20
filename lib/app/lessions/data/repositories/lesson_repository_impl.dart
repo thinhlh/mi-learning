@@ -1,5 +1,5 @@
+import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/app/lessions/data/datasources/lesson_remote_data_source.dart';
-import 'package:mi_learning/app/lessions/domain/entities/course_detail.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mi_learning/app/lessions/domain/repositories/lesson_repository.dart';
 import 'package:mi_learning/app/lessions/domain/usecases/get_course_detail_use_case.dart';
@@ -13,7 +13,7 @@ class LessonRepositoryImpl implements LessonRepository {
   );
 
   @override
-  Future<Either<Failure, CourseDetail>> getCourseDetail(
+  Future<Either<Failure, Course>> getCourseDetail(
     LessonGetCourseDetailParams params,
   ) {
     return _lessonRemoteDataSource.getCourseDetail(params);
