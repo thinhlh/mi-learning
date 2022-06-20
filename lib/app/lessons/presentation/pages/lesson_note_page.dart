@@ -1,8 +1,8 @@
 part of 'lesson_page.dart';
 
-class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
+class _LessonNotePage extends PageLoadingStateless<LessonNotePageProvider> {
   final double safePadding;
-  _LessionNotePage({
+  _LessonNotePage({
     required this.safePadding,
   });
 
@@ -32,7 +32,7 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
                   controller,
                   currentChosenLessonId!,
                   context.read<LessonPageProvider>().second,
-                  context.read<LessionNotePageProvider>().notes,
+                  context.read<LessonNotePageProvider>().notes,
                 ),
               ),
             ),
@@ -57,13 +57,13 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
           ),
           Expanded(
             child: Selector<LessonPageProvider, List<Note>>(
-              selector: (_, lessionProvider) {
+              selector: (_, lessonProvider) {
                 final currentChosenLessonId =
                     context.read<LessonPageProvider>().lesson?.id;
                 //     provider.courseDetail!.sections[0].lessons[0]
                 //         .courseDetailMetaData.notes[0].content);
                 final lessons =
-                    (lessionProvider.course?.sections ?? []).fold<List<Lesson>>(
+                    (lessonProvider.course?.sections ?? []).fold<List<Lesson>>(
                   <Lesson>[],
                   (prev, secion) => prev..addAll(secion.lessons),
                 );
@@ -72,7 +72,7 @@ class _LessionNotePage extends PageLoadingStateless<LessionNotePageProvider> {
                   provider.notes = lessons
                       .firstWhere(
                         (lesson) {
-                          return lesson == lessionProvider.lesson?.id;
+                          return lesson == lessonProvider.lesson?.id;
                         },
                       )
                       .metadata

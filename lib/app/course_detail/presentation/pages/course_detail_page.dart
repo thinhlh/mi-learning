@@ -221,7 +221,7 @@ class _CouseDetailTabState
             labelPadding: EdgeInsets.zero,
             tabs: const [
               Tab(text: 'About'),
-              Tab(text: 'Lesson'),
+              Tab(text: 'Lessons'),
               Tab(text: 'Discuss'),
               Tab(text: 'Ratings'),
             ],

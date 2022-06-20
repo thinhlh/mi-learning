@@ -21,21 +21,21 @@ class CourseDetailLessonsPage extends StatefulWidget {
 class _CourseDetailLessonsPageState extends PageLoadingStateful<
     CourseDetailPageProvider,
     CourseDetailLessonsPage> with SingleTickerProviderStateMixin {
-  late final AnimationController lessionAnimationController;
-  late final Animation<double> lessionAnimation;
+  late final AnimationController lessonAnimationController;
+  late final Animation<double> lessonAnimation;
 
   @override
   void beforeBuild(BuildContext context) {
     super.beforeBuild(context);
 
-    lessionAnimationController = AnimationController(
+    lessonAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 2000),
     )..addListener(() {
         setState(() {});
       });
 
-    lessionAnimation = CurveTween(curve: Curves.linear).animate(
+    lessonAnimation = CurveTween(curve: Curves.linear).animate(
       Tween<double>(
         begin: 0,
         end: context
@@ -43,15 +43,15 @@ class _CourseDetailLessonsPageState extends PageLoadingStateful<
                 .course
                 .finishedLessonOrder /
             context.read<CourseDetailPageProvider>().course.totalLesson,
-      ).animate(lessionAnimationController),
+      ).animate(lessonAnimationController),
     );
 
-    lessionAnimationController.forward();
+    lessonAnimationController.forward();
   }
 
   @override
   void dispose() {
-    lessionAnimationController.dispose();
+    lessonAnimationController.dispose();
     super.dispose();
   }
 
@@ -63,7 +63,7 @@ class _CourseDetailLessonsPageState extends PageLoadingStateful<
       child: Column(
         children: [
           CircularProgressIndicator(
-            value: lessionAnimation.value,
+            value: lessonAnimation.value,
             strokeWidth: 6,
             backgroundColor: AppColors.neutral.shade400,
             valueColor: AlwaysStoppedAnimation<Color>(

@@ -52,7 +52,7 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
             );
 
           default:
-            return DashboardPage();
+            return const DashboardPage();
         }
       }),
       tabBar: CupertinoTabBar(

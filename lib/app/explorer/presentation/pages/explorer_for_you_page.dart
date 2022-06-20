@@ -21,13 +21,9 @@ class _ExplorerForYouPage
                   fontWeight: AppStyles.extraBold,
                 ),
               ),
-              IconButton(
-                icon: const Icon(Icons.arrow_forward_ios_rounded),
-                onPressed: () {},
-              ),
             ],
           ),
-          SizedBox(height: AppDimens.mediumHeightDimens),
+          SizedBox(height: AppDimens.largeHeightDimens),
           SizedBox(
             height: 0.35.sh,
             child: Selector<ExplorerPageProvider, List<Course>>(
@@ -67,7 +63,8 @@ class _ExplorerForYouPage
                           height: 0.4.sh,
                         ),
                         baseColor: AppColors.baseShimmerColor,
-                        highlightColor: AppColors.highlightShimmerColor)
+                        highlightColor: AppColors.highlightShimmerColor,
+                      )
                     : CourseLargeWidget(
                         course: courses.last,
                       ),
@@ -79,7 +76,7 @@ class _ExplorerForYouPage
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Feature courses',
+                'Popular courses',
                 style: context.textTheme.titleLarge?.copyWith(
                   fontWeight: AppStyles.extraBold,
                 ),

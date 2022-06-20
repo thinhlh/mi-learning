@@ -87,7 +87,7 @@ class MyCourseWidget extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${myCourse.totalLesson} lessions',
+                  '${myCourse.totalLesson} lessons',
                   style: context.textTheme.subtitle2,
                 ),
               ],

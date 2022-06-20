@@ -9,6 +9,8 @@ import 'package:mi_learning/app/auth/presentation/pages/forgot_password_page.dar
 import 'package:mi_learning/app/auth/presentation/provider/auth_page_provider.dart';
 import 'package:mi_learning/app/auth/presentation/provider/code_confirmation_page_provider.dart';
 import 'package:mi_learning/app/auth/presentation/provider/forgot_password_page_provider.dart';
+import 'package:mi_learning/app/lessons/presentation/pages/lesson_page.dart';
+import 'package:mi_learning/app/lessons/presentation/providers/lesson_page_provider.dart';
 import 'package:mi_learning/app/my_courses/presentation/pages/my_courses_page.dart';
 import 'package:mi_learning/app/my_courses/presentation/providers/my_courses_page_provider.dart';
 import 'package:mi_learning/app/saved_course/presentation/pages/saved_courses_page.dart';
@@ -22,8 +24,6 @@ import 'package:mi_learning/app/home/presentation/pages/home_page.dart';
 import 'package:mi_learning/app/home/presentation/providers/home_page_provider.dart';
 import 'package:mi_learning/app/landing/presentation/pages/landing_page.dart';
 import 'package:mi_learning/app/landing/presentation/providers/landing_page_provider.dart';
-import 'package:mi_learning/app/lessions/presentation/pages/lesson_page.dart';
-import 'package:mi_learning/app/lessions/presentation/providers/lession_page_provider.dart';
 import 'package:mi_learning/app/notification/presentation/pages/notification_page.dart';
 import 'package:mi_learning/app/notification/presentation/providers/notification_page_provider.dart';
 import 'package:mi_learning/app/order_detail/presentation/pages/order_detail_page.dart';
@@ -181,7 +181,10 @@ class Routes {
           fullscreenDialog: true,
           settings: routeSettings,
           builder: (_) => RouteUtil.createPageProvider<SettingPageProvider>(
-            provider: (_) => SettingPageProvider(GetIt.I()),
+            provider: (_) => SettingPageProvider(
+              GetIt.I(),
+              GetIt.I(),
+            ),
             child: SettingPage(),
           ),
         );

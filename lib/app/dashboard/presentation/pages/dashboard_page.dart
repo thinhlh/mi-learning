@@ -196,11 +196,11 @@ class _DashboardPageState
     );
   }
 
-  Widget _buildMyLearningListView(List<Course>? myCourses) {
+  Widget _buildMyLearningListView(List<Course> myCourses) {
     return Container(
       height: 0.16.sh,
       margin: EdgeInsets.only(top: AppDimens.mediumHeightDimens),
-      child: myCourses?.isEmpty ?? true
+      child: myCourses.isEmpty
           ? GestureDetector(
               onTap: () => context.read<HomeProvider>().tabController.index = 1,
               child: Center(
@@ -216,11 +216,11 @@ class _DashboardPageState
               ),
               physics: const BouncingScrollPhysics(),
               itemBuilder: (_, index) => MyCourseWidget(
-                myCourse: myCourses![index],
+                myCourse: myCourses[index],
               ),
               scrollDirection: Axis.horizontal,
               itemCount: min(
-                myCourses?.length ?? 3,
+                myCourses.length,
                 3,
               ),
             ),
@@ -231,19 +231,33 @@ class _DashboardPageState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Recommendation',
-          style: context.textTheme.headlineSmall?.copyWith(
-            fontWeight: AppStyles.bold,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Recommendation',
+              style: context.textTheme.headlineSmall?.copyWith(
+                fontWeight: AppStyles.bold,
+              ),
+            ),
+            GestureDetector(
+              onTap: () => context.read<HomeProvider>().tabController.index = 1,
+              child: Text(
+                'Browse more',
+                style: context.textTheme.subtitle2?.copyWith(
+                  color: AppColors.tetiary,
+                ),
+              ),
+            ),
+          ],
         ),
         Container(
           height: 0.42.sh,
           margin: EdgeInsets.only(top: AppDimens.mediumHeightDimens),
-          child: Selector<DashboardPageProvider, List<Course>?>(
+          child: Selector<DashboardPageProvider, List<Course>>(
             selector: (_, provider) => provider.recommendedCourse,
             builder: (_, recommendedCourse, child) =>
-                (recommendedCourse?.isEmpty == true)
+                (recommendedCourse.isEmpty == true)
                     ? Text(
                         'You have no courses to learn yet.',
                         style: context.textTheme.titleLarge,
@@ -251,10 +265,10 @@ class _DashboardPageState
                     : ListView.builder(
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (_, index) => RecommendedCourseWidget(
-                          course: recommendedCourse?[index],
+                          course: recommendedCourse[index],
                         ),
                         scrollDirection: Axis.horizontal,
-                        itemCount: recommendedCourse?.length ?? 10,
+                        itemCount: min(recommendedCourse.length, 3),
                         shrinkWrap: true,
                       ),
           ),
@@ -271,10 +285,12 @@ class _DashboardPageState
 
   void fetchData() async {
     showLoading(context, true);
-    await provider.getBasicUserInfo();
-    await provider.getMyCourses();
-    await provider.getRecommendedCourses();
-    showLoading(context, false);
+
+    Future.wait([
+      provider.getBasicUserInfo(),
+      provider.getMyCourses(),
+      provider.getRecommendedCourses()
+    ]).then((value) => showLoading(context, false));
   }
 
   @override

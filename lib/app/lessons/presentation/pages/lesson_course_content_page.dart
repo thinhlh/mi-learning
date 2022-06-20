@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mi_learning/app/common/domain/entity/course_entities/lessons/lesson.dart';
 import 'package:mi_learning/app/common/domain/entity/course_entities/section.dart';
-import 'package:mi_learning/app/lessions/domain/entities/lesson_push_detail_params.dart';
-
-import 'package:mi_learning/app/lessions/presentation/providers/lession_course_content_page_provider.dart';
-import 'package:mi_learning/app/lessions/presentation/providers/lession_page_provider.dart';
+import 'package:mi_learning/app/lessons/domain/entities/lesson_push_detail_params.dart';
+import 'package:mi_learning/app/lessons/presentation/providers/lesson_course_content_page_provider.dart';
+import 'package:mi_learning/app/lessons/presentation/providers/lesson_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
@@ -13,13 +12,13 @@ import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 
-class LessionCourseContentPage
-    extends PageLoadingStateless<LessionCourseContentPageProvider> {
+class LessonCourseContentPage
+    extends PageLoadingStateless<LessonCourseContentPageProvider> {
   @override
   Widget buildPage(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: AppDimens.largeHeightDimens),
-      child: Selector<LessionCourseContentPageProvider, List<Section>>(
+      child: Selector<LessonCourseContentPageProvider, List<Section>>(
         selector: (_, provider) {
           final section = provider.sections;
           return section;

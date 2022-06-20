@@ -20,8 +20,8 @@ class DashboardPageProvider extends LoadingProvider {
   final GetRecommendedCourseUseCase _getRecommendedCourseUseCase;
 
   BasicUserInfo? userInfo;
-  List<Course>? _myCourses;
-  List<Course>? _recommendedCourses;
+  List<Course> _myCourses = [];
+  List<Course> _recommendedCourses = [];
 
   List<Course>? get myCourse => _myCourses;
 
@@ -30,7 +30,7 @@ class DashboardPageProvider extends LoadingProvider {
     notifyListeners();
   }
 
-  List<Course>? get recommendedCourse => _recommendedCourses;
+  List<Course> get recommendedCourse => _recommendedCourses;
 
   set recommendedCourses(List<Course> value) {
     _recommendedCourses = value;

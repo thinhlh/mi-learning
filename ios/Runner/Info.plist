@@ -51,7 +51,7 @@
 			<true/>
 		</dict>
 		<key>NSPhotoLibraryUsageDescription</key>
-		<string>We need this for you to take notes</string>
+		<string>We need this for you to take notes and update profile</string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>We need this for you to join meeting</string>
 		<key>NSCameraUsageDescription</key>

@@ -1,19 +1,19 @@
 part of 'lesson_page.dart';
 
-class _LessionTabPage extends StatefulWidget {
+class _LessonTabPage extends StatefulWidget {
   final Course course;
   final double safePadding;
-  const _LessionTabPage({
+  const _LessonTabPage({
     Key? key,
     required this.course,
     required this.safePadding,
   }) : super(key: key);
 
   @override
-  State<_LessionTabPage> createState() => __LessionTabPageState();
+  State<_LessonTabPage> createState() => _LessonTabPageState();
 }
 
-class __LessionTabPageState extends State<_LessionTabPage>
+class _LessonTabPageState extends State<_LessonTabPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int currentTabIndex = 0;
@@ -44,14 +44,14 @@ class __LessionTabPageState extends State<_LessionTabPage>
                 showBarModalBottomSheet(
                   context: context,
                   builder: (_) => RouteUtil.createPageProvider(
-                    provider: (_) => LessionQuestionAnswerPageProvider(),
+                    provider: (_) => LessonQuestionAnswerPageProvider(),
                     child: WillPopScope(
                       onWillPop: () async {
                         _tabController.animateTo(currentTabIndex);
 
                         return true;
                       },
-                      child: LessionQuestionAnswerPage(),
+                      child: LessonQuestionAnswerPage(),
                     ),
                   ),
                 );
@@ -75,22 +75,22 @@ class __LessionTabPageState extends State<_LessionTabPage>
           controller: _tabController,
           children: [
             RouteUtil.createPageProvider(
-              child: _LessionNotePage(
+              child: _LessonNotePage(
                 safePadding: widget.safePadding,
               ),
-              provider: (_) => LessionNotePageProvider(
+              provider: (_) => LessonNotePageProvider(
                 courseDetail: widget.course,
               ),
             ),
             RouteUtil.createPageProvider(
-              child: LessionCourseContentPage(),
-              provider: (_) => LessionCourseContentPageProvider(
+              child: LessonCourseContentPage(),
+              provider: (_) => LessonCourseContentPageProvider(
                 course: widget.course,
               ),
             ),
             RouteUtil.createPageProvider(
-              child: LessionQuestionAnswerPage(),
-              provider: (_) => LessionQuestionAnswerPageProvider(),
+              child: LessonQuestionAnswerPage(),
+              provider: (_) => LessonQuestionAnswerPageProvider(),
             ),
           ],
         ),

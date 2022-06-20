@@ -4,7 +4,7 @@ import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:mi_learning/app/common/domain/entity/course_entities/note.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
-import 'package:mi_learning/app/lessions/presentation/providers/note_editor_page_provider.dart';
+import 'package:mi_learning/app/lessons/presentation/providers/note_editor_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';

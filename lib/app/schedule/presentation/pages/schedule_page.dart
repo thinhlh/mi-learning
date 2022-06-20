@@ -15,7 +15,6 @@ import 'package:table_calendar/table_calendar.dart';
 class SchedulePage extends PageLoadingStateless<SchedulePageProvider> {
   @override
   Widget buildPage(BuildContext context) {
-    print('Schedule BUILD');
     PageController _scheduleController = PageController();
     return Scaffold(
       appBar: AppBar(

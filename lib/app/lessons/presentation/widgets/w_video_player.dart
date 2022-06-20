@@ -2,7 +2,7 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mi_learning/app/lessions/presentation/providers/lession_page_provider.dart';
+import 'package:mi_learning/app/lessons/presentation/providers/lesson_page_provider.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
@@ -26,7 +26,10 @@ class _WVideoPlayerState extends State<WVideoPlayer> {
   late Future<void> _isInitializedVideo;
 
   Future<void> _initializePlayer() async {
-    _controller = VideoPlayerController.network(widget.url);
+    _controller = VideoPlayerController.network(
+      'https://www.dropbox.com/s/df2d2gf1dvnr5uj/Sample_1280x720_mp4.mp4',
+    );
+
     _isInitializedVideo = _controller.initialize();
     await _isInitializedVideo;
 
@@ -112,7 +115,6 @@ class _WVideoPlayerState extends State<WVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    // print(context.read<LessionPageProvider>().second);
     return Container(
       color: AppColors.neutral.shade900,
       height: 0.25.sh,

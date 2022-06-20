@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mi_learning/app/common/domain/entity/course_entities/lessons/lesson.dart';
 import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
-import 'package:mi_learning/app/lessions/domain/entities/lesson_push_detail_params.dart';
+import 'package:mi_learning/app/lessons/domain/entities/lesson_push_detail_params.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';

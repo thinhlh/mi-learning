@@ -70,16 +70,13 @@ class _ExplorerEditorChoicePage
               ],
             ),
           ),
+          SizedBox(height: AppDimens.largeHeightDimens),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'Editors\' Choice Courses',
                 style: context.textTheme.titleLarge,
-              ),
-              IconButton(
-                icon: const Icon(Icons.arrow_forward_ios_rounded),
-                onPressed: () {},
               ),
             ],
           ),
@@ -94,7 +91,7 @@ class _ExplorerEditorChoicePage
                 scrollDirection: Axis.horizontal,
                 itemCount: min(courses.length, 3),
                 itemBuilder: (_, index) => CourseMediumWidget(
-                  course: courses[Random().nextInt(min(courses.length, 3))],
+                  course: courses[index],
                 ),
               ),
             ),
@@ -103,5 +100,13 @@ class _ExplorerEditorChoicePage
         ],
       ),
     );
+  }
+
+  @override
+  void afterFirstBuild(BuildContext context) {
+    super.afterFirstBuild(context);
+
+    provider.tutorChoiceCourses = context.read<ExplorerPageProvider>().courses
+      ..shuffle();
   }
 }

@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:mi_learning/app/lessions/domain/repositories/lesson_repository.dart';
+import 'package:mi_learning/app/lessons/domain/repositories/lesson_repository.dart';
 import 'package:mi_learning/base/presentation/providers/loading_provider.dart';
 
 import '../../../../base/failure.dart';

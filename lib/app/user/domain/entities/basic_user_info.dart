@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:dartz/dartz.dart';
 import 'package:mi_learning/utils/date_time_helper.dart';
 
 class BasicUserInfo {
