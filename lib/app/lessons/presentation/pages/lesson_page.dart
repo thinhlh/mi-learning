@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:get_it/get_it.dart';
@@ -17,7 +19,6 @@ import 'package:mi_learning/app/lessons/presentation/widgets/w_video_player.dart
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
-import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/date_time_helper.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
@@ -43,6 +44,19 @@ class LessonPage extends PageLoadingStateless<LessonPageProvider> {
                 ? AppColors.neutral.shade300
                 : AppColors.neutral.shade900,
           ),
+          actions: [
+            IconButton(
+              onPressed: () async {
+                showLoading(context, true);
+                await provider.getCourseDetail();
+                showLoading(context, false);
+              },
+              icon: Icon(
+                Icons.refresh,
+                color: AppColors.neutral.shade900,
+              ),
+            ),
+          ],
           title: Text(
             'Lesson',
             style: context.textTheme.titleMedium?.copyWith(
@@ -107,11 +121,5 @@ class LessonPage extends PageLoadingStateless<LessonPageProvider> {
     final arguments = context.getArgument<LessonPushDetailParams>();
     provider.course = arguments?.course;
     provider.lesson = arguments?.lesson;
-  }
-
-  @override
-  void afterFirstBuild(BuildContext context) {
-    super.afterFirstBuild(context);
-    // provider.getCourseDetail();
   }
 }

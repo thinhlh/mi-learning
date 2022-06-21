@@ -34,7 +34,10 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
             );
           case 1:
             return RouteUtil.createPageProvider(
-              provider: (_) => ExplorerPageProvider(GetIt.I()),
+              provider: (_) => ExplorerPageProvider(
+                GetIt.I(),
+                GetIt.I(),
+              ),
               child: ExplorerPage(),
             );
           case 2:

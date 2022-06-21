@@ -12,6 +12,7 @@ import 'package:mi_learning/app/explorer/presentation/widgets/course_medium_widg
 import 'package:mi_learning/app/explorer/presentation/widgets/course_small_widget.dart';
 import 'package:mi_learning/app/explorer/presentation/widgets/course_square_widget.dart';
 import 'package:mi_learning/app/explorer/presentation/widgets/course_top_chart_widget.dart';
+import 'package:mi_learning/app/explorer/presentation/widgets/search/search_course_delegate.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
@@ -51,6 +52,12 @@ class _ExplorerPageState
             ),
             child: TextField(
               maxLines: 1,
+              onTap: () {
+                showSearch(
+                  context: context,
+                  delegate: SearchCourseDelegate(courses: provider.courses),
+                );
+              },
               readOnly: true,
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.search),

@@ -78,9 +78,7 @@ class _LessonTabPageState extends State<_LessonTabPage>
               child: _LessonNotePage(
                 safePadding: widget.safePadding,
               ),
-              provider: (_) => LessonNotePageProvider(
-                courseDetail: widget.course,
-              ),
+              provider: (_) => LessonNotePageProvider(),
             ),
             RouteUtil.createPageProvider(
               child: LessonCourseContentPage(),

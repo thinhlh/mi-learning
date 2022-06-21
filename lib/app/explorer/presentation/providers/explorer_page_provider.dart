@@ -16,8 +16,12 @@ part 'explorer_free_page_provider.dart';
 
 class ExplorerPageProvider extends LoadingProvider {
   final GetExplorerCoursesUseCase _getExplorerCoursesUseCase;
+  final GetCategoriesUseCase _getCategoriesUseCase;
 
-  ExplorerPageProvider(this._getExplorerCoursesUseCase);
+  ExplorerPageProvider(
+    this._getExplorerCoursesUseCase,
+    this._getCategoriesUseCase,
+  );
 
   List<Course> _courses = [];
 
@@ -35,5 +39,16 @@ class ExplorerPageProvider extends LoadingProvider {
       courses = value;
       return Right(value);
     });
+  }
+
+  Future<Either<Failure, List<Category>>> getCategories() {
+    return _getCategoriesUseCase(NoParams()).then(
+      (value) => value.fold(
+        (l) => Left(l),
+        (value) {
+          return Right(value);
+        },
+      ),
+    );
   }
 }

@@ -43,15 +43,25 @@ class CourseLargeWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${course.title} • Ends in 1 days',
-                      style: context.textTheme.bodyLarge
-                          ?.copyWith(fontWeight: AppStyles.extraLight),
+                      course.title,
+                      style: context.textTheme.titleMedium?.copyWith(
+                        fontWeight: AppStyles.bold,
+                      ),
                     ),
                     SizedBox(height: AppDimens.mediumHeightDimens),
                     Text(
-                      course.title,
-                      style: context.textTheme.titleMedium?.copyWith(
+                      course.description,
+                      style: context.textTheme.bodySmall?.copyWith(
+                        fontWeight: AppStyles.extraLight,
+                      ),
+                      maxLines: 4,
+                    ),
+                    SizedBox(height: AppDimens.mediumHeightDimens),
+                    Text(
+                      course.teacher.name,
+                      style: context.textTheme.titleSmall?.copyWith(
                         fontWeight: AppStyles.normal,
+                        color: AppColors.textSecondary,
                       ),
                       maxLines: 4,
                     ),

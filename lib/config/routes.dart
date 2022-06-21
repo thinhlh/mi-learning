@@ -9,6 +9,8 @@ import 'package:mi_learning/app/auth/presentation/pages/forgot_password_page.dar
 import 'package:mi_learning/app/auth/presentation/provider/auth_page_provider.dart';
 import 'package:mi_learning/app/auth/presentation/provider/code_confirmation_page_provider.dart';
 import 'package:mi_learning/app/auth/presentation/provider/forgot_password_page_provider.dart';
+import 'package:mi_learning/app/categories_detail/presentation/pages/category_detail_page.dart';
+import 'package:mi_learning/app/categories_detail/presentation/providers/categories_detail_provider.dart';
 import 'package:mi_learning/app/lessons/presentation/pages/lesson_page.dart';
 import 'package:mi_learning/app/lessons/presentation/providers/lesson_page_provider.dart';
 import 'package:mi_learning/app/my_courses/presentation/pages/my_courses_page.dart';
@@ -75,6 +77,7 @@ class Routes {
   static const String myCourses = '/courses/me';
   static const String savedCourses = '/courses/saved';
   static const String quiz = '/schedule-detail/quiz';
+  static const String categories = '/categories';
 
   /// This is where you handle routing by name and arguments
   static Route<dynamic>? onGenerateRoute(RouteSettings routeSettings) {
@@ -294,6 +297,17 @@ class Routes {
               RouteUtil.createPageProvider<SavedCoursesPageProvider>(
             provider: (_) => SavedCoursesPageProvider(GetIt.I()),
             child: SavedCoursesPage(),
+          ),
+        );
+
+      case Routes.categories:
+        return CupertinoPageRoute(
+          fullscreenDialog: true,
+          settings: routeSettings,
+          builder: (_) =>
+              RouteUtil.createPageProvider<CategoryDetailPageProvider>(
+            provider: (_) => CategoryDetailPageProvider(GetIt.I()),
+            child: CategoryDetailPage(),
           ),
         );
       default:

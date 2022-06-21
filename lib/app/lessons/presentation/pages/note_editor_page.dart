@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
-import 'package:mi_learning/app/common/domain/entity/course_entities/note.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
 import 'package:mi_learning/app/lessons/presentation/providers/note_editor_page_provider.dart';
@@ -14,13 +15,16 @@ import 'package:mi_learning/utils/extensions/context_extension.dart';
 class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
   final editor.QuillController _controller;
   final String currentChosenLessonId;
-  final int second;
-  final List<Note> notes;
+  final int playbackSecond;
+  final String? noteId;
 
   NoteEditorPage(
-      this._controller, this.currentChosenLessonId, this.second, this.notes,
-      {Key? key})
-      : super(key: key);
+    this._controller,
+    this.currentChosenLessonId,
+    this.playbackSecond, {
+    Key? key,
+    this.noteId,
+  }) : super(key: key);
 
   @override
   Widget buildPage(BuildContext context) {
@@ -124,24 +128,19 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
                 onPressed: () async {
                   showLoading(context, true);
                   await provider.postNote(
-                    _controller.plainTextEditingValue.text,
+                    jsonEncode(_controller.document.toDelta().toJson()),
                     currentChosenLessonId,
-                    second,
-                  );
-
-                  notes.add(
-                    Note(
-                      content: _controller.plainTextEditingValue.text,
-                      createdAt: second,
-                      id: currentChosenLessonId,
-                    ),
+                    playbackSecond,
+                    noteId,
                   );
                   showLoading(context, false);
                   showDialog(
                     context: context,
                     builder: (_) => WDialog(
                       dialogType: DialogType.success,
-                      content: 'Add Note Success',
+                      content: noteId == null
+                          ? 'Add note Success'
+                          : 'Update note success',
                       onActions: [
                         () => navigator.pop(true),
                       ],

@@ -11,10 +11,15 @@ mixin _Endpoint {
 
 abstract class LessonRemoteDataSource extends BaseApi with _Endpoint {
   Future<Either<Failure, Course>> getCourseDetail(
-      LessonGetCourseDetailParams params);
+    LessonGetCourseDetailParams params,
+  );
 
   Future<Either<Failure, bool>> postNote(
-      String content, String lessonId, int createdAt);
+    String content,
+    String lessonId,
+    int createdAt,
+    String? id,
+  );
 }
 
 class LessonRemoteDataSourceImpl extends LessonRemoteDataSource {
@@ -37,12 +42,17 @@ class LessonRemoteDataSourceImpl extends LessonRemoteDataSource {
 
   @override
   Future<Either<Failure, bool>> postNote(
-      String content, String lessonId, int createdAt) async {
+    String content,
+    String lessonId,
+    int createdAt,
+    String? id,
+  ) async {
     try {
       final data = {
         'content': content,
         'lessonId': lessonId,
         'createdAt': createdAt,
+        'id': id,
       };
       final result = await post(createNote, data: data);
 
