@@ -203,4 +203,14 @@ class Course {
       return result;
     }
   }
+
+  List<Lesson> get lessons {
+    return sections.fold(
+      [],
+      (previousValue, element) => previousValue
+        ..addAll(
+          element.lessons,
+        ),
+    );
+  }
 }

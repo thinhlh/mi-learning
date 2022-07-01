@@ -1,26 +1,27 @@
 import 'package:dartz/dartz.dart';
-import 'package:mi_learning/app/lessons/domain/repositories/lesson_repository.dart';
+import 'package:mi_learning/app/lessons/domain/usecases/create_note_use_case.dart';
 import 'package:mi_learning/base/presentation/providers/loading_provider.dart';
 
 import '../../../../base/failure.dart';
 
 class NoteEditorPageProvider extends LoadingProvider {
-  /// TODO update this provider to TDD architecture
-  final LessonRepository _lessonRepository;
+  final CreateNoteUseCase _createNoteUseCase;
   NoteEditorPageProvider(
-    this._lessonRepository,
+    this._createNoteUseCase,
   );
-  Future<Either<Failure, bool>> postNote(
+  Future<Either<Failure, bool>> createOrUpdateNote(
     String content,
     String lessonId,
     int createdAt,
     String? id,
   ) {
-    return _lessonRepository.postNote(
-      content,
-      lessonId,
-      createdAt,
-      id,
+    return _createNoteUseCase(
+      CreateNoteParams(
+        id: id,
+        content: content,
+        lessonId: lessonId,
+        createdAt: createdAt,
+      ),
     );
   }
 }

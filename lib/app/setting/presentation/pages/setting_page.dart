@@ -50,7 +50,7 @@ class SettingPage extends PageLoadingStateless<SettingPageProvider> {
           Setting(
             title: 'Feedback',
             subtitle: 'Tell us what happended.',
-            onPressed: () {},
+            onPressed: () => navigator.pushNamed(Routes.feedback),
             isSwitch: false,
           ),
           Setting(

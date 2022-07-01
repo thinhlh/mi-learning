@@ -12,6 +12,7 @@ class RatingWidget extends StatefulWidget {
   final bool showRatingAnimation;
   final double? starSize;
   final int totalRating;
+  final Function(int)? onStarTap;
   RatingWidget({
     Key? key,
     required this.rating,
@@ -21,6 +22,7 @@ class RatingWidget extends StatefulWidget {
     this.showRatingAnimation = false,
     this.starSize,
     this.totalRating = 0,
+    this.onStarTap,
   }) : super(key: key);
 
   @override
@@ -29,32 +31,35 @@ class RatingWidget extends StatefulWidget {
 
 class _RatingWidgetState extends State<RatingWidget> {
   late double currentRatingValue;
-  late final List<Widget> stars;
+  late List<Widget> stars;
 
   @override
   void initState() {
     currentRatingValue = widget.showRatingAnimation ? 0.0 : widget.rating;
-
-    stars = List.generate(
-      5,
-      (index) => AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
-        child: Icon(
-          (widget.rating - index >= 1)
-              ? Icons.star
-              : (widget.rating - index >= 0.5)
-                  ? Icons.star_half
-                  : Icons.star_outline,
-          color: Colors.yellow.shade800,
-          size: widget.starSize,
-        ),
-      ),
-    );
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    stars = List.generate(
+      5,
+      (index) => AnimatedContainer(
+        duration: const Duration(milliseconds: 500),
+        child: GestureDetector(
+          onTap: () => widget.onStarTap?.call(index + 1),
+          child: Icon(
+            (widget.rating - index >= 1)
+                ? Icons.star
+                : (widget.rating - index >= 0.5)
+                    ? Icons.star_half
+                    : Icons.star_outline,
+            color: Colors.yellow.shade800,
+            size: widget.starSize,
+          ),
+        ),
+      ),
+    );
+
     if (widget.showRatingAnimation) {
       SchedulerBinding.instance?.addPostFrameCallback((_) {
         if (mounted) {

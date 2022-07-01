@@ -34,7 +34,6 @@ class ChangePasswordPageProvider extends LoadingProvider {
 
   @override
   void dispose() {
-    print('disposed');
     currentPasswordController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();

@@ -7,18 +7,22 @@ import 'package:mi_learning/app/common/domain/entity/course_entities/note.dart';
 class LessonMetaData {
   final List<Note> notes;
   final bool finished;
+  final int playback;
   LessonMetaData({
     required this.notes,
     required this.finished,
+    required this.playback,
   });
 
   LessonMetaData copyWith({
     List<Note>? notes,
     bool? finished,
+    int? playback,
   }) {
     return LessonMetaData(
       notes: notes ?? this.notes,
       finished: finished ?? this.finished,
+      playback: playback ?? this.playback,
     );
   }
 
@@ -26,6 +30,7 @@ class LessonMetaData {
     return {
       'notes': notes.map((x) => x.toMap()).toList(),
       'finished': finished,
+      'playback': playback,
     };
   }
 
@@ -33,6 +38,7 @@ class LessonMetaData {
     return LessonMetaData(
       notes: List<Note>.from(map['notes']?.map((x) => Note.fromMap(x))),
       finished: map['finished'] ?? false,
+      playback: map['playback']?.toInt() ?? 0,
     );
   }
 
@@ -42,7 +48,8 @@ class LessonMetaData {
       LessonMetaData.fromMap(json.decode(source));
 
   @override
-  String toString() => 'LessonMetaData(notes: $notes, finished: $finished)';
+  String toString() =>
+      'LessonMetaData(notes: $notes, finished: $finished, playback: $playback)';
 
   @override
   bool operator ==(Object other) {
@@ -50,9 +57,10 @@ class LessonMetaData {
 
     return other is LessonMetaData &&
         listEquals(other.notes, notes) &&
-        other.finished == finished;
+        other.finished == finished &&
+        other.playback == playback;
   }
 
   @override
-  int get hashCode => notes.hashCode ^ finished.hashCode;
+  int get hashCode => notes.hashCode ^ finished.hashCode ^ playback.hashCode;
 }

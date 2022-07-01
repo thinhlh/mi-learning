@@ -191,7 +191,7 @@ class _CouseDetailTabState
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 4, vsync: this);
+    tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -222,7 +222,7 @@ class _CouseDetailTabState
             tabs: const [
               Tab(text: 'About'),
               Tab(text: 'Lessons'),
-              Tab(text: 'Discuss'),
+              // Tab(text: 'Discuss'),
               Tab(text: 'Ratings'),
             ],
             controller: tabController,
@@ -234,7 +234,7 @@ class _CouseDetailTabState
           children: [
             CourseDetailAboutPage(),
             const CourseDetailLessonsPage(),
-            CourseDetailDiscussPage(),
+            // CourseDetailDiscussPage(),
             CourseDetailRatingsPage(),
           ],
         ),

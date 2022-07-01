@@ -61,7 +61,6 @@ class CourseLargeWidget extends StatelessWidget {
                       course.teacher.name,
                       style: context.textTheme.titleSmall?.copyWith(
                         fontWeight: AppStyles.normal,
-                        color: AppColors.textSecondary,
                       ),
                       maxLines: 4,
                     ),

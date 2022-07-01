@@ -7,6 +7,7 @@ import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart
 import 'package:mi_learning/app/common/domain/entity/course_entities/lessons/lesson.dart';
 import 'package:mi_learning/app/common/domain/entity/course_entities/note.dart';
 import 'package:mi_learning/app/lessons/domain/entities/lesson_push_detail_params.dart';
+import 'package:mi_learning/app/lessons/domain/entities/note_editor_push_detail_params.dart';
 import 'package:mi_learning/app/lessons/presentation/pages/lesson_course_content_page.dart';
 import 'package:mi_learning/app/lessons/presentation/pages/lesson_question_answer_page.dart';
 import 'package:mi_learning/app/lessons/presentation/pages/note_editor_page.dart';
@@ -19,6 +20,7 @@ import 'package:mi_learning/app/lessons/presentation/widgets/w_video_player.dart
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
+import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/date_time_helper.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
@@ -35,7 +37,6 @@ class LessonPage extends PageLoadingStateless<LessonPageProvider> {
 
   @override
   Widget buildPage(BuildContext context) {
-    final safePadding = MediaQuery.of(context).padding.top;
     return Column(
       children: [
         AppBar(
@@ -65,11 +66,15 @@ class LessonPage extends PageLoadingStateless<LessonPageProvider> {
           ),
           centerTitle: true,
         ),
-        WVideoPlayer(url: provider.lesson?.videoLesson?.videoUrl ?? ''),
+        WVideoPlayer(
+          url: provider.lesson?.videoLesson?.videoUrl ?? '',
+          playback: provider.lesson?.metadata.playback ?? 0,
+        ),
         SizedBox(height: AppDimens.largeHeightDimens),
         Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: AppDimens.mediumWidthDimens),
+          padding: EdgeInsets.symmetric(
+            horizontal: AppDimens.mediumWidthDimens,
+          ),
           child: Text(
             provider.lesson?.title ?? '',
             style: context.textTheme.titleLarge?.copyWith(
@@ -94,12 +99,10 @@ class LessonPage extends PageLoadingStateless<LessonPageProvider> {
                       return course!.sections.isNotEmpty
                           ? _LessonTabPage(
                               course: course,
-                              safePadding: safePadding,
                             )
                           : Shimmer.fromColors(
                               child: _LessonTabPage(
                                 course: course,
-                                safePadding: safePadding,
                               ),
                               baseColor: AppColors.baseShimmerColor,
                               highlightColor: AppColors.highlightShimmerColor,
@@ -118,8 +121,12 @@ class LessonPage extends PageLoadingStateless<LessonPageProvider> {
   @override
   void beforeBuild(BuildContext context) {
     super.beforeBuild(context);
+
     final arguments = context.getArgument<LessonPushDetailParams>();
-    provider.course = arguments?.course;
-    provider.lesson = arguments?.lesson;
+
+    provider.initializeData(
+      arguments?.course,
+      arguments?.lesson,
+    );
   }
 }

@@ -21,13 +21,17 @@ class CourseDetailLessonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () => context.navigator.pushNamed(
+      onTap: () => context.navigator
+          .pushNamed(
         Routes.lessons,
         arguments: LessonPushDetailParams(
           lesson: lesson,
           course: context.read<CourseDetailPageProvider>().course,
         ),
-      ),
+      )
+          .then((value) {
+        context.read<CourseDetailPageProvider>().getCourseDetail();
+      }),
       leading: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

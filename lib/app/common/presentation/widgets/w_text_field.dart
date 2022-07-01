@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mi_learning/app/dashboard/presentation/widgets/rating_widget.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
@@ -10,6 +11,8 @@ class WTextField extends StatelessWidget {
   final IconData icon;
   final TextInputType? inputType;
   bool? obsercureText;
+  final int? maxLines;
+  final int? maxLength;
 
   WTextField({
     Key? key,
@@ -18,6 +21,8 @@ class WTextField extends StatelessWidget {
     required this.controller,
     this.inputType,
     this.obsercureText,
+    this.maxLines = 1,
+    this.maxLength,
   }) : super(key: key);
 
   @override
@@ -60,6 +65,8 @@ class WTextField extends StatelessWidget {
                       border: InputBorder.none,
                       isDense: true,
                     ),
+                    maxLength: maxLength,
+                    maxLines: maxLines,
                     cursorColor: AppColors.neutral.shade800,
                     style: context.textTheme.titleMedium?.copyWith(
                       fontWeight: AppStyles.bold,

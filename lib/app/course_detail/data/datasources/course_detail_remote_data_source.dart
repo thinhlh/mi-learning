@@ -6,7 +6,7 @@ import 'package:mi_learning/base/failure.dart';
 import 'package:mi_learning/services/rest_api/models/base_api.dart';
 
 mixin _Endpoint {
-  static const String courseDetail = "/course";
+  static const String courseDetail = "/course/detail";
   static const String toggleSaveCourse = '/course/save';
   static const String savedCourses = '/courses';
   static const String purchase = "/purchase";

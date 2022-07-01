@@ -26,9 +26,12 @@ class CourseDetailPageProvider extends LoadingProvider {
     _course = course;
   }
 
-  Future<Either<Failure, Course>> getCourseDetail(String courseId) async {
-    final result =
-        await _getCourseDetailUseCase(GetCourseDetailParams(courseId));
+  Future<Either<Failure, Course>> getCourseDetail() async {
+    final result = await _getCourseDetailUseCase(
+      GetCourseDetailParams(
+        course.id,
+      ),
+    );
 
     return result.fold(
       (failure) {

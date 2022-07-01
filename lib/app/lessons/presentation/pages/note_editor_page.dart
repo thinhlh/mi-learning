@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
+import 'package:mi_learning/app/lessons/domain/entities/note_editor_push_detail_params.dart';
 import 'package:mi_learning/app/lessons/presentation/providers/note_editor_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
@@ -13,18 +14,10 @@ import 'package:mi_learning/config/styles.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
-  final editor.QuillController _controller;
-  final String currentChosenLessonId;
-  final int playbackSecond;
-  final String? noteId;
-
-  NoteEditorPage(
-    this._controller,
-    this.currentChosenLessonId,
-    this.playbackSecond, {
-    Key? key,
-    this.noteId,
-  }) : super(key: key);
+  late final editor.QuillController _controller;
+  late final String currentChosenLessonId;
+  late final int playbackSecond;
+  late final String? noteId;
 
   @override
   Widget buildPage(BuildContext context) {
@@ -127,7 +120,7 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
               child: ElevatedButton(
                 onPressed: () async {
                   showLoading(context, true);
-                  await provider.postNote(
+                  await provider.createOrUpdateNote(
                     jsonEncode(_controller.document.toDelta().toJson()),
                     currentChosenLessonId,
                     playbackSecond,
@@ -176,5 +169,16 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
         ),
       ),
     );
+  }
+
+  @override
+  void beforeBuild(BuildContext context) {
+    super.beforeBuild(context);
+
+    final arguments = context.getArgument<NoteEditorPushDetailParams>()!;
+    _controller = arguments.controller;
+    currentChosenLessonId = arguments.currentChosenLessonId;
+    playbackSecond = arguments.playbackSecond;
+    noteId = arguments.noteId;
   }
 }

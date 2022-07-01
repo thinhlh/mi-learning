@@ -73,8 +73,37 @@ abstract class Api {
     ProgressCallback? onReceiveProgres,
   }) async {
     try {
-      print(AppConfig.instance.env.baseUrl + endpoint);
       final response = await _dio.post(
+        AppConfig.instance.env.baseUrl + endpoint,
+        data: data,
+        queryParameters: query,
+        options: options,
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgres,
+      );
+
+      final baseResponse = BaseResponse.fromMap(response.data);
+
+      if (baseResponse.success == false) {
+        throw Exception(baseResponse.message);
+      }
+
+      return baseResponse;
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<BaseResponse> put(
+    String endpoint, {
+    dynamic data,
+    Map<String, dynamic>? query,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onReceiveProgres,
+  }) async {
+    try {
+      final response = await _dio.put(
         AppConfig.instance.env.baseUrl + endpoint,
         data: data,
         queryParameters: query,

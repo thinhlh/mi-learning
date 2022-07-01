@@ -1,12 +1,15 @@
 import 'package:dartz/dartz.dart';
 import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
+import 'package:mi_learning/app/lessons/domain/usecases/create_note_use_case.dart';
 import 'package:mi_learning/app/lessons/domain/usecases/get_course_detail_use_case.dart';
+import 'package:mi_learning/app/lessons/domain/usecases/update_lesson_playback_use_case.dart';
 import 'package:mi_learning/base/failure.dart';
 import 'package:mi_learning/services/rest_api/models/base_api.dart';
 
 mixin _Endpoint {
   final String courseDetail = '/course/detail';
-  final String createNote = '/note';
+  final String createNoteUrl = '/note';
+  final String updatePlaybackUrl = '/lesson/playback';
 }
 
 abstract class LessonRemoteDataSource extends BaseApi with _Endpoint {
@@ -14,11 +17,12 @@ abstract class LessonRemoteDataSource extends BaseApi with _Endpoint {
     LessonGetCourseDetailParams params,
   );
 
-  Future<Either<Failure, bool>> postNote(
-    String content,
-    String lessonId,
-    int createdAt,
-    String? id,
+  Future<Either<Failure, bool>> createNote(
+    CreateNoteParams params,
+  );
+
+  Future<Either<Failure, bool>> updatePlayback(
+    UpdateLessonPlaybackParams params,
   );
 }
 
@@ -41,20 +45,25 @@ class LessonRemoteDataSourceImpl extends LessonRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, bool>> postNote(
-    String content,
-    String lessonId,
-    int createdAt,
-    String? id,
+  Future<Either<Failure, bool>> createNote(CreateNoteParams params) async {
+    try {
+      final result = await post(createNoteUrl, data: params.toMap());
+
+      return Right(result.data);
+    } catch (e) {
+      return Left(mapExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> updatePlayback(
+    UpdateLessonPlaybackParams params,
   ) async {
     try {
-      final data = {
-        'content': content,
-        'lessonId': lessonId,
-        'createdAt': createdAt,
-        'id': id,
-      };
-      final result = await post(createNote, data: data);
+      final result = await put(
+        updatePlaybackUrl,
+        data: params.toMap(),
+      );
 
       return Right(result.data);
     } catch (e) {

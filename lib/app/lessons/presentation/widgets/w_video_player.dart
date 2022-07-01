@@ -11,9 +11,11 @@ import 'package:video_player/video_player.dart';
 
 class WVideoPlayer extends StatefulWidget {
   final String url;
+  final int playback;
   WVideoPlayer({
     Key? key,
     required this.url,
+    required this.playback,
   }) : super(key: key);
 
   @override
@@ -27,13 +29,14 @@ class _WVideoPlayerState extends State<WVideoPlayer> {
 
   Future<void> _initializePlayer() async {
     _controller = VideoPlayerController.network(
-      'https://www.dropbox.com/s/df2d2gf1dvnr5uj/Sample_1280x720_mp4.mp4',
+      "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     );
 
     _isInitializedVideo = _controller.initialize();
     await _isInitializedVideo;
 
     _chewieController = ChewieController(
+      startAt: Duration(seconds: widget.playback),
       placeholder: Container(
         color: AppColors.neutral.shade900,
         height: double.infinity,
@@ -99,10 +102,12 @@ class _WVideoPlayerState extends State<WVideoPlayer> {
   @override
   void initState() {
     _initializePlayer();
+
     _controller.addListener(() {
       context.read<LessonPageProvider>().playbackSecond =
           _controller.value.position.inSeconds;
     });
+
     super.initState();
   }
 

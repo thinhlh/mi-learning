@@ -2,11 +2,9 @@ part of 'lesson_page.dart';
 
 class _LessonTabPage extends StatefulWidget {
   final Course course;
-  final double safePadding;
   const _LessonTabPage({
     Key? key,
     required this.course,
-    required this.safePadding,
   }) : super(key: key);
 
   @override
@@ -75,9 +73,7 @@ class _LessonTabPageState extends State<_LessonTabPage>
           controller: _tabController,
           children: [
             RouteUtil.createPageProvider(
-              child: _LessonNotePage(
-                safePadding: widget.safePadding,
-              ),
+              child: _LessonNotePage(),
               provider: (_) => LessonNotePageProvider(),
             ),
             RouteUtil.createPageProvider(

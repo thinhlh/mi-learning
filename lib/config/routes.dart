@@ -11,8 +11,13 @@ import 'package:mi_learning/app/auth/presentation/provider/code_confirmation_pag
 import 'package:mi_learning/app/auth/presentation/provider/forgot_password_page_provider.dart';
 import 'package:mi_learning/app/categories_detail/presentation/pages/category_detail_page.dart';
 import 'package:mi_learning/app/categories_detail/presentation/providers/categories_detail_provider.dart';
+import 'package:mi_learning/app/feedback/domain/entities/feedback.dart';
+import 'package:mi_learning/app/feedback/presentation/pages/feedback_page.dart';
+import 'package:mi_learning/app/feedback/presentation/providers/feedback_page_provider.dart';
 import 'package:mi_learning/app/lessons/presentation/pages/lesson_page.dart';
+import 'package:mi_learning/app/lessons/presentation/pages/note_editor_page.dart';
 import 'package:mi_learning/app/lessons/presentation/providers/lesson_page_provider.dart';
+import 'package:mi_learning/app/lessons/presentation/providers/note_editor_page_provider.dart';
 import 'package:mi_learning/app/my_courses/presentation/pages/my_courses_page.dart';
 import 'package:mi_learning/app/my_courses/presentation/providers/my_courses_page_provider.dart';
 import 'package:mi_learning/app/saved_course/presentation/pages/saved_courses_page.dart';
@@ -78,6 +83,7 @@ class Routes {
   static const String savedCourses = '/courses/saved';
   static const String quiz = '/schedule-detail/quiz';
   static const String categories = '/categories';
+  static const String feedback = '/feedback';
 
   /// This is where you handle routing by name and arguments
   static Route<dynamic>? onGenerateRoute(RouteSettings routeSettings) {
@@ -164,20 +170,23 @@ class Routes {
           fullscreenDialog: true,
           settings: routeSettings,
           builder: (_) => RouteUtil.createPageProvider<LessonPageProvider>(
-            provider: (_) => LessonPageProvider(GetIt.I()),
+            provider: (_) => LessonPageProvider(
+              GetIt.I(),
+              GetIt.I(),
+            ),
             child: LessonPage(),
           ),
         );
 
-      // case Routes.noteEditor:
-      //   return CupertinoPageRoute(
-      //     fullscreenDialog: true,
-      //     settings: routeSettings,
-      //     builder: (_) => RouteUtil.createPageProvider<NoteEditorPageProvider>(
-      //       provider: (_) => NoteEditorPageProvider(GetIt.I()),
-      //       child: NoteEditorPage(QuillController.basic()),
-      //     ),
-      //   );
+      case Routes.noteEditor:
+        return CupertinoPageRoute(
+          fullscreenDialog: true,
+          settings: routeSettings,
+          builder: (_) => RouteUtil.createPageProvider<NoteEditorPageProvider>(
+            provider: (_) => NoteEditorPageProvider(GetIt.I()),
+            child: NoteEditorPage(),
+          ),
+        );
 
       case Routes.setting:
         return CupertinoPageRoute(
@@ -308,6 +317,16 @@ class Routes {
               RouteUtil.createPageProvider<CategoryDetailPageProvider>(
             provider: (_) => CategoryDetailPageProvider(GetIt.I()),
             child: CategoryDetailPage(),
+          ),
+        );
+
+      case Routes.feedback:
+        return CupertinoPageRoute(
+          fullscreenDialog: true,
+          settings: routeSettings,
+          builder: (_) => RouteUtil.createPageProvider<FeedbackPageProvider>(
+            provider: (_) => FeedbackPageProvider(GetIt.I()),
+            child: FeedbackPage(),
           ),
         );
       default:
