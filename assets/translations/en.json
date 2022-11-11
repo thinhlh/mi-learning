@@ -1,0 +1,11 @@
+{
+  "general": "Thinh Flutter Clean",
+  "common": {
+    "default_error": "Unknown Error"
+  },
+  "error": {
+    "email_not_valid": "Email is not valid",
+    "password_not_valid": "Password is not valid",
+    "authentication_error": "Authentication Error"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "general": "Thinh Flutter Clean",
+  "common": {
+    "default_error": "Lỗi không xác định"
+  },
+  "error": {
+    "email_not_valid": "Email không hợp lệ",
+    "password_not_valid": "Password không hợp lệ",
+    "authentication_error": " Lỗi xác thực"
+  }
+}
