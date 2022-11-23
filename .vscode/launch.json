@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "mi-learning-migrate",
+            "name": "mi-learning",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "mi-learning-migrate (profile mode)",
+            "name": "mi-learning (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "mi-learning-migrate (release mode)",
+            "name": "mi-learning (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

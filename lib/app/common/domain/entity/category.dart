@@ -4,21 +4,25 @@ class Category {
   final String id;
   final String title;
   final String background;
+  final DateTime? deletedAt;
   Category({
     required this.id,
     required this.title,
     required this.background,
+    this.deletedAt,
   });
 
   Category copyWith({
     String? id,
     String? title,
     String? background,
+    DateTime? deletedAt,
   }) {
     return Category(
       id: id ?? this.id,
       title: title ?? this.title,
       background: background ?? this.background,
+      deletedAt: deletedAt ?? this.deletedAt,
     );
   }
 
@@ -27,6 +31,7 @@ class Category {
       'id': id,
       'title': title,
       'background': background,
+      'deletedAt': deletedAt?.millisecondsSinceEpoch,
     };
   }
 
@@ -35,6 +40,9 @@ class Category {
       id: map['id'] ?? '',
       title: map['title'] ?? '',
       background: map['background'] ?? '',
+      deletedAt: map['deletedAt'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['deletedAt'])
+          : null,
     );
   }
 
@@ -44,8 +52,9 @@ class Category {
       Category.fromMap(json.decode(source));
 
   @override
-  String toString() =>
-      'Category(id: $id, title: $title, background: $background)';
+  String toString() {
+    return 'Category(id: $id, title: $title, background: $background, deletedAt: $deletedAt)';
+  }
 
   @override
   bool operator ==(Object other) {
@@ -54,9 +63,15 @@ class Category {
     return other is Category &&
         other.id == id &&
         other.title == title &&
-        other.background == background;
+        other.background == background &&
+        other.deletedAt == deletedAt;
   }
 
   @override
-  int get hashCode => id.hashCode ^ title.hashCode ^ background.hashCode;
+  int get hashCode {
+    return id.hashCode ^
+        title.hashCode ^
+        background.hashCode ^
+        deletedAt.hashCode;
+  }
 }
