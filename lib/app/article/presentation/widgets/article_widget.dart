@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/article/domain/entities/article.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
+import 'package:mi_learning/utils/date_time_helper.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class ArticleWidget extends StatelessWidget {
@@ -58,10 +59,7 @@ class ArticleWidget extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    article.createdDate.reversed
-                        .toList()
-                        .map((e) => e.toString().padLeft(2, '0'))
-                        .join('-'),
+                    DateTimeHelper.format(article.createdAt),
                     maxLines: 2,
                     style: context.textTheme.labelSmall,
                     overflow: TextOverflow.ellipsis,

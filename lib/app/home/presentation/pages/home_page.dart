@@ -64,8 +64,8 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home)),
           BottomNavigationBarItem(icon: Icon(Icons.explore)),
-          BottomNavigationBarItem(icon: Icon(Icons.home)),
-          BottomNavigationBarItem(icon: Icon(Icons.article_outlined)),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_month)),
+          BottomNavigationBarItem(icon: Icon(Icons.article)),
         ],
       ),
     );

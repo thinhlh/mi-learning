@@ -21,7 +21,7 @@ class ArticlePageProvider extends LoadingProvider {
         (l) => Left(l),
         (value) async {
           final articlesList =
-              value.groupBy<String>((article) => article.category);
+              value.groupBy<String>((article) => article.category.title);
 
           _articles = articlesList;
           notifyListeners();
