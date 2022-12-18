@@ -149,7 +149,7 @@ class _AuthPageFormState extends State<_AuthPageForm> {
                           password: passwordController.text,
                           name: nameController.text,
                           occupation: occupationController.text,
-                          birthday: '',
+                          birthday: DateTime.now(),
                           role: (provider.role ?? 'Student').toLowerCase(),
                         ),
                       ));

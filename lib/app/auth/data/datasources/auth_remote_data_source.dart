@@ -22,6 +22,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     try {
       final result = await post(
         _signInEndPoint,
+        host: "http://localhost:8000",
         data: params.toJson(),
       );
 
@@ -36,6 +37,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     try {
       final result = await post(
         _signUpEndPoint,
+        host: "http://localhost:8000",
         data: params.toJson(),
       );
 

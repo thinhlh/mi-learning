@@ -49,7 +49,6 @@ class DashboardPageProvider extends LoadingProvider {
 
   Future<Either<Failure, List<Course>?>> getMyCourses() async {
     final result = await _getMyCoursesUseCase(NoParams());
-
     return result.fold((l) => Left(l), (value) {
       myCourses = value;
       return Right(myCourse);

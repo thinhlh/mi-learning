@@ -5,7 +5,7 @@ import 'package:mi_learning/base/failure.dart';
 import 'package:mi_learning/services/rest_api/models/base_api.dart';
 
 mixin _Endpoint {
-  static const String getCourses = '/courses';
+  static const String getCourses = '/courses/bulk';
 }
 
 abstract class DashboardRemoteDataSource extends BaseApi {

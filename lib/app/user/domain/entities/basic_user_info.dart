@@ -62,9 +62,7 @@ class BasicUserInfo {
       occupation: map['occupation'] ?? '',
       birthday: map['birthday'] == null
           ? DateTime.now()
-          : DateTimeHelper.dateTimeFromServerDateTimeResponse(
-              (map['birthday'] as List<dynamic>).cast<int>(),
-            ),
+          : DateTime.fromMillisecondsSinceEpoch(map['birthday']),
       avatar: map['avatar'] ?? '',
       role: map['role'] ?? '',
     );

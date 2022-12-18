@@ -4,7 +4,7 @@ import 'package:mi_learning/base/failure.dart';
 import 'package:mi_learning/services/rest_api/models/base_api.dart';
 
 mixin _Enpoint {
-  final String getCoursesOfCategories = "/courses";
+  final String getCoursesOfCategories = "/courses/bulk";
 }
 
 abstract class CategoryDetailRemoteDataSource extends BaseApi with _Enpoint {

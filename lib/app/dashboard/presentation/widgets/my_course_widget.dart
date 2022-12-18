@@ -44,7 +44,9 @@ class MyCourseWidget extends StatelessWidget {
                     AppDimens.smallRadius,
                   ),
                   child: Image.network(
-                    myCourse.icon ?? myCourse.background,
+                    (myCourse.icon == null || (myCourse.icon?.isEmpty ?? true))
+                        ? myCourse.background
+                        : myCourse.icon!,
                     fit: BoxFit.cover,
                     height: 60.r,
                     width: 60.r,

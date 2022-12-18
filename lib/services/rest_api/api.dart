@@ -44,6 +44,7 @@ abstract class Api {
 
   Future<BaseResponse> get(
     String endpoint, {
+    String? host,
     Map<String, dynamic>? query,
     Options? options,
     CancelToken? cancelToken,
@@ -51,7 +52,7 @@ abstract class Api {
   }) async {
     try {
       final response = await _dio.get(
-        AppConfig.instance.env.baseUrl + endpoint,
+        (host ?? AppConfig.instance.env.baseUrl) + endpoint,
         queryParameters: query,
         options: options,
         cancelToken: cancelToken,
@@ -66,6 +67,7 @@ abstract class Api {
 
   Future<BaseResponse> post(
     String endpoint, {
+    String? host,
     dynamic data,
     Map<String, dynamic>? query,
     Options? options,
@@ -74,7 +76,7 @@ abstract class Api {
   }) async {
     try {
       final response = await _dio.post(
-        AppConfig.instance.env.baseUrl + endpoint,
+        (host ?? AppConfig.instance.env.baseUrl) + endpoint,
         data: data,
         queryParameters: query,
         options: options,
@@ -96,6 +98,7 @@ abstract class Api {
 
   Future<BaseResponse> put(
     String endpoint, {
+    String? host,
     dynamic data,
     Map<String, dynamic>? query,
     Options? options,
@@ -104,7 +107,7 @@ abstract class Api {
   }) async {
     try {
       final response = await _dio.put(
-        AppConfig.instance.env.baseUrl + endpoint,
+        (host ?? AppConfig.instance.env.baseUrl) + endpoint,
         data: data,
         queryParameters: query,
         options: options,

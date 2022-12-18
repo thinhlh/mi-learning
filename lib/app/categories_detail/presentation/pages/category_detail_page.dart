@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mi_learning/app/categories_detail/presentation/providers/categories_detail_provider.dart';
 import 'package:mi_learning/app/common/domain/entity/category.dart';
@@ -6,6 +7,7 @@ import 'package:mi_learning/app/explorer/presentation/widgets/course_large_widge
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
+import 'package:mi_learning/generated/locale_keys.g.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 
@@ -35,16 +37,24 @@ class CategoryDetailPage
       ),
       body: Selector<CategoryDetailPageProvider, List<Course>>(
         selector: (_, provider) => provider.courses,
-        builder: (_, courses, child) => ListView.separated(
-          separatorBuilder: (_, index) =>
-              SizedBox(height: AppDimens.extraLargeHeightDimens),
-          padding: EdgeInsets.symmetric(
-            horizontal: AppDimens.largeWidthDimens,
-            vertical: AppDimens.largeHeightDimens,
-          ),
-          itemBuilder: (_, index) => CourseLargeWidget(course: courses[index]),
-          itemCount: courses.length,
-        ),
+        builder: (_, courses, child) => courses.isEmpty
+            ? Center(
+                child: Text(
+                  'No Course Found!',
+                  style: context.textTheme.titleLarge,
+                ),
+              )
+            : ListView.separated(
+                separatorBuilder: (_, index) =>
+                    SizedBox(height: AppDimens.extraLargeHeightDimens),
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppDimens.largeWidthDimens,
+                  vertical: AppDimens.largeHeightDimens,
+                ),
+                itemBuilder: (_, index) =>
+                    CourseLargeWidget(course: courses[index]),
+                itemCount: courses.length,
+              ),
       ),
     );
   }

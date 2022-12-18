@@ -6,7 +6,7 @@ import 'package:mi_learning/base/failure.dart';
 import 'package:mi_learning/services/rest_api/models/base_api.dart';
 
 mixin _Endpoint {
-  String explorerCourses = '/courses';
+  String explorerCourses = '/courses/bulk';
   String categories = '/categories';
 }
 

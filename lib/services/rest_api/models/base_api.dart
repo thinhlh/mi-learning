@@ -47,12 +47,13 @@ abstract class BaseApi extends Api {
                 final Map<String, dynamic> payload = exception.response?.data;
 
                 final error = BaseError.fromMap(payload);
+
                 message = error.message;
               }
             } on Object {
               // On parse error
               // Do nothing
-              message = 'Error';
+              message = "Error";
             }
           }
         }
@@ -67,7 +68,10 @@ abstract class BaseApi extends Api {
       message = tr(LocaleKeys.common);
     } else if (exception.response?.statusCode == 404) {
       message = tr(LocaleKeys.common);
-    } else {}
+    } else if (exception.response?.statusCode == 400) {
+      print(exception.response);
+      message = exception.response?.data?.toString();
+    }
 
     return message;
   }

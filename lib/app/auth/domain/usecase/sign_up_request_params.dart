@@ -7,15 +7,16 @@ class SignUpRequestParams implements Params {
   String password;
   String name;
   String occupation;
-  String birthday;
+  DateTime birthday;
+  String? avatar;
   String role;
-
   SignUpRequestParams({
     required this.email,
     required this.password,
     required this.name,
     required this.occupation,
     required this.birthday,
+    this.avatar = "",
     required this.role,
   });
 
@@ -24,7 +25,8 @@ class SignUpRequestParams implements Params {
     String? password,
     String? name,
     String? occupation,
-    String? birthday,
+    DateTime? birthday,
+    String? avatar,
     String? role,
   }) {
     return SignUpRequestParams(
@@ -33,6 +35,7 @@ class SignUpRequestParams implements Params {
       name: name ?? this.name,
       occupation: occupation ?? this.occupation,
       birthday: birthday ?? this.birthday,
+      avatar: avatar ?? this.avatar,
       role: role ?? this.role,
     );
   }
@@ -43,7 +46,8 @@ class SignUpRequestParams implements Params {
       'password': password,
       'name': name,
       'occupation': occupation,
-      'birthday': birthday,
+      'birthday': birthday.millisecondsSinceEpoch,
+      'avatar': avatar,
       'role': role,
     };
   }
@@ -54,7 +58,8 @@ class SignUpRequestParams implements Params {
       password: map['password'] ?? '',
       name: map['name'] ?? '',
       occupation: map['occupation'] ?? '',
-      birthday: map['birthday'] ?? '',
+      birthday: DateTime.fromMillisecondsSinceEpoch(map['birthday']),
+      avatar: map['avatar'],
       role: map['role'] ?? '',
     );
   }
@@ -66,7 +71,7 @@ class SignUpRequestParams implements Params {
 
   @override
   String toString() {
-    return 'SignUpRequestParams(email: $email, password: $password, name: $name, occupation: $occupation, birthday: $birthday, role: $role)';
+    return 'SignUpRequestParams(email: $email, password: $password, name: $name, occupation: $occupation, birthday: $birthday, avatar: $avatar, role: $role)';
   }
 
   @override
@@ -79,6 +84,7 @@ class SignUpRequestParams implements Params {
         other.name == name &&
         other.occupation == occupation &&
         other.birthday == birthday &&
+        other.avatar == avatar &&
         other.role == role;
   }
 
@@ -89,6 +95,7 @@ class SignUpRequestParams implements Params {
         name.hashCode ^
         occupation.hashCode ^
         birthday.hashCode ^
+        avatar.hashCode ^
         role.hashCode;
   }
 }
