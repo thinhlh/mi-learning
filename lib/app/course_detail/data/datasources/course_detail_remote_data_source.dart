@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/app/common/domain/entity/course_entities/rating.dart';
 import 'package:mi_learning/app/common/domain/entity/get_course_type.dart';
@@ -10,7 +11,7 @@ import 'package:mi_learning/services/rest_api/models/base_api.dart';
 mixin _Endpoint {
   static const String courseDetail = "/course/detail";
   static const String toggleSaveCourse = '/course/save';
-  static const String savedCourses = '/courses';
+  static const String savedCourses = '/courses/bulk';
   static const String purchase = "/purchase";
   static const String createRatingUrl = "/rating";
 }
@@ -65,6 +66,7 @@ class CourseDetailRemoteDataSourceImpl extends CourseDetailRemoteDataSource {
           .map((r) => Course.fromMap(r))
           .toList());
     } catch (e) {
+      print(e);
       return Left(mapExceptionToFailure(e));
     }
   }

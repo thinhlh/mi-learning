@@ -64,7 +64,7 @@ class NoteEditorPage extends PageLoadingStateless<NoteEditorPageProvider> {
         ],
         centerTitle: true,
         title: Text(
-          'Create Note',
+          noteId == null ? 'Create Note' : 'Update Note',
           style: context.textTheme.titleMedium?.copyWith(
             fontWeight: AppStyles.bold,
           ),
