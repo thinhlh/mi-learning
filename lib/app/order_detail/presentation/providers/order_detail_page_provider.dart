@@ -35,7 +35,7 @@ class OrderDetailPageProvider extends LoadingProvider {
     });
   }
 
-  Future<Either<Failure, bool>> checkout(String courseId) {
-    return _checkoutUseCase.call(CheckoutParam(courseId));
+  Future<Either<Failure, bool>> checkout(CheckoutParam params) {
+    return _checkoutUseCase.call(params);
   }
 }

@@ -55,9 +55,6 @@ dependencies:
   # Localization
   easy_localization: ^3.0.0
 
-  # Testing
-  mockito: ^5.1.0
-
   # Datasource
   dio: ^4.0.4
   http: ^0.13.4
@@ -89,6 +86,9 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+  # Testing
+  mockito: ^5.3.2
+  build_runner: ^2.3.3
 
 flutter:
   uses-material-design: true

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
+import 'package:mi_learning/app/course_detail/domain/usecases/checkout_use_case.dart';
 import 'package:mi_learning/app/order_detail/presentation/providers/order_detail_page_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
@@ -234,7 +235,8 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
               child: ElevatedButton(
                 onPressed: () async {
                   showLoading(context, true);
-                  final result = await provider.checkout(course.id);
+                  final result =
+                      await provider.checkout(CheckoutParam(course.id));
                   await Future.delayed(const Duration(seconds: 3));
                   showLoading(context, false);
 
