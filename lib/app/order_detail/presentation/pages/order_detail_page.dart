@@ -127,7 +127,7 @@ class OrderDetailPage extends PageLoadingStateless<OrderDetailPageProvider> {
             InkWell(
               onTap: () => navigator.pushNamed(Routes.payment).then(
                 (value) {
-                  provider.paymentResult = value as int;
+                  provider.paymentResult = value as int?;
                 },
               ),
               child: Row(
