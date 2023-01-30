@@ -36,7 +36,7 @@ class Env {
   factory Env.prod() {
     return Env._internal(
       envType: EnvType.prod,
-      baseUrl: 'http://localhost:8081/api/v1',
+      baseUrl: 'http://www.thinhlh.com/api/v1',
       agoraAppId: "520db85d84374e4eaef700bb2ed76fc6",
       agoraChannelToken:
           "006520db85d84374e4eaef700bb2ed76fc6IABr6zwOiHwWcrKE9Vu2yBIaAO+ONVGHvaT+XCQ5gifdwWLMzZAAAAAAEAAv13+tghOPYgEAAQCBE49i",

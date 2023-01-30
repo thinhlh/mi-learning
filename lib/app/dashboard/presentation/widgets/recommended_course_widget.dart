@@ -20,9 +20,9 @@ class RecommendedCourseWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return course == null
         ? Shimmer.fromColors(
-            child: _buildCourse(context),
             baseColor: AppColors.baseShimmerColor,
             highlightColor: AppColors.highlightShimmerColor,
+            child: _buildCourse(context),
           )
         : _buildCourse(context);
   }
@@ -41,6 +41,8 @@ class RecommendedCourseWidget extends StatelessWidget {
               AppDimens.mediumRadius,
             ),
           ),
+          elevation: 0,
+          color: AppColors.neutral.shade50,
           child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: AppDimens.largeWidthDimens,
@@ -87,7 +89,7 @@ class RecommendedCourseWidget extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            '\$' + (course?.price ?? 0.0).toStringAsFixed(2),
+                            '\$${(course?.price ?? 0.0).toStringAsFixed(2)}',
                             style: context.textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.w500,
                             ),
@@ -115,8 +117,6 @@ class RecommendedCourseWidget extends StatelessWidget {
               ],
             ),
           ),
-          elevation: 0,
-          color: AppColors.neutral.shade50,
         ),
       ),
     );
