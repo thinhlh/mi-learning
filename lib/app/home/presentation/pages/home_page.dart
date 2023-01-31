@@ -29,6 +29,7 @@ class HomePage extends PageLoadingStateless<HomeProvider> {
                 GetIt.I(),
                 GetIt.I(),
                 GetIt.I(),
+                GetIt.I(),
               ),
               child: const DashboardPage(),
             );

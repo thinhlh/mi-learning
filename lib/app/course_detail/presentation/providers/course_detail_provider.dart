@@ -25,6 +25,8 @@ class CourseDetailPageProvider extends LoadingProvider {
 
   late Course _course;
 
+  bool purchased = false;
+
   Course get course => _course;
 
   set course(Course course) {

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
@@ -11,9 +13,11 @@ import 'package:shimmer/shimmer.dart';
 
 class RecommendedCourseWidget extends StatelessWidget {
   final Course? course;
+  final VoidCallback onCourseTapped;
   const RecommendedCourseWidget({
     Key? key,
     required this.course,
+    required this.onCourseTapped,
   }) : super(key: key);
 
   @override
@@ -29,10 +33,7 @@ class RecommendedCourseWidget extends StatelessWidget {
 
   Widget _buildCourse(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.navigator.pushNamed(
-        Routes.courseDetail,
-        arguments: course!,
-      ),
+      onTap: onCourseTapped,
       child: SizedBox(
         width: 0.8.sw,
         child: Card(

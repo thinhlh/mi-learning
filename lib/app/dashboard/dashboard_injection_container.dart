@@ -1,3 +1,6 @@
+import 'package:mi_learning/app/course_detail/data/datasources/course_detail_remote_data_source.dart';
+import 'package:mi_learning/app/course_detail/data/repositories/course_detail_repository_impl.dart';
+import 'package:mi_learning/app/course_detail/domain/repositories/course_detail_repository.dart';
 import 'package:mi_learning/app/dashboard/data/datasources/dashboard_remote_data_source.dart';
 import 'package:mi_learning/app/dashboard/data/repositories/dashboard_repository_impl.dart';
 import 'package:mi_learning/app/dashboard/domain/repository/dashboard_repository.dart';

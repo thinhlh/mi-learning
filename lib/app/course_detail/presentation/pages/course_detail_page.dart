@@ -69,18 +69,14 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
                         arguments: provider.course,
                       )
                           .then(
-                        (value) {
+                        (value) async {
+                          provider.purchased = (value is bool) ? value : false;
                           if (value == true) {
-                            provider.course =
-                                provider.course.copyWith(enrolled: true);
+                            showLoading(context, true);
+                            await provider.getCourseDetail();
+                            showLoading(context, false);
                           }
                         },
-                      ),
-                      child: const Text(
-                        'ENROLL',
-                        style: TextStyle(
-                          letterSpacing: 1,
-                        ),
                       ),
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all(
@@ -99,6 +95,12 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
                           ),
                         ),
                       ),
+                      child: const Text(
+                        'ENROLL',
+                        style: TextStyle(
+                          letterSpacing: 1,
+                        ),
+                      ),
                     ),
             ),
             AspectRatio(
@@ -107,6 +109,8 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppDimens.largeRadius),
                 ),
+                elevation: AppDimens.largeElevation,
+                clipBehavior: Clip.hardEdge,
                 child: Image.network(
                   context.select<CourseDetailPageProvider, String>(
                     (provider) => provider.course.background,
@@ -120,8 +124,6 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
                   fit: BoxFit.cover,
                   alignment: Alignment.center,
                 ),
-                elevation: AppDimens.largeElevation,
-                clipBehavior: Clip.hardEdge,
               ),
             ),
             SizedBox(height: AppDimens.largeHeightDimens),
@@ -144,7 +146,7 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
               ? AppColors.neutral.shade50
               : AppColors.neutral.shade900,
         ),
-        onPressed: () => navigator.pop(),
+        onPressed: () => navigator.pop(provider.purchased),
       ),
       title: Text(
         'Course Detail',
@@ -153,7 +155,10 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
       actions: [
         IconButton(
           onPressed: () async {
-            provider.toggleSaveCourse();
+            showLoading(context, true);
+            await provider.toggleSaveCourse();
+            await provider.getCourseDetail();
+            showLoading(context, false);
           },
           icon: Icon(
             context.select<CourseDetailPageProvider, bool>(

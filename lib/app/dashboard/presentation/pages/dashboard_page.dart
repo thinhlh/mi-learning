@@ -4,6 +4,8 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
+import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
+import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
 import 'package:mi_learning/app/dashboard/presentation/providers/dashboard_page_provider.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/recommended_course_widget.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/live_event_card.dart';
@@ -14,6 +16,7 @@ import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
+import 'package:mi_learning/services/dialogs/app_dialog.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:mi_learning/utils/extensions/string_extension.dart';
 import 'package:provider/provider.dart';
@@ -266,6 +269,27 @@ class _DashboardPageState
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (_, index) => RecommendedCourseWidget(
                           course: recommendedCourse[index],
+                          onCourseTapped: () async {
+                            showLoading(context, true);
+
+                            final result =
+                                await provider.getCourseDetailUseCase(
+                                    recommendedCourse[index].id);
+                            showLoading(context, false);
+
+                            result.fold((l) {}, (course) {
+                              context.navigator
+                                  .pushNamed(
+                                Routes.courseDetail,
+                                arguments: course,
+                              )
+                                  .then((value) {
+                                if (value is bool && value == true) {
+                                  fetchCourses();
+                                }
+                              });
+                            });
+                          },
                         ),
                         scrollDirection: Axis.horizontal,
                         itemCount: min(recommendedCourse.length, 3),
@@ -281,6 +305,15 @@ class _DashboardPageState
   void afterFirstBuild(BuildContext context) {
     super.afterFirstBuild(context);
     fetchData();
+  }
+
+  void fetchCourses() async {
+    showLoading(context, true);
+
+    Future.wait([
+      provider.getMyCourses(),
+      provider.getRecommendedCourses(),
+    ]).then((value) => showLoading(context, false));
   }
 
   void fetchData() async {
