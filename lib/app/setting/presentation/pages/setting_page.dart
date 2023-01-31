@@ -21,10 +21,18 @@ class SettingPage extends PageLoadingStateless<SettingPageProvider> {
         "Account": [
           Setting(
             title: 'Edit profile',
-            onPressed: () => navigator.pushNamed(
+            onPressed: () => navigator
+                .pushNamed(
               Routes.editProfile,
               arguments: provider.userInfo,
-            ),
+            )
+                .then((value) async {
+              if (value is bool && value == true) {
+                showLoading(context, true);
+                await provider.getUserInfo();
+                showLoading(context, false);
+              }
+            }),
             isSwitch: false,
           ),
           Setting(

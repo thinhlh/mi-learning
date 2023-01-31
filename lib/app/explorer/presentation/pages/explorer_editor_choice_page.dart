@@ -75,7 +75,7 @@ class _ExplorerEditorChoicePage
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Editors\' Choice Courses',
+                'Tutors\' Choice Courses',
                 style: context.textTheme.titleLarge,
               ),
             ],

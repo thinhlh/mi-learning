@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -106,10 +107,10 @@ class _EditProfilePageState
                                 ? DialogType.success
                                 : DialogType.error,
                             content: message ?? "",
-                            onActions: message == null
+                            onActions: result.isRight()
                                 ? [
                                     () {
-                                      navigator.pop();
+                                      navigator.pop(result.isRight());
                                     }
                                   ]
                                 : [],

@@ -11,6 +11,7 @@ import 'package:mi_learning/app/auth/presentation/provider/code_confirmation_pag
 import 'package:mi_learning/app/auth/presentation/provider/forgot_password_page_provider.dart';
 import 'package:mi_learning/app/categories_detail/presentation/pages/category_detail_page.dart';
 import 'package:mi_learning/app/categories_detail/presentation/providers/categories_detail_provider.dart';
+import 'package:mi_learning/app/dashboard/domain/usecases/get_basic_user_info_use_case.dart';
 import 'package:mi_learning/app/feedback/domain/entities/feedback.dart';
 import 'package:mi_learning/app/feedback/presentation/pages/feedback_page.dart';
 import 'package:mi_learning/app/feedback/presentation/providers/feedback_page_provider.dart';
@@ -198,6 +199,7 @@ class Routes {
           settings: routeSettings,
           builder: (_) => RouteUtil.createPageProvider<SettingPageProvider>(
             provider: (_) => SettingPageProvider(
+              GetIt.I(),
               GetIt.I(),
               GetIt.I(),
             ),

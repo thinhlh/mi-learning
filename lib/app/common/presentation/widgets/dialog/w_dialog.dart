@@ -9,7 +9,7 @@ import 'package:mi_learning/utils/extensions/context_extension.dart';
 class WDialog extends Dialog {
   final DialogType dialogType;
   final String content;
-  final List<void Function()> onActions;
+  final List<VoidCallback> onActions;
   final String? title;
   final List<String>? actionStrings;
   final List<TextStyle?>? actionTextStyles;
