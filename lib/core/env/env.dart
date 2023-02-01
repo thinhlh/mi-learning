@@ -18,7 +18,7 @@ class Env {
     required this.baseUrl,
     required this.agoraAppId,
     required this.agoraChannelToken,
-    this.defaultDateTimeFormat = 'yyyy-MM-dd',
+    this.defaultDateTimeFormat = 'dd-MM-yyyy',
     this.connectionTimeOut = 30000,
     this.receiveTimeOut = 30000,
   });

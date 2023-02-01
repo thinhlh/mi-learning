@@ -79,7 +79,24 @@ class _EditProfilePageState
                   WTextField(
                     label: 'Birthday',
                     icon: Icons.cake,
+                    readOnly: true,
                     controller: birthdayControlller,
+                    onTap: (context) {
+                      showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.utc(1900),
+                        lastDate: DateTime.now(),
+                        initialDatePickerMode: DatePickerMode.year,
+                        helpText: 'Ngày sinh',
+                      ).then((value) {
+                        if (value != null) {
+                          birthdayControlller.text =
+                              DateTimeHelper.format(value);
+                          provider.currentChosenBirthday = value;
+                        }
+                      });
+                    },
                   ),
                   SizedBox(height: AppDimens.largeHeightDimens),
                   SizedBox(
@@ -88,11 +105,9 @@ class _EditProfilePageState
                       onPressed: () async {
                         showLoading(context, true);
                         final result = await provider.updateUserProfile(
-                          UpdateUserProfileParams(
-                            name: nameController.text,
-                            occupation: occupationController.text,
-                            birthday: birthdayControlller.text,
-                          ),
+                          name: nameController.text,
+                          occupation: occupationController.text,
+                          birthday: provider.currentChosenBirthday,
                         );
                         showLoading(context, false);
                         String? message = result.fold(
@@ -138,10 +153,10 @@ class _EditProfilePageState
     final arguments = context.getArgument<BasicUserInfo>();
     nameController = TextEditingController(text: arguments?.name);
     occupationController = TextEditingController(text: arguments?.occupation);
+
+    provider.currentChosenBirthday = arguments?.birthday ?? DateTime.now();
     birthdayControlller = TextEditingController(
-      text: DateTimeHelper.format(
-        arguments?.birthday ?? DateTime.now(),
-      ),
+      text: DateTimeHelper.format(provider.currentChosenBirthday),
     );
   }
 }

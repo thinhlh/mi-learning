@@ -11,23 +11,31 @@ class EditProfilePageProvider extends LoadingProvider {
 
   EditProfilePageProvider(this._updateUserProfileUseCase);
 
-  Future<Either<Failure, BasicUserInfo>> updateUserProfile(
-    UpdateUserProfileParams params,
-  ) async {
-    if (params.name?.isEmpty ?? true) {
+  late DateTime currentChosenBirthday;
+
+  Future<Either<Failure, BasicUserInfo>> updateUserProfile({
+    required String name,
+    required String occupation,
+    required DateTime birthday,
+  }) async {
+    if (name.isEmpty) {
       return Left(Failure(message: 'Name must not be empty'));
     }
 
-    if (params.occupation?.isEmpty ?? true) {
+    if (occupation.isEmpty) {
       return Left(Failure(message: 'Occupation must not be empty'));
     }
 
-    if (DateTime.tryParse(
-            params.birthday ?? DateTime.now().toIso8601String()) ==
-        null) {
-      return Left(Failure(message: 'Date Format is not correct'));
+    if (birthday.difference(DateTime.now()).inDays / 365 >= 12) {
+      return Left(Failure(message: 'User must be older than 12'));
     }
 
-    return _updateUserProfileUseCase(params);
+    return _updateUserProfileUseCase(
+      UpdateUserProfileParams(
+        name: name,
+        occupation: occupation,
+        birthday: currentChosenBirthday,
+      ),
+    );
   }
 }

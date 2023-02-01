@@ -7,9 +7,11 @@ import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class WTextField extends StatelessWidget {
   final String label;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final IconData icon;
   final TextInputType? inputType;
+  final bool readOnly;
+  final void Function(BuildContext context)? onTap;
   bool? obsercureText;
   final int? maxLines;
   final int? maxLength;
@@ -18,10 +20,12 @@ class WTextField extends StatelessWidget {
     Key? key,
     required this.label,
     required this.icon,
-    required this.controller,
+    this.onTap,
+    this.controller,
     this.inputType,
     this.obsercureText,
     this.maxLines = 1,
+    this.readOnly = false,
     this.maxLength,
   }) : super(key: key);
 
@@ -71,6 +75,10 @@ class WTextField extends StatelessWidget {
                     style: context.textTheme.titleMedium?.copyWith(
                       fontWeight: AppStyles.bold,
                     ),
+                    onTap: () {
+                      onTap?.call(context);
+                    },
+                    readOnly: readOnly,
                   ),
                 ],
               ),

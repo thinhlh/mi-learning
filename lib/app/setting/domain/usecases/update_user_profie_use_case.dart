@@ -10,7 +10,7 @@ import 'package:mi_learning/base/failure.dart';
 class UpdateUserProfileParams implements Params {
   String? name;
   String? occupation;
-  String? birthday;
+  DateTime? birthday;
   UpdateUserProfileParams({
     this.name,
     this.occupation,
@@ -21,7 +21,7 @@ class UpdateUserProfileParams implements Params {
     String? name,
     String? avatar,
     String? occupation,
-    String? birthday,
+    DateTime? birthday,
   }) {
     return UpdateUserProfileParams(
       name: name ?? this.name,
@@ -34,7 +34,7 @@ class UpdateUserProfileParams implements Params {
     return {
       'name': name,
       'occupation': occupation,
-      'birthday': birthday,
+      'birthday': birthday?.millisecondsSinceEpoch,
     };
   }
 
@@ -42,7 +42,9 @@ class UpdateUserProfileParams implements Params {
     return UpdateUserProfileParams(
       name: map['name'],
       occupation: map['occupation'],
-      birthday: map['birthday'],
+      birthday: map['birthday'] == null
+          ? DateTime.now()
+          : DateTime.fromMillisecondsSinceEpoch(map['birthday']),
     );
   }
 
