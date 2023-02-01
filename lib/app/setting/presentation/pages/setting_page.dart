@@ -143,21 +143,23 @@ class SettingPage extends PageLoadingStateless<SettingPageProvider> {
             SizedBox(height: AppDimens.largeHeightDimens),
             Align(
               alignment: Alignment.center,
-              child: Text(
-                context.select<SettingPageProvider, String>(
-                  (provider) => provider.userInfo?.name ?? "",
+              child: Selector<SettingPageProvider, String>(
+                selector: (context, provider) => provider.userInfo?.name ?? "",
+                builder: (context, name, child) => Text(
+                  name,
+                  style: context.textTheme.titleLarge,
                 ),
-                style: context.textTheme.titleLarge,
               ),
             ),
             SizedBox(height: AppDimens.mediumHeightDimens),
             Align(
               alignment: Alignment.center,
-              child: Text(
-                context.select<SettingPageProvider, String>(
-                  (provider) => provider.userInfo?.occupation ?? "",
+              child: Selector<SettingPageProvider, String>(
+                selector: (_, provider) => provider.userInfo?.occupation ?? "",
+                builder: (_, occupation, child) => Text(
+                  occupation,
+                  style: context.textTheme.subtitle1,
                 ),
-                style: context.textTheme.subtitle1,
               ),
             ),
             SizedBox(height: AppDimens.extraLargeHeightDimens),

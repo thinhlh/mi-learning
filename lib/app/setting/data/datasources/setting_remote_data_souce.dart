@@ -9,6 +9,7 @@ import 'package:mi_learning/services/rest_api/models/base_api.dart';
 mixin _Endpoint {
   static const String changePassword = '/profile/change-password';
   static const String updateUserProfile = '/profile/update';
+  static const String updateUserAvatar = '/profile/avatar';
 }
 
 abstract class SettingRemoteDataSource extends BaseApi {
@@ -19,6 +20,8 @@ abstract class SettingRemoteDataSource extends BaseApi {
   Future<Either<Failure, BasicUserInfo>> updateUserInfo(
     UpdateUserProfileParams params,
   );
+
+  Future<Either<Failure, BasicUserInfo>> updateUserAvatar(String url);
 }
 
 class SettingRemoteDataSourceImpl extends SettingRemoteDataSource {
@@ -63,6 +66,21 @@ class SettingRemoteDataSourceImpl extends SettingRemoteDataSource {
       final result = await post(
         _Endpoint.updateUserProfile,
         data: params.toMap(),
+      );
+      return Right(BasicUserInfo.fromMap(result.data));
+    } on FirebaseAuthException catch (exception) {
+      return Left(Failure(message: exception.message));
+    } catch (e) {
+      return Left(mapExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, BasicUserInfo>> updateUserAvatar(String url) async {
+    try {
+      final result = await post(
+        _Endpoint.updateUserAvatar,
+        data: {'url': url},
       );
       return Right(BasicUserInfo.fromMap(result.data));
     } on FirebaseAuthException catch (exception) {

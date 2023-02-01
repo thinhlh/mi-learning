@@ -49,11 +49,7 @@ class SettingRepositoryImpl implements SettingRepository {
     );
 
     return uploadResult.fold((l) => Left(l), (url) async {
-      return await _settingRemoteDataSource.updateUserInfo(
-        UpdateUserProfileParams(
-          avatar: url,
-        ),
-      );
+      return await _settingRemoteDataSource.updateUserAvatar(url);
     });
   }
 
