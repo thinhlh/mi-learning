@@ -5,6 +5,7 @@
 import FlutterMacOS
 import Foundation
 
+import agora_rtc_engine
 import device_info_plus
 import firebase_auth
 import firebase_core
@@ -17,6 +18,7 @@ import url_launcher_macos
 import wakelock_macos
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
+  AgoraRtcEnginePlugin.register(with: registry.registrar(forPlugin: "AgoraRtcEnginePlugin"))
   DeviceInfoPlusMacosPlugin.register(with: registry.registrar(forPlugin: "DeviceInfoPlusMacosPlugin"))
   FLTFirebaseAuthPlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseAuthPlugin"))
   FLTFirebaseCorePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseCorePlugin"))

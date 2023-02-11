@@ -30,9 +30,9 @@ class Env {
       envType: EnvType.dev,
       baseUrl: 'http://localhost:8080/api/v1',
       authHost: 'http://localhost:8000',
-      agoraAppId: "520db85d84374e4eaef700bb2ed76fc6",
+      agoraAppId: "f7772dc13a604e43bc58a5b8ead46e7f",
       agoraChannelToken:
-          "006520db85d84374e4eaef700bb2ed76fc6IABr6zwOiHwWcrKE9Vu2yBIaAO+ONVGHvaT+XCQ5gifdwWLMzZAAAAAAEAAv13+tghOPYgEAAQCBE49i",
+          "007eJxTYLjJ92rvcpcs63efrXdZFExYr3CX9/dt51QO9eW71LrCP79TYEgzNzc3Skk2NE40MzBJNTFOSja1SDRNskhNTDExSzVPC9Z6ntwQyMhwcYUaMyMDBIL4bAy5+UmZOakMDAAG/iHS",
     );
   }
 
@@ -41,9 +41,9 @@ class Env {
       envType: EnvType.prod,
       baseUrl: 'http://mi-learning.thinhlh.com/api/v1',
       authHost: 'http://mi-learning.thinhlh.com:8000',
-      agoraAppId: "520db85d84374e4eaef700bb2ed76fc6",
+      agoraAppId: "f7772dc13a604e43bc58a5b8ead46e7f",
       agoraChannelToken:
-          "006520db85d84374e4eaef700bb2ed76fc6IABr6zwOiHwWcrKE9Vu2yBIaAO+ONVGHvaT+XCQ5gifdwWLMzZAAAAAAEAAv13+tghOPYgEAAQCBE49i",
+          "007eJxTYHBbvjT7mehszk1cF8LZfvQFP/Zi5PPcYr+Vce78ULXzJdEKDGnm5uZGKcmGxolmBiapJsZJyaYWiaZJFqmJKSZmqeZpzzSeJzcEMjLwdgqyMDJAIIjPxpCbn5SZk8rAAAAIcR5y",
     );
   }
 }

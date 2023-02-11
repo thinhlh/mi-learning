@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
 import 'package:mi_learning/app/course_detail/presentation/widgets/expandable_text.dart';
@@ -7,6 +8,7 @@ import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
+import 'package:mi_learning/generated/locale_keys.g.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 
@@ -47,7 +49,7 @@ class CourseDetailAboutPage
                       ),
                       SizedBox(height: AppDimens.smallHeightDimens),
                       Text(
-                        'Lessons',
+                        tr(LocaleKeys.pages_course_detail_tabs_about_lessons),
                         style: context.textTheme.bodyMedium,
                       ),
                     ],
@@ -62,7 +64,7 @@ class CourseDetailAboutPage
                       ),
                       SizedBox(height: AppDimens.smallHeightDimens),
                       Text(
-                        'Students',
+                        tr(LocaleKeys.pages_course_detail_tabs_about_students),
                         style: context.textTheme.bodyMedium,
                       ),
                     ],
@@ -77,7 +79,7 @@ class CourseDetailAboutPage
                       ),
                       SizedBox(height: AppDimens.smallHeightDimens),
                       Text(
-                        'Hours',
+                        tr(LocaleKeys.pages_course_detail_tabs_about_hours),
                         style: context.textTheme.bodyMedium,
                       ),
                     ],
@@ -115,7 +117,8 @@ class CourseDetailAboutPage
                                 MaterialStateProperty.all(Colors.transparent),
                           ),
                           child: Text(
-                            'Follow',
+                            tr(LocaleKeys
+                                .pages_course_detail_tabs_about_follow),
                             style: context.textTheme.titleMedium?.copyWith(
                               fontWeight: AppStyles.bold,
                               color: Random().nextBool()
@@ -140,9 +143,11 @@ class CourseDetailAboutPage
               SizedBox(height: AppDimens.mediumHeightDimens),
               ExpandableText(
                 provider.course.description,
-                expandText: 'Read more',
+                expandText:
+                    tr(LocaleKeys.pages_course_detail_tabs_about_read_more),
                 style: context.textTheme.bodyMedium?.copyWith(),
-                collapseText: 'Show less',
+                collapseText:
+                    tr(LocaleKeys.pages_course_detail_tabs_about_show_less),
                 maxLines: 6,
               )
             ],

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mi_learning/app/common/domain/entity/course_entities/rating.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
@@ -11,6 +12,7 @@ import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
+import 'package:mi_learning/generated/locale_keys.g.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +28,8 @@ class CourseDetailRatingsPage
               context: context,
               builder: (_) => WDialog(
                 dialogType: DialogType.info,
-                content: 'You must enrolled this class to give a rating.',
+                content: tr(LocaleKeys
+                    .pages_course_detail_tabs_ratings_must_enroll_course),
                 onActions: const [],
               ),
             );
@@ -46,7 +49,8 @@ class CourseDetailRatingsPage
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          'Rating our course!',
+                          tr(LocaleKeys
+                              .pages_course_detail_tabs_ratings_rating_our_course),
                           style: context.textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -66,7 +70,8 @@ class CourseDetailRatingsPage
                         ),
                         SizedBox(height: AppDimens.largeHeightDimens),
                         WTextField(
-                          label: 'content',
+                          label: tr(LocaleKeys
+                              .pages_course_detail_tabs_ratings_content),
                           icon: Icons.feedback_outlined,
                           inputType: TextInputType.multiline,
                           maxLines: 10,
@@ -87,8 +92,9 @@ class CourseDetailRatingsPage
                                 ctx.navigator.pop();
                               });
                             },
-                            child: const Text(
-                              'Submit',
+                            child: Text(
+                              tr(LocaleKeys
+                                  .pages_course_detail_tabs_ratings_submit),
                             ),
                           ),
                         ),
@@ -167,7 +173,7 @@ class CourseDetailRatingsPage
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.only(left: AppDimens.smallWidthDimens),
                 child: Text(
-                  'Reviews',
+                  tr(LocaleKeys.pages_course_detail_tabs_ratings_reviews),
                   style: context.textTheme.titleLarge?.copyWith(
                     fontWeight: AppStyles.bold,
                   ),

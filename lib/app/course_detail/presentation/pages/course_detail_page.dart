@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
@@ -11,6 +12,7 @@ import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
+import 'package:mi_learning/generated/locale_keys.g.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 
@@ -95,9 +97,9 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
                           ),
                         ),
                       ),
-                      child: const Text(
-                        'ENROLL',
-                        style: TextStyle(
+                      child: Text(
+                        tr(LocaleKeys.pages_course_detail_enroll),
+                        style: const TextStyle(
                           letterSpacing: 1,
                         ),
                       ),
@@ -117,7 +119,7 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
                   ),
                   errorBuilder: (context, error, stackTrace) => Center(
                     child: Text(
-                      'Unable to load image!',
+                      tr(LocaleKeys.pages_course_detail_unable_to_load_image),
                       style: context.textTheme.titleLarge,
                     ),
                   ),
@@ -149,7 +151,7 @@ class CourseDetailPage extends PageLoadingStateless<CourseDetailPageProvider> {
         onPressed: () => navigator.pop(provider.purchased),
       ),
       title: Text(
-        'Course Detail',
+        tr(LocaleKeys.pages_course_detail_course_detail),
         style: context.textTheme.titleLarge?.copyWith(),
       ),
       actions: [
@@ -223,11 +225,11 @@ class _CouseDetailTabState
             indicatorColor: AppColors.secondary,
             indicatorSize: TabBarIndicatorSize.label,
             labelPadding: EdgeInsets.zero,
-            tabs: const [
-              Tab(text: 'About'),
-              Tab(text: 'Lessons'),
-              // Tab(text: 'Discuss'),
-              Tab(text: 'Ratings'),
+            tabs: [
+              Tab(text: tr(LocaleKeys.pages_course_detail_about)),
+              Tab(text: tr(LocaleKeys.pages_course_detail_lessons)),
+              Tab(text: tr(LocaleKeys.pages_course_detail_discuss)),
+              Tab(text: tr(LocaleKeys.pages_course_detail_ratings)),
             ],
             controller: tabController,
           ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
@@ -5,6 +6,7 @@ import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
+import 'package:mi_learning/generated/locale_keys.g.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class MyCourseWidget extends StatelessWidget {
@@ -68,7 +70,8 @@ class MyCourseWidget extends StatelessWidget {
                       ),
                       SizedBox(height: AppDimens.mediumHeightDimens),
                       Text(
-                        myCourse.currentLessonTitle ?? "Try learn this course!",
+                        myCourse.currentLessonTitle ??
+                            tr(LocaleKeys.pages_my_course_try_learn_course),
                         overflow: TextOverflow.ellipsis,
                         style: context.textTheme.titleSmall?.copyWith(),
                       ),

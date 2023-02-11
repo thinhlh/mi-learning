@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,14 +14,15 @@ import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
+import 'package:mi_learning/generated/locale_keys.g.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 
 class SettingPage extends PageLoadingStateless<SettingPageProvider> {
   Map<String, List<Setting>> getSettings(BuildContext context) => {
-        "Account": [
+        tr(LocaleKeys.pages_settings_account): [
           Setting(
-            title: 'Edit profile',
+            title: tr(LocaleKeys.pages_settings_edit_profile),
             onPressed: () => navigator
                 .pushNamed(
               Routes.editProfile,
@@ -36,35 +38,38 @@ class SettingPage extends PageLoadingStateless<SettingPageProvider> {
             isSwitch: false,
           ),
           Setting(
-            title: 'Change password',
+            title: tr(LocaleKeys.pages_settings_change_password),
             onPressed: () {
               context.navigator.pushNamed(Routes.changePassword);
             },
             isSwitch: false,
           ),
         ],
-        "Preferences": [
+        tr(LocaleKeys.pages_settings_preferences): [
           Setting(
-            title: 'Language',
-            subtitle: 'Vietnamese',
-            onPressed: () {},
+            title: tr(LocaleKeys.pages_settings_language),
+            subtitle:
+                context.locale.toString() == 'vi' ? "Vietnamese" : "English",
+            onPressed: () {
+              navigator.pushNamed(Routes.languageSetting);
+            },
             isSwitch: false,
           ),
           Setting(
-            title: 'Saved Courses',
+            title: tr(LocaleKeys.pages_settings_saved_courses),
             onPressed: () => context.navigator.pushNamed(Routes.savedCourses),
             isSwitch: false,
           ),
         ],
-        "Misc": [
+        tr(LocaleKeys.pages_settings_misc): [
           Setting(
-            title: 'Feedback',
-            subtitle: 'Tell us what happended.',
+            title: tr(LocaleKeys.pages_settings_feedback),
+            subtitle: tr(LocaleKeys.pages_settings_tell_us_what_happended),
             onPressed: () => navigator.pushNamed(Routes.feedback),
             isSwitch: false,
           ),
           Setting(
-            title: 'App Version',
+            title: tr(LocaleKeys.pages_settings_app_version),
             onPressed: () {},
             subtitle: 'v1.0.0',
           ),
@@ -85,7 +90,7 @@ class SettingPage extends PageLoadingStateless<SettingPageProvider> {
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
         ),
         title: Text(
-          'Settings',
+          tr(LocaleKeys.pages_settings_settings),
           style: context.textTheme.titleMedium?.copyWith(
             fontWeight: AppStyles.bold,
           ),

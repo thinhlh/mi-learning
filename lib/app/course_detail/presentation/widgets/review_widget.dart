@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mi_learning/app/common/domain/entity/course_entities/rating.dart';
 import 'package:mi_learning/app/course_detail/presentation/widgets/expandable_text.dart';
 import 'package:mi_learning/app/dashboard/presentation/widgets/rating_widget.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/styles.dart';
+import 'package:mi_learning/generated/locale_keys.g.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class ReviewWidget extends StatelessWidget {
@@ -43,10 +45,10 @@ class ReviewWidget extends StatelessWidget {
 
       subtitle: ExpandableText(
         rating?.content ?? "",
-        expandText: 'Read more',
+        expandText: tr(LocaleKeys.pages_course_detail_tabs_about_read_more),
         style: context.textTheme.bodyMedium?.copyWith(),
         maxLines: 3,
-        collapseText: 'Show less',
+        collapseText: tr(LocaleKeys.pages_course_detail_tabs_about_show_less),
       ),
     );
   }

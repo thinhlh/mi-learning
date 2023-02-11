@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/app/common/domain/entity/course_entities/lessons/lesson.dart';
@@ -9,6 +10,7 @@ import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
+import 'package:mi_learning/generated/locale_keys.g.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
 
@@ -143,13 +145,6 @@ class _CourseDetailLessonsPageState extends PageLoadingStateful<
               },
             );
           },
-          child: Text(
-            'Enroll in this course',
-            style: context.textTheme.titleSmall?.copyWith(
-              color: AppColors.neutral.shade50,
-              fontWeight: AppStyles.bold,
-            ),
-          ),
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(
               AppColors.tetiary,
@@ -160,6 +155,14 @@ class _CourseDetailLessonsPageState extends PageLoadingStateful<
                 horizontal: AppDimens.largeWidthDimens,
                 vertical: AppDimens.largeHeightDimens,
               ),
+            ),
+          ),
+          child: Text(
+            tr(LocaleKeys
+                .pages_course_detail_tabs_lessons_enroll_in_this_course),
+            style: context.textTheme.titleSmall?.copyWith(
+              color: AppColors.neutral.shade50,
+              fontWeight: AppStyles.bold,
             ),
           ),
         ),

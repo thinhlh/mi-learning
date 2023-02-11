@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mi_learning/config/colors.dart';
+import 'package:mi_learning/generated/locale_keys.g.dart';
 
 enum DialogType {
   success,
@@ -11,22 +13,22 @@ extension DialogDetail on DialogType {
   String get title {
     switch (this) {
       case DialogType.success:
-        return 'Success!';
+        return tr(LocaleKeys.common_dialog_success_title);
       case DialogType.error:
-        return 'Oh Snap!';
+        return tr(LocaleKeys.common_dialog_error_title);
       case DialogType.info:
-        return 'Info!';
+        return tr(LocaleKeys.common_dialog_info_title);
     }
   }
 
   String get actionString {
     switch (this) {
       case DialogType.success:
-        return 'Continue';
+        return tr(LocaleKeys.common_dialog_success_action);
       case DialogType.error:
-        return 'Try Again';
+        return tr(LocaleKeys.common_dialog_error_action);
       case DialogType.info:
-        return 'Okay';
+        return tr(LocaleKeys.common_dialog_info_action);
     }
   }
 

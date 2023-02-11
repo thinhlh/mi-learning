@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:badges/badges.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
@@ -16,6 +17,7 @@ import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
+import 'package:mi_learning/generated/locale_keys.g.dart';
 import 'package:mi_learning/services/dialogs/app_dialog.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:mi_learning/utils/extensions/string_extension.dart';
@@ -165,7 +167,7 @@ class _DashboardPageState
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'My Learning',
+              tr(LocaleKeys.pages_dashboard_my_learning),
               style: context.textTheme.headlineSmall?.copyWith(
                 fontWeight: AppStyles.bold,
               ),
@@ -176,7 +178,7 @@ class _DashboardPageState
                 arguments: provider.myCourse,
               ),
               child: Text(
-                'Show all',
+                tr(LocaleKeys.pages_dashboard_show_all),
                 style: context.textTheme.subtitle2?.copyWith(
                   color: AppColors.tetiary,
                 ),
@@ -208,7 +210,8 @@ class _DashboardPageState
               onTap: () => context.read<HomeProvider>().tabController.index = 1,
               child: Center(
                 child: Text(
-                  'You have not enrolled any courses, try out now!',
+                  tr(LocaleKeys
+                      .pages_dashboard_you_have_not_enrolled_any_course),
                   style: context.textTheme.titleLarge,
                 ),
               ),
@@ -238,7 +241,7 @@ class _DashboardPageState
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Recommendation',
+              tr(LocaleKeys.pages_dashboard_recommendation),
               style: context.textTheme.headlineSmall?.copyWith(
                 fontWeight: AppStyles.bold,
               ),
@@ -246,7 +249,7 @@ class _DashboardPageState
             GestureDetector(
               onTap: () => context.read<HomeProvider>().tabController.index = 1,
               child: Text(
-                'Browse more',
+                tr(LocaleKeys.pages_dashboard_browse_more),
                 style: context.textTheme.subtitle2?.copyWith(
                   color: AppColors.tetiary,
                 ),
@@ -262,7 +265,7 @@ class _DashboardPageState
             builder: (_, recommendedCourse, child) =>
                 (recommendedCourse.isEmpty == true)
                     ? Text(
-                        'You have no courses to learn yet.',
+                        tr(LocaleKeys.pages_dashboard_no_course),
                         style: context.textTheme.titleLarge,
                       )
                     : ListView.builder(

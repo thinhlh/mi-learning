@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart';
 import 'package:mi_learning/app/dashboard/domain/usecases/get_basic_user_info_use_case.dart';
+import 'package:mi_learning/app/dashboard/domain/usecases/get_course_detail_use_case.dart';
 import 'package:mi_learning/app/dashboard/domain/usecases/get_my_courses_use_case.dart';
 import 'package:mi_learning/app/dashboard/domain/usecases/get_recommended_courses_use_case.dart';
 import 'package:mi_learning/app/dashboard/presentation/providers/dashboard_page_provider.dart';
@@ -13,22 +14,29 @@ import 'package:mockito/mockito.dart';
 
 import 'dashboard_provider_test.mocks.dart';
 
-@GenerateMocks(
-    [GetMyCoursesUseCase, GetRecommendedCourseUseCase, GetBasicUserInfoUseCase])
+@GenerateMocks([
+  GetMyCoursesUseCase,
+  GetRecommendedCourseUseCase,
+  GetBasicUserInfoUseCase,
+  GetCourseDetailUseCase
+])
 void main() {
   late MockGetMyCoursesUseCase getMyCoursesUseCase;
   late MockGetRecommendedCourseUseCase getRecommendedCourseUseCase;
   late MockGetBasicUserInfoUseCase getBasicUserInfoUseCase;
+  late MockGetCourseDetailUseCase getCouseDetailUseCase;
   late DashboardPageProvider provider;
 
   setUp(() {
     getMyCoursesUseCase = MockGetMyCoursesUseCase();
     getRecommendedCourseUseCase = MockGetRecommendedCourseUseCase();
     getBasicUserInfoUseCase = MockGetBasicUserInfoUseCase();
+    getCouseDetailUseCase = MockGetCourseDetailUseCase();
     provider = DashboardPageProvider(
       getMyCoursesUseCase,
       getRecommendedCourseUseCase,
       getBasicUserInfoUseCase,
+      getCouseDetailUseCase,
     );
   });
 

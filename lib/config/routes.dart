@@ -42,9 +42,11 @@ import 'package:mi_learning/app/schedule_detail/presentation/providers/schedule_
 import 'package:mi_learning/app/schedule_detail/presentation/providers/timer_chosen_page_provider.dart';
 import 'package:mi_learning/app/setting/presentation/pages/change_password_page.dart';
 import 'package:mi_learning/app/setting/presentation/pages/edit_profile_page.dart';
+import 'package:mi_learning/app/setting/presentation/pages/language_setting_page.dart';
 import 'package:mi_learning/app/setting/presentation/pages/setting_page.dart';
 import 'package:mi_learning/app/setting/presentation/providers/change_password_page_provider.dart';
 import 'package:mi_learning/app/setting/presentation/providers/edit_profile_page_provider.dart';
+import 'package:mi_learning/app/setting/presentation/providers/language_setting_page_provider.dart';
 import 'package:mi_learning/app/setting/presentation/providers/setting_page_provider.dart';
 import 'package:mi_learning/app/test/presentation/provider/test_provider.dart';
 import 'package:mi_learning/utils/route_util.dart';
@@ -88,6 +90,7 @@ class Routes {
   static const String categories = '/categories';
   static const String feedback = '/feedback';
   static const String editProfile = '/edit-profile';
+  static const String languageSetting = '/setting/language';
 
   /// This is where you handle routing by name and arguments
   static Route<dynamic>? onGenerateRoute(RouteSettings routeSettings) {
@@ -343,6 +346,17 @@ class Routes {
           builder: (_) => RouteUtil.createPageProvider<FeedbackPageProvider>(
             provider: (_) => FeedbackPageProvider(GetIt.I()),
             child: FeedbackPage(),
+          ),
+        );
+
+      case Routes.languageSetting:
+        return CupertinoPageRoute(
+          fullscreenDialog: true,
+          settings: routeSettings,
+          builder: (_) =>
+              RouteUtil.createPageProvider<LanguageSettingPageProvider>(
+            provider: (_) => LanguageSettingPageProvider(),
+            child: LanguageSettingPage(),
           ),
         );
       default:

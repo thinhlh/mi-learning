@@ -8,7 +8,7 @@ class Languages {
     Locale('en'),
   ];
 
-  static Locale defaultLocale = supportedLocales.first;
+  static Locale defaultLocale = supportedLocales.last;
 
   static String? defaultLocaleString = supportedLocales.first.countryCode;
 

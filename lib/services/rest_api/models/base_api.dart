@@ -53,7 +53,7 @@ abstract class BaseApi extends Api {
             } on Object {
               // On parse error
               // Do nothing
-              message = "Error";
+              message = tr(LocaleKeys.common_default_error);
             }
           }
         }

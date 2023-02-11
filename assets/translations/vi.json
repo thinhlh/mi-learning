@@ -1,11 +1,112 @@
 {
   "general": "Thinh Flutter Clean",
   "common": {
-    "default_error": "Lỗi không xác định"
+    "default_error": "Unknown Error",
+    "dialog":{
+      "success":{
+"title":"Success!",
+"action":"Continue"
+      },
+      "error":{
+"title":"Oh Snap!",
+"action":"Try Again"
+      },
+      "info":{
+"title":"Info!",
+"action":"Okay"
+      }
+    
+    }
   },
   "error": {
-    "email_not_valid": "Email không hợp lệ",
-    "password_not_valid": "Password không hợp lệ",
-    "authentication_error": " Lỗi xác thực"
+    "email_not_valid": "Email is not valid",
+    "password_not_valid": "Password is not valid",
+    "authentication_error": "Authentication Error"
+  },
+  "pages":{
+    "auth":{
+      "login_text_welcome_back":"Welcom back",
+      "login_text_welcome_to":"Welcome to Mi Learning"
+    },
+    "code_information":{
+      "fill_in_code":"Fill in your the code we've sent you via email.",
+      "verification":"Verification"
+    },
+    "forgot_password":{
+      "forgot_password":"Forgot password?",
+      "fill_in_email":"Fill in your email and we'll send a code to reset your password.",
+      "email_not_empty":"Email must not be empty!",
+      "password_sent":"Password reset email has been sent!",
+      "send_me_code":"Send me code"
+    },
+    "my_course":{
+      "try_learn_course":"Try learn this course!"
+    },
+    "course_detail":{
+      "enroll":"ENROLL",
+      "unable_to_load_image":"Unable to load image!",
+      "course_detail":"Course Detail",
+      "about":"About",
+"lessons":"Lessons",
+"discuss":"Discuss",
+"ratings":"Ratings",
+"tabs":{
+  "about":{
+    "lessons":"Lessons",
+    "students":"Students",
+    "hours":"Hours",
+    "follow":"Follow",
+    "read_more":"Read more",
+    "show_less":"Show less"
+  },
+  "lessons":{
+    "enroll_in_this_course":"Enroll in this course"
+  },
+  "ratings":{
+    "must_enroll_course":"You must enrolled this class to give a rating.",
+    "rating_our_course":"Rating our course!",
+    "content":"content",
+    "submit":"Submit",
+    "reviews":"Reviews"
+  }
+
+    }
+    
+  },
+  "dashboard":{
+    "my_learning":"My Learning",
+    "show_all":"Show all",
+    "you_have_not_enrolled_any_course":"You have not enrolled any courses, try out now!",
+    "recommendation":"Recommendation",
+    "browse_more":"Browse more",
+    "no_course":"You have no courses to learn yet."
+  },
+  "settings":{
+    "settings":"Cài đặt",
+    "language":"Ngôn ngữ",
+    "vi":"Tiếng Việt",
+    "account":"Tài khoản",
+    "edit_profile":"Chỉnh sửa thông tin",
+    "change_password":"Đổi mật khẩu",
+    "preferences":"Cài đặt",
+    "saved_courses":"Khoá học đã lưu",
+    "feedback":"Phản hồi",
+    "tell_us_what_happended":"Hãy kể chúng tôi trải nghiệm của bạn",
+    "misc":"Khác",
+    "app_version":"Phiên bản",
+    "sign_out":"Đăng xuất"
+  }
+},
+  "auth":{
+    "invalid_email":"The email address is not valid",
+    "user_disabled":"The user corresponding to the given email has been disabled",
+    "user_not_found":"There is no user corresponding to the given email",
+    "wrong_password":"The given email, or the account corresponding to the email does not have a password set"
+  },
+  "register":{
+    "invalid_email":"The email address is not valid",
+    "email_already_in_use":"There already exists an account with the given email address",
+    "operation_not_allowed":"Email/password accounts are not enabled. Enable email/password accounts in the Firebase Console, under the Auth tab",
+    "wrong_password":"The given email, or the account corresponding to the email does not have a password set"
   }
 }

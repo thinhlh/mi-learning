@@ -1,4 +1,4 @@
-// import 'package:agora_rtc_engine/rtc_engine.dart';
+// import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 // import 'package:flutter/material.dart';
 // import 'package:mi_learning/app/livestream/presentation/providers/live_stream_page_provider.dart';
 // import 'package:mi_learning/base/presentation/pages/p_loading_stateful.dart';
@@ -31,7 +31,7 @@
 //     await _engine.enableVideo();
 //     _engine.setEventHandler(
 //       RtcEngineEventHandler(
-//         joinChannelSuccess: (String channel, int uid, int elapsed) {
+//         onjoinChannelSuccess: (String channel, int uid, int elapsed) {
 //           print("local user $uid joined");
 //           setState(() {
 //             _localUserJoined = true;

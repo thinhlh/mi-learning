@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mi_learning/app/course_detail/presentation/providers/course_detail_provider.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
 import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
+import 'package:mi_learning/generated/locale_keys.g.dart';
 
 class CourseDetailDiscussPage
     extends PageLoadingStateless<CourseDetailPageProvider> {
@@ -49,7 +51,8 @@ class CourseDetailDiscussPage
                 size: 20.r,
               ),
             ),
-            title: Text('Discussion No.$index'),
+            title:
+                Text('${tr(LocaleKeys.pages_course_detail_discuss)} No.$index'),
             subtitle: Text(
               '$index openned 11 days ago by venetus',
               maxLines: 1,

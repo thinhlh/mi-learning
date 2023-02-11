@@ -1,7 +1,10 @@
 import 'package:dartz/dartz.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mi_learning/base/failure.dart';
+import 'package:mi_learning/config/local_keys.dart';
 import 'package:mi_learning/core/errors/failures.dart';
+import 'package:mi_learning/generated/locale_keys.g.dart';
 
 abstract class AuthFirebaseDataSource {
   Future<Either<Failure, bool>> emailPasswordSignIn(
@@ -40,22 +43,20 @@ class AuthFirebaseDataSourceImpl implements AuthFirebaseDataSource {
       // }
       return const Right(true);
     } on FirebaseAuthException catch (e) {
-      String message = '';
+      String message = tr(LocaleKeys.common_default_error);
 
       switch (e.code) {
         case 'invalid-email':
-          message = 'The email address is not valid';
+          message = tr(LocaleKeys.auth_invalid_email);
           break;
         case 'user-disabled':
-          message =
-              'The user corresponding to the given email has been disabled';
+          message = tr(LocaleKeys.auth_user_disabled);
           break;
         case 'user-not-found':
-          message = 'There is no user corresponding to the given email';
+          message = tr(LocaleKeys.auth_user_not_found);
           break;
         case 'wrong-password':
-          message =
-              'The given email, or the account corresponding to the email does not have a password set';
+          message = tr(LocaleKeys.auth_wrong_password);
           break;
         default:
           break;
@@ -85,19 +86,16 @@ class AuthFirebaseDataSourceImpl implements AuthFirebaseDataSource {
 
       switch (e.code) {
         case 'invalid-email':
-          message = 'The email address is not valid';
+          message = tr(LocaleKeys.register_invalid_email);
           break;
         case 'email-already-in-use':
-          message =
-              'There already exists an account with the given email address';
+          message = tr(LocaleKeys.register_email_already_in_use);
           break;
         case 'operation-not-allowed':
-          message =
-              'Email/password accounts are not enabled. Enable email/password accounts in the Firebase Console, under the Auth tab';
+          message = tr(LocaleKeys.register_operation_not_allowed);
           break;
         case 'wrong-password':
-          message =
-              'The given email, or the account corresponding to the email does not have a password set';
+          message = tr(LocaleKeys.register_wrong_password);
           break;
         default:
           break;

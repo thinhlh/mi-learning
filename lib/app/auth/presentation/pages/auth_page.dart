@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,6 +13,7 @@ import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
+import 'package:mi_learning/generated/locale_keys.g.dart';
 import 'package:mi_learning/services/dialogs/app_loading.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
@@ -88,7 +90,9 @@ class _AuthPageFormState extends State<_AuthPageForm> {
         children: [
           FittedBox(
             child: Text(
-              isLogin ? "Welcome back" : 'Welcome to Mi Learning',
+              isLogin
+                  ? tr(LocaleKeys.pages_auth_login_text_welcome_back)
+                  : tr(LocaleKeys.pages_auth_login_text_welcome_to),
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     fontWeight: AppStyles.bold,
                   ),

@@ -1,7 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mi_learning/app/auth/presentation/provider/code_confirmation_page_provider.dart';
-import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
-import 'package:mi_learning/app/common/presentation/widgets/dialog/w_dialog.dart';
 import 'package:mi_learning/app/common/presentation/widgets/w_back_button.dart';
 import 'package:mi_learning/app/forgot_password/presentation/widgets/w_code_field.dart';
 import 'package:mi_learning/base/presentation/pages/p_loading_stateless.dart';
@@ -9,6 +8,7 @@ import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
+import 'package:mi_learning/generated/locale_keys.g.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 
 class CodeConfirmationPage
@@ -24,14 +24,14 @@ class CodeConfirmationPage
           const WBackButton(),
           SizedBox(height: AppDimens.largeHeightDimens),
           Text(
-            'Verification',
+            tr(LocaleKeys.pages_code_information_verification),
             style: context.textTheme.headlineMedium?.copyWith(
               fontWeight: AppStyles.bold,
             ),
           ),
           SizedBox(height: AppDimens.largeHeightDimens),
           Text(
-            "Fill in your the code we've sent you via email.",
+            tr(LocaleKeys.pages_code_information_fill_in_code),
             style: context.textTheme.titleMedium?.copyWith(
               color: AppColors.textSubtitle,
             ),

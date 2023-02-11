@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mi_learning/app/auth/presentation/provider/forgot_password_page_provider.dart';
 import 'package:mi_learning/app/common/presentation/widgets/dialog/dialog_type.dart';
@@ -11,6 +12,7 @@ import 'package:mi_learning/config/colors.dart';
 import 'package:mi_learning/config/dimens.dart';
 import 'package:mi_learning/config/routes.dart';
 import 'package:mi_learning/config/styles.dart';
+import 'package:mi_learning/generated/locale_keys.g.dart';
 import 'package:mi_learning/utils/date_time_helper.dart';
 import 'package:mi_learning/utils/extensions/context_extension.dart';
 import 'package:provider/provider.dart';
@@ -42,14 +44,14 @@ class _ForgotPasswordPage extends PageLoadingStateful<
           const WBackButton(),
           SizedBox(height: AppDimens.largeHeightDimens),
           Text(
-            'Forgot password?',
+            tr(LocaleKeys.pages_forgot_password_forgot_password),
             style: context.textTheme.headlineMedium?.copyWith(
               fontWeight: AppStyles.bold,
             ),
           ),
           SizedBox(height: AppDimens.largeHeightDimens),
           Text(
-            "Fill in your email and we'll send a code to reset your password.",
+            tr(LocaleKeys.pages_code_information_fill_in_code),
             style: context.textTheme.titleMedium?.copyWith(
               color: AppColors.textSubtitle,
             ),
@@ -73,7 +75,8 @@ class _ForgotPasswordPage extends PageLoadingStateful<
                             context: context,
                             builder: (_) => WDialog(
                               dialogType: DialogType.error,
-                              content: 'Email must not be empty!',
+                              content: tr(LocaleKeys
+                                  .pages_forgot_password_email_not_empty),
                               onActions: const [],
                             ),
                           );
@@ -94,7 +97,8 @@ class _ForgotPasswordPage extends PageLoadingStateful<
                               context: context,
                               builder: (_) => WDialog(
                                 dialogType: DialogType.success,
-                                content: 'Password reset email has been sent!',
+                                content: tr(LocaleKeys
+                                    .pages_forgot_password_password_sent),
                                 onActions: [
                                   () => navigator.pushNamed(Routes.auth),
                                 ],
@@ -111,7 +115,7 @@ class _ForgotPasswordPage extends PageLoadingStateful<
                                 (provider.countDownTimer?.tick ?? 0),
                           ),
                         )
-                      : 'Send me code',
+                      : tr(LocaleKeys.pages_forgot_password_send_me_code),
                   style: context.textTheme.titleMedium?.copyWith(
                     color: AppColors.neutral.shade50,
                     fontWeight: AppStyles.bold,

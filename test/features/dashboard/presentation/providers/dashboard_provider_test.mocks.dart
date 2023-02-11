@@ -3,21 +3,25 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mi_learning/app/common/domain/entity/course_entities/course.dart'
-    as _i6;
-import 'package:mi_learning/app/dashboard/domain/usecases/get_basic_user_info_use_case.dart'
-    as _i9;
-import 'package:mi_learning/app/dashboard/domain/usecases/get_my_courses_use_case.dart'
+    as _i7;
+import 'package:mi_learning/app/course_detail/domain/repositories/course_detail_repository.dart'
     as _i3;
-import 'package:mi_learning/app/dashboard/domain/usecases/get_recommended_courses_use_case.dart'
-    as _i8;
-import 'package:mi_learning/app/user/domain/entities/basic_user_info.dart'
+import 'package:mi_learning/app/dashboard/domain/usecases/get_basic_user_info_use_case.dart'
     as _i10;
-import 'package:mi_learning/base/domain/usecase/params.dart' as _i7;
-import 'package:mi_learning/base/failure.dart' as _i5;
+import 'package:mi_learning/app/dashboard/domain/usecases/get_course_detail_use_case.dart'
+    as _i12;
+import 'package:mi_learning/app/dashboard/domain/usecases/get_my_courses_use_case.dart'
+    as _i4;
+import 'package:mi_learning/app/dashboard/domain/usecases/get_recommended_courses_use_case.dart'
+    as _i9;
+import 'package:mi_learning/app/user/domain/entities/basic_user_info.dart'
+    as _i11;
+import 'package:mi_learning/base/domain/usecase/params.dart' as _i8;
+import 'package:mi_learning/base/failure.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -41,89 +45,136 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
         );
 }
 
+class _FakeCourseDetailRepository_1 extends _i1.SmartFake
+    implements _i3.CourseDetailRepository {
+  _FakeCourseDetailRepository_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [GetMyCoursesUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGetMyCoursesUseCase extends _i1.Mock
-    implements _i3.GetMyCoursesUseCase {
+    implements _i4.GetMyCoursesUseCase {
   MockGetMyCoursesUseCase() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i6.Course>>> call(
-          _i7.NoParams? params) =>
+  _i5.Future<_i2.Either<_i6.Failure, List<_i7.Course>>> call(
+          _i8.NoParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
         returnValue:
-            _i4.Future<_i2.Either<_i5.Failure, List<_i6.Course>>>.value(
-                _FakeEither_0<_i5.Failure, List<_i6.Course>>(
+            _i5.Future<_i2.Either<_i6.Failure, List<_i7.Course>>>.value(
+                _FakeEither_0<_i6.Failure, List<_i7.Course>>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.Course>>>);
+      ) as _i5.Future<_i2.Either<_i6.Failure, List<_i7.Course>>>);
 }
 
 /// A class which mocks [GetRecommendedCourseUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGetRecommendedCourseUseCase extends _i1.Mock
-    implements _i8.GetRecommendedCourseUseCase {
+    implements _i9.GetRecommendedCourseUseCase {
   MockGetRecommendedCourseUseCase() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i6.Course>>> call(
-          _i7.NoParams? params) =>
+  _i5.Future<_i2.Either<_i6.Failure, List<_i7.Course>>> call(
+          _i8.NoParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
         returnValue:
-            _i4.Future<_i2.Either<_i5.Failure, List<_i6.Course>>>.value(
-                _FakeEither_0<_i5.Failure, List<_i6.Course>>(
+            _i5.Future<_i2.Either<_i6.Failure, List<_i7.Course>>>.value(
+                _FakeEither_0<_i6.Failure, List<_i7.Course>>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.Course>>>);
+      ) as _i5.Future<_i2.Either<_i6.Failure, List<_i7.Course>>>);
 }
 
 /// A class which mocks [GetBasicUserInfoUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGetBasicUserInfoUseCase extends _i1.Mock
-    implements _i9.GetBasicUserInfoUseCase {
+    implements _i10.GetBasicUserInfoUseCase {
   MockGetBasicUserInfoUseCase() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i10.BasicUserInfo>> call(
-          _i7.NoParams? params) =>
+  _i5.Future<_i2.Either<_i6.Failure, _i11.BasicUserInfo>> call(
+          _i8.NoParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
         returnValue:
-            _i4.Future<_i2.Either<_i5.Failure, _i10.BasicUserInfo>>.value(
-                _FakeEither_0<_i5.Failure, _i10.BasicUserInfo>(
+            _i5.Future<_i2.Either<_i6.Failure, _i11.BasicUserInfo>>.value(
+                _FakeEither_0<_i6.Failure, _i11.BasicUserInfo>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, _i10.BasicUserInfo>>);
+      ) as _i5.Future<_i2.Either<_i6.Failure, _i11.BasicUserInfo>>);
+}
+
+/// A class which mocks [GetCourseDetailUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGetCourseDetailUseCase extends _i1.Mock
+    implements _i12.GetCourseDetailUseCase {
+  MockGetCourseDetailUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.CourseDetailRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeCourseDetailRepository_1(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i3.CourseDetailRepository);
+  @override
+  _i5.Future<_i2.Either<_i6.Failure, _i7.Course>> call(
+          _i12.GetCourseDetailParam? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i5.Future<_i2.Either<_i6.Failure, _i7.Course>>.value(
+            _FakeEither_0<_i6.Failure, _i7.Course>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i5.Future<_i2.Either<_i6.Failure, _i7.Course>>);
 }
